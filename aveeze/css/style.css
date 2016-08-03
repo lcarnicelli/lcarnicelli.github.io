@@ -1,0 +1,252 @@
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Montserrat-Regular'), url(https://fonts.gstatic.com/s/montserrat/v7/zhcz-_WihjSQC0oHJ9TCYPk_vArhqVIZ0nv9q090hN8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Montserrat-Bold'), url(https://fonts.gstatic.com/s/montserrat/v7/IQHow_FEYlDC4Gzy_m8fcoWiMMZ7xLd792ULpGE4W_Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
+/* ELEMENTS */
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: 'Montserrat';
+  font-size: 16px;
+  font-weight: 300;
+  color: rgba(0, 0, 0, .8);
+}
+
+header {
+  height: 80px;
+  padding: 16px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #cccccc;
+  clear: both;
+}
+
+a {
+  color: #006b90;
+  text-decoration: none;
+  outline: none;
+}
+
+p, h1, h2 {
+  margin: 0;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+input,
+textarea {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 2px solid #ccc;
+  outline: none;
+  transition: border-color .3s;
+}
+
+input:hover,
+input:focus,
+textarea:hover,
+textarea:focus {
+  border-color: #999;
+}
+
+
+/* CLASSES */
+
+.header-logo {
+  float: left;
+}
+.header-logo img {
+  width: 120px;
+}
+
+.header-menu {
+  float: right;
+}
+.header-menu ul > li {
+  display: inline;
+  padding: 0 8px;
+}
+.header-menu .item-lnk {
+  position: relative;
+  display: inline-block;
+  padding: 16px 0 4px;
+  text-transform: uppercase;
+}
+.header-menu .item-lnk::after {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: rgba(0, 107, 144, .8);
+  content: '';
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+  transform: translateY(10px);
+}
+.header-menu .item-lnk:hover::after,
+.header-menu .item-lnk:focus::after {
+  opacity: 1;
+  transform: translateY(0px);
+}
+
+.section-1 .bg {
+  background-image: url("../img/background.jpg");
+  background-attachment: fixed;
+}
+.section-1 .overlay {
+  padding: 150px 0;
+  background: rgba(13, 60, 85, .3);
+}
+.section-1 .title {
+  margin-bottom: 40px;
+  color: #ffffff;
+}
+
+.section-2 {
+  padding: 100px 0;
+  background-color: #f7f7f7;
+}
+.section-2-col {
+  display: inline-block;
+  width: 33.33%;
+  padding: 0 32px;
+  text-align: center;
+}
+.section-2-col h2 {
+  font-size: 24px;
+  font-weight: 300;
+  margin-bottom: 16px;
+  padding-top: 8px;
+}
+.section-2-col p {
+  color: rgba(0, 0, 0, .5);
+}
+
+.section-3 {
+  padding: 100px 0;
+  background-color: #006b90;
+}
+.section-3-col {
+  display: inline-block;
+  width: 50%;
+  vertical-align: middle;
+}
+.section-3 .title {
+  font-size: 24px;
+  color: #ffffff;
+  margin-bottom: 12px;
+}
+.section-3 .subtitle {
+  color: rgba(0, 0, 0, .6);
+}
+.section-3 .stores {
+  text-align: center;
+}
+
+.section-4 {
+  padding: 100px 0;
+  background-color: #f7f7f7;
+}
+.section-4 .title {
+  position: relative;
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 30px;
+  padding-bottom: 8px;
+}
+.section-4 .title:after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  width: 10%;
+  height: 2px;
+  margin: auto;
+  background: #006b90;
+}
+
+footer {
+  height: 70px;
+  padding: 20px 0;
+  background-color: rgba(0, 0, 0, .8);
+  clear: both;
+}
+.footer-left {
+  float: left;
+}
+.footer-right {
+  float: right;
+  padding-top: 8px;
+  font-size: 14px;
+  text-align: right;
+  color: #ffffff;
+}
+
+
+/* MODULES */
+
+/* Container */
+.container {
+  max-width: 1170px;
+  margin: auto;
+  padding: 0px 32px;
+}
+.container-narrow {
+  max-width: 800px;
+}
+
+/* Text */
+.txt-center {
+  text-align: center;
+}
+.txt-mega {
+  font-size: 32px;
+}
+
+/* Button */
+.button {
+  display: inline-block;
+  padding: 12px;
+  border: 1px solid #006b90;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.button-large {
+  padding: 18px;
+  font-size: 20px;
+}
+.button-filled {
+  background-color: #006b90;
+  color: #ffffff;
+  transition: background-color .3s;
+}
+.button-filled:hover {
+  background-color: #4d97b1;
+}
