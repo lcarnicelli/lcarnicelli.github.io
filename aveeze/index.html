@@ -18,21 +18,24 @@
                 <img src="img/logo.png" border="0" alt="Aveeze">
             </div>
             <nav class="header-menu">
-                <ul>
-                    <li>
-                        <a href="#" class="item-lnk">O que é</a>
+                <a id="menu-icon" href="#" class="menu-icon d-n_lg">
+                    <span></span><span></span><span></span>
+                </a>
+                <ul id="menu">
+                    <li class="header-menu-li">
+                        <a href="#" class="item-lnk" data-bind="scroll-to" data-to="#o-que-e">O que é</a>
                     </li>
-                    <li>
-                        <a href="#" class="item-lnk">Aplicativo</a>
+                    <li class="header-menu-li">
+                        <a href="#" class="item-lnk" data-bind="scroll-to" data-to="#aplicativo">Aplicativo</a>
                     </li>
-                    <li>
-                        <a href="#" class="item-lnk">Contato</a>
+                    <li class="header-menu-li">
+                        <a href="#" class="item-lnk" data-bind="scroll-to" data-to="#contato">Contato</a>
                     </li>
-                    <li>|</li>
-                    <li>
+                    <li class="header-menu-li d-n_sm d-n_md">|</li>
+                    <li class="header-menu-li">
                         <a href="#" class="button">Entrar</a>
                     </li>
-                    <li>
+                    <li class="header-menu-li">
                         <a href="#" class="button button-filled">Cadastrar</a>
                     </li>
                 </ul>
@@ -44,7 +47,7 @@
         <div class="bg">
             <div class="overlay">
                 <div class="container container-narrow txt-center">
-                    <h1 class="title txt-mega">A forma mais fácil de gerenciar o envio e recebimento dos seus arquivos jurídicos</h1>
+                    <h1 class="title">A forma mais fácil de gerenciar o envio e recebimento dos seus arquivos jurídicos</h1>
                     <a href="#" class="button button-filled button-large">Cadastre-se grátis!</a>
                 </div>
             </div>
@@ -107,5 +110,8 @@
             </div>
         </div>
     </footer>
+
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>
