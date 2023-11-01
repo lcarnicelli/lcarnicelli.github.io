@@ -1,0 +1,114 @@
+/*
+* Theme Name: CJC 2024
+*/
+
+/* -- Variables ----------------------------------------------------- */
+
+:root {
+  --color-blue: #0C0958;
+  --color-brown: #953922;
+  --color-yellow: #FDC45D;
+  --color-orange: #E85C27;
+  --color-green: #0F6248;
+  --color-green-light: #CDE6BF;
+
+  --color-white: #FFFFFF;
+  --color-black: #000000;
+}
+
+
+/* -- Fonts ---------------------------------------------------------- */
+
+@font-face {
+  font-family: Rainer;
+  src: url(assets/font/rainer/Rainerv04.woff2);
+}
+@font-face {
+  font-family: Rainer;
+  src: url(assets/font/rainer/Rainerv04-Bold.woff2);
+  font-weight: bold;
+}
+
+
+/* -- Html elements --------------------------------------------------- */
+
+body {
+  position: relative;
+  top: 75px;
+}
+
+
+/* -- Bootstrap ------------------------------------------------------- */
+
+.navbar-collapse {
+  flex-grow: unset !important;
+}
+
+.carousel-image {
+  width: 100%;
+  height: 400px;
+  background-size: cover;
+  background-position: center;
+}
+.carousel-caption {
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  padding-bottom: 3.25rem;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+
+/* -- CJC Theme ------------------------------------------------------- */
+
+.cjc-text-rainer {
+  font-family: Rainer;
+}
+
+.cjc-bg-blue {
+  background-color: var(--color-blue);
+}
+
+#cjc-logo {
+  font-family: Rainer;
+  font-size: 3rem;
+  font-weight: bold;
+  line-height: 3rem;
+  color: var(--color-blue);
+  text-decoration: none;
+  transition: all .3s ease;
+}
+#cjc-logo:hover {
+  color: var(--color-brown);
+}
+.cjc-logo-min {
+  font-size: 2rem !important;
+  line-height: 2rem !important;
+}
+
+.cjc-menu-link {
+  font-weight: 500;
+}
+.cjc-menu-link:hover {
+  color: var(--color-black);
+}
+.cjc-menu-link-social {
+  color: var(--color-blue);
+}
+.cjc-menu-link-social:hover {
+  color: var(--color-yellow);
+}
+
+.cjc-footer-img {
+  transition: opacity .3s;
+}
+.cjc-footer-img:hover {
+  opacity: .6;
+}
+.cjc-footer-logo {
+  font-family: Rainer;
+  font-size: 3rem;
+  font-weight: bold;
+  line-height: 3.6rem;
+  text-decoration: underline;
+}
