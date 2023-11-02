@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,9 +18,9 @@
 <body>
 
   <!-- MENU -->
-  <nav class="navbar navbar-expand-md fixed-top bg-white border-bottom border-2">
+  <nav class="navbar navbar-expand-md fixed-top cjc-nav-light">
     <div class="container">
-      <a id="cjc-logo" class="navbar-brand" href="/">
+      <a id="cjc-logo" class="navbar-brand" href="http://localhost/wordpress">
         CÁTEDRA JOSUÉ DE CASTRO
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,8 +28,8 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
-          <li class="nav-item"><a href="http://localhost/wordpress/index.php/sobre/" class="nav-link cjc-menu-link px-3">Quem somos</a></li><li class="nav-item"><a href="http://localhost/wordpress/index.php/o-que-fazemos/" class="nav-link cjc-menu-link px-3">O que fazemos</a></li><li class="nav-item"><a href="http://localhost/wordpress/index.php/publicacoes/" class="nav-link cjc-menu-link px-3">Publicações</a></li><li class="nav-item"><a href="http://localhost/wordpress/index.php/programacao/" class="nav-link cjc-menu-link px-3">Programação</a></li><li class="nav-item"><a href="http://localhost/wordpress/index.php/contato/" class="nav-link cjc-menu-link px-3">Contato</a></li>
-          <li class="nav-item d-flex">
+          <li class="nav-item px-3"><a href="http://localhost/wordpress/index.php/sobre/" class="nav-link cjc-menu-link px-0 pt-2 pb-0">Quem somos</a></li><li class="nav-item px-3"><a href="http://localhost/wordpress/index.php/o-que-fazemos/" class="nav-link cjc-menu-link px-0 pt-2 pb-0">O que fazemos</a></li><li class="nav-item px-3"><a href="http://localhost/wordpress/index.php/publicacoes/" class="nav-link cjc-menu-link px-0 pt-2 pb-0">Publicações</a></li><li class="nav-item px-3"><a href="http://localhost/wordpress/index.php/programacao/" class="nav-link cjc-menu-link px-0 pt-2 pb-0">Programação</a></li><li class="nav-item px-3"><a href="http://localhost/wordpress/index.php/contato/" class="nav-link cjc-menu-link px-0 pt-2 pb-0">Contato</a></li>
+          <li class="nav-item d-flex ps-2">
             <a href="" class="nav-link cjc-menu-link-social px-1"><i class="bi-instagram"></i></a>
             <a href="" class="nav-link cjc-menu-link-social px-1"><i class="bi-facebook"></i></a>
             <a href="" class="nav-link cjc-menu-link-social px-1"><i class="bi-twitter-x"></i></a>
@@ -40,99 +41,153 @@
   </nav>
   <!-- END MENU -->
 <!-- CAROUSEL -->
-<div class="py-5 bg-body-tertiary">
-  <div class="container">
-    <div id="cjc-carousel" class="carousel slide">
-      <div class="carousel-indicators">
-        <button type="button" data-bs-target="#cjc-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#cjc-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#cjc-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+<div id="cjc-carousel" class="d-non carousel slide">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <div class="carousel-image" style="background-image: url(https://pp.nexojornal.com.br/conteudo/imagens/Agricultura-vertical/alternates/LANDSCAPE_768/Agricultura%20vertical%20);"></div>
+      <div class="carousel-caption d-none d-md-block">
+        <h3>Tecnologias no sistema alimentar</h3>
+        <p class="text-white-70">Some representative placeholder content for the third slide of this carousel.</p>
+        <a class="btn btn-light" href="#">Ler mais</a>
       </div>
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <div class="carousel-image" style="background-image: url(https://pp.nexojornal.com.br/conteudo/imagens/Agricultura-vertical/alternates/LANDSCAPE_768/Agricultura%20vertical%20);"></div>
-          <div class="carousel-caption d-none d-md-block">
-            <h5>Tecnologias no sistema alimentar</h5>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <div class="carousel-image" style="background-image: url(https://pp.nexojornal.com.br/conteudo/imagens/PQCR-Ultraprocessados/alternates/BASE_PP_LEAD_QUESTION/PQCR%20Ultraprocessados);"></div>
-          <div class="carousel-caption d-none d-md-block">
-            <h5>O impacto das dietas ultraprocessadas em nosso planeta</h5>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <div class="carousel-image" style="background-image: url(https://revistapesquisa.fapesp.br/wp-content/uploads/2023/02/RPF-ultraprocessados-bolachas-2023-02-site-00-1140.jpg);"></div>
-          <div class="carousel-caption d-none d-md-block">
-            <h5>O peso dos ultraprocessados</h5>
-          </div>
-        </div>
+    </div>
+    <div class="carousel-item">
+      <div class="carousel-image" style="background-image: url(https://pp.nexojornal.com.br/conteudo/imagens/PQCR-Ultraprocessados/alternates/BASE_PP_LEAD_QUESTION/PQCR%20Ultraprocessados);"></div>
+      <div class="carousel-caption d-none d-md-block">
+        <h3>O impacto das dietas ultraprocessadas em nosso planeta</h3>
+        <p class="text-white-70">Some representative placeholder content for the third slide of this carousel.</p>
+        <a class="btn btn-light" href="#">Ler mais</a>
       </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#cjc-carousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#cjc-carousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
+    </div>
+    <div class="carousel-item">
+      <div class="carousel-image" style="background-image: url(https://revistapesquisa.fapesp.br/wp-content/uploads/2023/02/RPF-ultraprocessados-bolachas-2023-02-site-00-1140.jpg);"></div>
+      <div class="carousel-caption d-none d-md-block">
+        <h3>O peso dos ultraprocessados</h3>
+        <p class="text-white-70">Some representative placeholder content for the third slide of this carousel.</p>
+        <a class="btn btn-light" href="#">Ler mais</a>
+      </div>
     </div>
   </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#cjc-carousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#cjc-carousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
 </div>
 <!-- END CAROUSEL -->
 
-<div class="px-4 py-5 my-5 text-center">
-  <img class="d-block mx-auto mb-4" src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
-  <h1 class="display-5 fw-bold text-body-emphasis">Cátedra Josué de Castro</h1>
-  <div class="col-lg-6 mx-auto">
-    <p class="lead mb-4">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful JavaScript plugins.</p>
-    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-      <button type="button" class="btn btn-primary btn-lg px-4 gap-3">Primary button</button>
-      <button type="button" class="btn btn-outline-secondary btn-lg px-4">Secondary</button>
+<!-- CJC -->
+<div class="py-5 bg-body-tertiary">
+  <div class="container py-2">
+    <div class="row">
+      <div class="col-3 d-flex align-items-center justify-content-center">
+        <img class="d-flex" width="190" src="assets/img/cjc-logo-full.svg">
+      </div>
+      <div class="col-9">
+        <h2 class="cjc-title-1">O que é uma cátedra?</h2>
+        <p class="mb-4">Reconhecido pela valiosa contribuição no combate à fome, Josué de Castro também foi pioneiro no pensamento social brasileiro ao tratar da questão alimentar de forma integrada e multidimensional, articulando-a com aspectos sociais, culturais, territoriais e da saúde coletiva.</p>
+
+        <h2 class="cjc-title-1">O que a CJC faz?</h2>
+        <p>Reconhecido pela valiosa contribuição no combate à fome, Josué de Castro também foi pioneiro no pensamento social brasileiro ao tratar da questão alimentar de forma integrada e multidimensional, articulando-a com aspectos sociais, culturais, territoriais e da saúde coletiva.</p>
+        <a href="" class="btn btn-primary">Saiba mais</a>
+      </div>
     </div>
   </div>
 </div>
+<!-- END CJC -->
 
-<div class="container px-4 py-5" id="featured-3">
-  <h2 class="pb-2 border-bottom">Columns with icons</h2>
-  <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
-    <div class="feature col">
-      <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3">
-        <svg class="bi" width="1em" height="1em"><use xlink:href="#collection"></use></svg>
+<!-- JOSUÉ DE CASTRO -->
+<div class="py-5 cjc-bg-gray">
+  <div class="container py-2">
+    <div class="row">
+      <div class="col-9">
+        <h2 class="cjc-title-1">Quem foi Josué de Castro</h2>
+        <p>Reconhecido pela valiosa contribuição no combate à fome, Josué de Castro também foi pioneiro no pensamento social brasileiro ao tratar da questão alimentar de forma integrada e multidimensional, articulando-a com aspectos sociais, culturais, territoriais e da saúde coletiva.</p>
+        <a href="" class="btn btn-primary">Saiba mais</a>
       </div>
-      <h3 class="fs-2 text-body-emphasis">Featured title</h3>
-      <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
-      <a href="#" class="icon-link">
-        Call to action
-        <svg class="bi"><use xlink:href="#chevron-right"></use></svg>
-      </a>
-    </div>
-    <div class="feature col">
-      <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3">
-        <i class="bi-people-fill"></i>
+      <div class="col-3 d-flex align-items-center justify-content-center">
+        <img class="d-flex" width="180" src="assets/img/josue-ilustracao.jpg">
       </div>
-      <h3 class="fs-2 text-body-emphasis">Featured title</h3>
-      <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
-      <a href="#" class="icon-link">
-        Call to action
-        <svg class="bi"><use xlink:href="#chevron-right"></use></svg>
-      </a>
-    </div>
-    <div class="feature col">
-      <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3">
-        <svg class="bi" width="1em" height="1em"><use xlink:href="#toggles2"></use></svg>
-      </div>
-      <h3 class="fs-2 text-body-emphasis">Featured title</h3>
-      <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
-      <a href="#" class="icon-link">
-        Call to action
-        <svg class="bi"><use xlink:href="#chevron-right"></use></svg>
-      </a>
     </div>
   </div>
 </div>
+<!-- END JOSUÉ DE CASTRO -->
 
-  <div class="py-5 bg-body-secondary">
+
+<!-- PUBLICAÇÕES -->
+<div class="py-5 bg-body-tertiary">
+  <div class="container py-2">
+    <h2 class="cjc-title-1 mb-4">Últimas publicações</h2>
+    <div class="row">
+      <div class="col-4">
+        <div class="card">
+          <div class="cjc-card-image" style="background-image: url(https://girodoboi.canalrural.com.br/wp-content/plugins/seox-image-magick/imagick_convert.php?width=904&height=508&format=.jpg&quality=91&imagick=/wp-content/uploads/sites/4/2022/11/friboi_day_campanario_23.11.2022-9.jpg);"></div>
+          <div class="card-body">
+            <h5 class="card-title">19/10</h5>
+            <p class="card-text cjc-card-text">Pecuária regenerativa, Rastreabilidade e Certificação</p>
+            <a href="#" class="btn btn-primary">Ler mais</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="card">
+          <div class="cjc-card-image" style="background-image: url(https://s1.static.brasilescola.uol.com.br/be/2020/11/revolucao-verde-verde.jpg);"></div>
+          <div class="card-body">
+            <h5 class="card-title">09/10</h5>
+            <p class="card-text cjc-card-text">‘Revolução Verde’ reduziu variedade de culturas</p>
+            <a href="#" class="btn btn-primary">Ler mais</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="card">
+          <div class="cjc-card-image" style="background-image: url(https://idec.org.br/sites/default/files/noticias/group-of-sweet-and-salty-snacks-perfect-for-binge-watching-picture-id1149135424.jpg);"></div>
+          <div class="card-body">
+            <h5 class="card-title">04/09</h5>
+            <p class="card-text cjc-card-text">Estudo aponta que 98,8% dos ultraprocessados têm alto teor de sódio, gordura e aditivos químicos</p>
+            <a href="#" class="btn btn-primary">Ler mais</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END PUBLICAÇÕES -->
+
+
+<!-- NEWSLETTER -->
+<div class="py-5 cjc-bg-blue">
+  <div class="container py-2">
+    <h2 class="cjc-title-1 text-white">Newsletter</h2>
+    <form>
+      <div class="row">
+        <div class="col-6">
+          <p class="text-white-70">Assine nossa newsletter para ficar por dentro de todo o conteúdo publicado pela Cátedra Josué de Castro.</p>
+        </div>
+        <div class="col-6">
+          <div class="row">
+            <div class="col-10">
+              <div class="input-group">
+                <div class="input-group-text">@</div>
+                <input type="text" class="form-control" id="cjc-newsletter" placeholder="Digite seu e-mail">
+              </div>
+            </div>
+            <div class="col-2">
+              <button type="submit" class="btn btn-outline-light">Cadastrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- END NEWSLETTER -->
+
+
+  <div class="py-5 bg-light">
     <div class="container">
       <div class="row">
         <div class="col-lg-8">
