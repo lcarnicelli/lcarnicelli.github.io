@@ -6,11 +6,13 @@
 
 :root {
   --color-blue: #0C0958;
+  --color-blue-light: #302c79;
   --color-brown: #953922;
   --color-yellow: #FDC45D;
   --color-orange: #E85C27;
   --color-green: #0F6248;
   --color-green-light: #CDE6BF;
+  --color-gray: #dbd5c9;
 
   --color-white: #FFFFFF;
   --color-black: #000000;
@@ -34,11 +36,23 @@
 
 body {
   position: relative;
-  top: 75px;
+  top: 80px;
 }
 
 
 /* -- Bootstrap ------------------------------------------------------- */
+
+.btn-primary {
+  --bs-btn-bg: var(--color-blue);
+  --bs-btn-border-color: var(--color-blue);
+  --bs-btn-hover-bg: var(--color-blue-light);
+  --bs-btn-hover-border-color: var(--color-blue-light);
+}
+
+.text-white-70 {
+  --bs-text-opacity: 1;
+  color: rgba(255,255,255,.7)!important;
+}
 
 .navbar-collapse {
   flex-grow: unset !important;
@@ -54,7 +68,6 @@ body {
   left: 0 !important;
   right: 0 !important;
   bottom: 0 !important;
-  padding-bottom: 3.25rem;
   background-color: rgba(0, 0, 0, 0.7);
 }
 
@@ -65,10 +78,27 @@ body {
   font-family: Rainer;
 }
 
+.cjc-color-blue {
+  color: var(--color-blue);
+}
+
 .cjc-bg-blue {
   background-color: var(--color-blue);
 }
+.cjc-bg-brown {
+  background-color: var(--color-brown);
+}
+.cjc-bg-yellow {
+ background-color: var(--color-yellow); 
+}
+.cjc-bg-green-light {
+  background-color: var(--color-green-light);
+}
+.cjc-bg-gray {
+  background-color: var(--color-gray);
+}
 
+/* HEADER MENU */
 #cjc-logo {
   font-family: Rainer;
   font-size: 3rem;
@@ -77,28 +107,94 @@ body {
   color: var(--color-blue);
   text-decoration: none;
   transition: all .3s ease;
-}
-#cjc-logo:hover {
-  color: var(--color-brown);
+  padding-bottom: 9px;
 }
 .cjc-logo-min {
   font-size: 2rem !important;
   line-height: 2rem !important;
 }
-
 .cjc-menu-link {
   font-weight: 500;
 }
-.cjc-menu-link:hover {
-  color: var(--color-black);
+
+/* HEADER MENU - LIGHT */
+.cjc-nav-light {
+  background-color: var(--color-white);
+  border-bottom: 2px solid #eee;
 }
-.cjc-menu-link-social {
+.cjc-nav-light #cjc-logo {
   color: var(--color-blue);
 }
-.cjc-menu-link-social:hover {
+.cjc-nav-light #cjc-logo:hover {
+  color: var(--color-brown);
+}
+.cjc-nav-light .cjc-menu-link:hover {
+  color: var(--color-brown);
+}
+.cjc-nav-light .cjc-menu-link-social {
+  color: var(--color-blue);
+}
+.cjc-nav-light .cjc-menu-link-social:hover {
   color: var(--color-yellow);
 }
+.cjc-nav-light .cjc-menu-active .cjc-menu-link {
+  color: var(--color-brown);
+  border-bottom: 2px solid var(--color-brown);
+}
 
+/* HEADER MENU - DARK */
+.cjc-nav-dark {
+  background-color: var(--color-blue);
+}
+.cjc-nav-dark #cjc-logo {
+  color: var(--color-white);
+  opacity: .95;
+}
+.cjc-nav-dark #cjc-logo:hover {
+  opacity: .8;
+}
+.cjc-nav-dark .cjc-menu-link {
+  color: var(--color-white);
+}
+.cjc-nav-dark .cjc-menu-link:hover {
+  color: var(--color-yellow);
+}
+.cjc-nav-dark .cjc-menu-link-social {
+  color: var(--color-yellow);
+}
+.cjc-nav-dark .cjc-menu-link-social:hover {
+  color: var(--color-yellow);
+  opacity: .7;
+}
+
+/* HOME */
+.cjc-title-1 {
+  font-family: 'Rainer';
+  font-size: 3em;
+  color: var(--color-blue);
+}
+.cjc-title-sm {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-yellow);
+}
+.cjc-card-image {
+  height: 200px;
+  border-radius: var(--bs-card-border-radius) var(--bs-card-border-radius) 0 0;
+  background-size: cover;
+  background-position: center;
+}
+.cjc-card-text {
+  height: 70px;
+}
+
+/* PAGE */
+.cjc-page-title-bg {
+  height: 300px;
+  background-blend-mode: luminosity;
+}
+
+/* FOOTER */
 .cjc-footer-img {
   transition: opacity .3s;
 }
