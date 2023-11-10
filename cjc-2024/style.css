@@ -12,7 +12,9 @@
   --color-orange: #E85C27;
   --color-green: #0F6248;
   --color-green-light: #CDE6BF;
+  --color-green-dark: #0f6248;
   --color-gray: #dbd5c9;
+  --color-gold: #816e43;
 
   --color-white: #FFFFFF;
   --color-black: #000000;
@@ -58,18 +60,6 @@ body {
   flex-grow: unset !important;
 }
 
-.carousel-image {
-  width: 100%;
-  height: 400px;
-  background-size: cover;
-  background-position: center;
-}
-.carousel-caption {
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  background-color: rgba(0, 0, 0, 0.7);
-}
 
 
 /* -- CJC Theme ------------------------------------------------------- */
@@ -91,8 +81,14 @@ body {
 .cjc-bg-yellow {
  background-color: var(--color-yellow); 
 }
+.cjc-bg-orange {
+ background-color: var(--color-orange); 
+}
 .cjc-bg-green-light {
   background-color: var(--color-green-light);
+}
+.cjc-bg-green-dark {
+  background-color: var(--color-green-dark);
 }
 .cjc-bg-gray {
   background-color: var(--color-gray);
@@ -173,19 +169,27 @@ body {
   font-size: 3em;
   color: var(--color-blue);
 }
+.cjc-title-2 {
+  font-family: 'Rainer';
+  font-size: 3em;
+  text-decoration: underline;
+}
 .cjc-title-sm {
   font-size: 14px;
   font-weight: 600;
   color: var(--color-yellow);
+}
+.cjc-carousel-container {
+  height: 300px;
+}
+.cjc-card {
+  border: none;
 }
 .cjc-card-image {
   height: 200px;
   border-radius: var(--bs-card-border-radius) var(--bs-card-border-radius) 0 0;
   background-size: cover;
   background-position: center;
-}
-.cjc-card-text {
-  height: 70px;
 }
 
 /* PAGE */
