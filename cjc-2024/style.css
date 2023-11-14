@@ -38,7 +38,7 @@
 
 body {
   position: relative;
-  top: 80px;
+  top: 78px;
 }
 
 
@@ -168,13 +168,13 @@ body {
   color: var(--color-white);
 }
 .cjc-nav-dark .cjc-menu-link::after {
-  background-color: var(--color-yellow);
+  background-color: var(--color-white);
 }
 .cjc-nav-dark .cjc-menu-link:hover {
-  color: var(--color-yellow);
+  color: var(--color-white);
 }
 .cjc-nav-dark .cjc-menu-active .cjc-menu-link {
-  color: var(--color-yellow);
+  color: var(--color-white);
 }
 
 /* HOME */
