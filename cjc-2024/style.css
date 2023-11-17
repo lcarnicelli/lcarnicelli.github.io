@@ -185,6 +185,7 @@ body {
   font-family: 'Rainer';
   font-size: 3em;
   color: var(--color-blue);
+  text-transform: uppercase;
 }
 .cjc-title-sm {
   font-size: 14px;
