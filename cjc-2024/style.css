@@ -5,16 +5,21 @@
 /* -- Variables ----------------------------------------------------- */
 
 :root {
-  --color-blue: #0c0958;
-  --color-blue-light: #302c79;
-  --color-brown: #953922;
-  --color-yellow: #fdc45d;
+  --color-blue: #0e0356;
+  --color-blue-light: #8099cd;
+  --color-brown: #943a21;
+  --color-yellow: #fbbe59;
   --color-yellow-light: #fed387;
-  --color-orange: #e85c27;
-  --color-green: #0f6248;
-  --color-green-light: #cde6bf;
-  --color-gray: #dbd5c9;
+  --color-orange: #e95c2a;
+  --color-orange-light: #f3ded9;
+  --color-green: #0c6349;
+  --color-green-light: #cde6c1;
+  --color-gray: #dcd4c8;
   --color-gray-light: #eeeeee;
+  --color-gray-dark: #888888;
+  --color-gold: #ca9750;
+  --color-gold-dark: #7f7045;
+  --color-purple: #d7b2ce;
 
   --color-white: #ffffff;
   --color-black: #000000;
@@ -47,8 +52,8 @@ body {
 .btn-primary {
   --bs-btn-bg: var(--color-blue);
   --bs-btn-border-color: var(--color-blue);
-  --bs-btn-hover-bg: var(--color-blue-light);
-  --bs-btn-hover-border-color: var(--color-blue-light);
+  --bs-btn-hover-bg: #302c79;
+  --bs-btn-hover-border-color: #302c79;
 }
 .btn-yellow {
   --bs-btn-bg: var(--color-yellow);
@@ -63,6 +68,9 @@ body {
 .navbar-collapse {
   flex-grow: unset !important;
 }
+.w-100 > img {
+  width: 100% !important;
+}
 
 
 /* -- CJC Theme ------------------------------------------------------- */
@@ -71,31 +79,38 @@ body {
   font-family: Rainer;
 }
 
-.cjc-color-blue {
-  color: var(--color-blue);
-}
-.cjc-color-brown {
-  color: var(--color-brown);
-}
-.cjc-color-yellow {
-  color: var(--color-yellow);
-}
+.cjc-color-blue { color: var(--color-blue); }
+.cjc-color-blue-light { color: var(--color-blue-light); }
+.cjc-color-brown { color: var(--color-brown); }
+.cjc-color-yellow { color: var(--color-yellow); }
+.cjc-color-yellow-light { color: var(--color-yellow-light); }
+.cjc-color-orange { color: var(--color-orange); }
+.cjc-color-orange-light { color: var(--color-orange-light); }
+.cjc-color-green { color: var(--color-green); }
+.cjc-color-green-light { color: var(--color-green-light); }
+.cjc-color-gray { color: var(--color-gray); }
+.cjc-color-gray-light { color: var(--color-gray-light); }
+.cjc-color-gray-dark { color: var(--color-gray-dark); }
+.cjc-color-gold { color: var(--color-gold); }
+.cjc-color-gold-dark { color: var(--color-gold-dark); }
+.cjc-color-purple { color: var(--color-purple); }
 
-.cjc-bg-blue {
-  background-color: var(--color-blue);
-}
-.cjc-bg-brown {
-  background-color: var(--color-brown);
-}
-.cjc-bg-yellow {
- background-color: var(--color-yellow); 
-}
-.cjc-bg-green-light {
-  background-color: var(--color-green-light);
-}
-.cjc-bg-gray {
-  background-color: var(--color-gray);
-}
+.cjc-bg-blue { background-color: var(--color-blue); }
+.cjc-bg-blue-light { background-color: var(--color-blue-light); }
+.cjc-bg-brown { background-color: var(--color-brown); }
+.cjc-bg-yellow { background-color: var(--color-yellow); }
+.cjc-bg-yellow-light { background-color: var(--color-yellow-light); }
+.cjc-bg-orange { background-color: var(--color-orange); }
+.cjc-bg-orange-light { background-color: var(--color-orange-light); }
+.cjc-bg-green { background-color: var(--color-green); }
+.cjc-bg-green-light { background-color: var(--color-green-light); }
+.cjc-bg-gray { background-color: var(--color-gray); }
+.cjc-bg-gray-light { background-color: var(--color-gray-light); }
+.cjc-bg-gray-dark { background-color: var(--color-gray-dark); }
+.cjc-bg-gold { background-color: var(--color-gold); }
+.cjc-bg-gold-dark { background-color: var(--color-gold-dark); }
+.cjc-bg-purple { background-color: var(--color-purple); }
+
 
 /* HEADER MENU */
 #cjc-logo {
@@ -210,9 +225,24 @@ body {
 }
 
 /* PAGE */
+.cjc-page-title {
+  font-family: 'Rainer';
+  font-weight: bold;
+  text-transform: uppercase;
+  border-bottom: 2px solid;
+}
+.cjc-page-title-team {
+  font-family: 'Rainer';
+  font-size: 2.5rem;
+  text-transform: uppercase;
+}
 .cjc-page-title-bg {
   height: 300px;
   background-blend-mode: luminosity;
+}
+.cjc-page-img > img {
+  width: 100% !important;
+  height: auto !important;
 }
 
 /* FOOTER */
