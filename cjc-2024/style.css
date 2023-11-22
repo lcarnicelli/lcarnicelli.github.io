@@ -46,6 +46,13 @@ body {
   top: 78px;
 }
 
+a {
+  color: var(--color-brown);
+}
+a:hover {
+  text-decoration: none;
+}
+
 
 /* -- Bootstrap ------------------------------------------------------- */
 
@@ -64,6 +71,13 @@ body {
 .text-white-70 {
   --bs-text-opacity: 1;
   color: rgba(255,255,255,.7)!important;
+}
+.navbar-toggler {
+  color: var(--color-white);
+  border-color: var(--color-white);
+}
+.navbar-toggler:focus {
+  box-shadow: none;
 }
 .navbar-collapse {
   flex-grow: unset !important;
@@ -123,6 +137,12 @@ body {
   transition: all .3s ease;
   padding-bottom: 9px;
 }
+@media (max-width:768px) {
+  #cjc-logo {
+    font-size: 2rem;
+    line-height: 2rem;
+  }
+}
 .cjc-logo-min {
   font-size: 2rem !important;
   line-height: 2rem !important;
@@ -131,6 +151,11 @@ body {
   position: relative;
   color: #666666;
   transition: all .3s ease;
+}
+@media (max-width:768px) {
+  .cjc-menu-link {
+    display: inline-block;
+  }
 }
 .cjc-menu-link::after {
   content: '';
@@ -229,7 +254,7 @@ body {
   font-family: 'Rainer';
   font-weight: bold;
   text-transform: uppercase;
-  border-bottom: 2px solid;
+  text-decoration: underline;
 }
 .cjc-page-title-team {
   font-family: 'Rainer';
