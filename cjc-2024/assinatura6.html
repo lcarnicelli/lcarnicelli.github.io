@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+</head>
+<body>
+  <div>
+    <input type="text" id="nome">
+    <input type="text" id="image">
+  </div>
+  <div id="signature">
+    <table style="width: 330px;">
+      <tr>
+        <td valign="top" style="width: 27%;">
+          <img id="imgS" src="https://lcarnicelli.github.io/cjc-2024/assets/img/otavio-assinatura.png" style="width: 100%;">
+        </td>
+        <td style="width: 73%; font-family: sans-serif;">
+          <div style="border-left: 2px solid #0e0356; margin-left: 14px; padding-left: 16px;">
+            <div id="nomeS" style="font-size: 18px; color: #000;"><strong>Otávio D’Andréa</strong></div>
+            <div style="font-size: 14px; color: #666;">Assistente de projetos</div>
+            <div style="font-size: 14px; color: #666; margin-bottom: 8px;">+55 31 97177-4372</div>
+            <div style="margin-bottom: 6px;">
+              <a href="https://catedrajc.fsp.usp.br/" target="_blank" style="text-decoration: unset;">
+                <img src="https://lcarnicelli.github.io/cjc-2024/assets/img/cjc-logo-assinatura.png" height="30">
+              </a>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <button id="btn">Copiar</button>
+  <div id="success" style="display: none;">Assinatura copiada!</div>
+</body>
+
+<script type="text/javascript">
+  var success = document.getElementById('success');
+  var nomeS = document.getElementById('nomeS');
+  var imgS = document.getElementById('imgS');
+
+  document.getElementById('nome').addEventListener('input', (e) => {
+    nomeS.innerHTML = e.target.value;
+  });
+  document.getElementById('image').addEventListener('input', (e) => {
+    imgS.src = e.target.value;
+  });
+
+  function html2clipboard(html, el) {
+    var tmpEl;
+    if (typeof el !== "undefined") {
+        // you may want some specific styling for your content - then provide a custom DOM node with classes, inline styles or whatever you want
+        tmpEl = el;
+    } else {
+        // else we'll just create one
+        tmpEl = document.createElement("div");
+
+        // since we remove the element immedeately we'd actually not have to style it - but IE 11 prompts us to confirm the clipboard interaction and until you click the confirm button, the element would show. so: still extra stuff for IE, as usual.
+        tmpEl.style.opacity = 0;
+        tmpEl.style.position = "absolute";
+        tmpEl.style.pointerEvents = "none";
+        tmpEl.style.zIndex = -1;
+    }
+
+    // fill it with your HTML
+    tmpEl.innerHTML = html;
+
+    // append the temporary node to the DOM
+    document.body.appendChild(tmpEl);
+
+    // select the newly added node
+    var range = document.createRange();
+    range.selectNode(tmpEl);
+    window.getSelection().addRange(range);
+
+    // copy
+    document.execCommand("copy");
+
+    // and remove the element immediately
+    document.body.removeChild(tmpEl);
+  }
+
+  document.getElementById("btn").addEventListener("click", function () {
+    var copyText = document.getElementById("signature");
+    html2clipboard(copyText.innerHTML);
+    success.style.display = 'block';
+  });
+</script>
+
+</html>
