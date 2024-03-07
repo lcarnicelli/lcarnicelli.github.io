@@ -67,7 +67,7 @@
                       </td>
                       <td valign="top" style="font-family: sans-serif; padding-left: 10px;">
                         <div class="sign-nome" style="font-size: 20px; font-weight: bold; color: #943a20;">[Nome]</div>
-                        <div class="sign-cargo" style="font-size: 14px; color: #666;">[Cargo]</div>
+                        <div class="sign-cargo" style="font-size: 14px; color: #666; margin-bottom: 6px;">[Cargo]</div>
                         <div class="sign-telefone" style="font-size: 12px; color: #666;">[Telefone]</div>
                       </td>
                     </tr>
@@ -116,7 +116,7 @@
                       </td>
                       <td valign="top" style="font-family: sans-serif; padding-left: 10px;">
                         <div class="sign-nome" style="font-size: 20px; font-weight: bold; color: #0f6247;">[Nome]</div>
-                        <div class="sign-cargo" style="font-size: 14px; color: #666;">[Cargo]</div>
+                        <div class="sign-cargo" style="font-size: 14px; color: #666; margin-bottom: 6px;">[Cargo]</div>
                         <div class="sign-telefone" style="font-size: 12px; color: #666;">[Telefone]</div>
                       </td>
                     </tr>
@@ -165,7 +165,7 @@
                       </td>
                       <td valign="top" style="font-family: sans-serif; padding-left: 10px;">
                         <div class="sign-nome" style="font-size: 20px; font-weight: bold; color: #e85c27;">[Nome]</div>
-                        <div class="sign-cargo" style="font-size: 14px; color: #666;">[Cargo]</div>
+                        <div class="sign-cargo" style="font-size: 14px; color: #666; margin-bottom: 6px;">[Cargo]</div>
                         <div class="sign-telefone" style="font-size: 12px; color: #666;">[Telefone]</div>
                       </td>
                     </tr>
@@ -214,7 +214,7 @@
                       </td>
                       <td valign="top" style="font-family: sans-serif; padding-left: 10px;">
                         <div class="sign-nome" style="font-size: 20px; font-weight: bold; color: #0c0958;">[Nome]</div>
-                        <div class="sign-cargo" style="font-size: 14px; color: #666;">[Cargo]</div>
+                        <div class="sign-cargo" style="font-size: 14px; color: #666; margin-bottom: 6px;">[Cargo]</div>
                         <div class="sign-telefone" style="font-size: 12px; color: #666;">[Telefone]</div>
                       </td>
                     </tr>
@@ -264,6 +264,20 @@
       document.execCommand("copy");
       document.body.removeChild(tmpEl);
     }
+    function phoneMask(value) {
+      var r = value.replace(/\D/g, "");
+      r = r.replace(/^0/, "");
+      if (r.length > 10) {
+        r = r.replace(/^(\d\d)(\d{5})(\d{4}).*/, "($1) $2-$3");
+      } else if (r.length > 5) {
+        r = r.replace(/^(\d\d)(\d{4})(\d{0,4}).*/, "($1) $2-$3");
+      } else if (r.length > 2) {
+        r = r.replace(/^(\d\d)(\d{0,5})/, "($1) $2");
+      } else {
+        r = r.replace(/^(\d*)/, "($1");
+      }
+      return r;
+    }
 
     document.getElementById('nome').addEventListener('input', (e) => {
       document.querySelectorAll('.sign-nome').forEach((n) => { n.innerHTML = e.target.value; });
@@ -272,7 +286,9 @@
       document.querySelectorAll('.sign-cargo').forEach((n) => { n.innerHTML = e.target.value; });
     });
     document.getElementById('telefone').addEventListener('input', (e) => {
-      document.querySelectorAll('.sign-telefone').forEach((n) => { n.innerHTML = e.target.value; });
+      document.querySelectorAll('.sign-telefone').forEach((n) => {
+        n.innerHTML = '+55 ' + phoneMask(e.target.value);
+      });
     });
 
     var signatures = document.querySelectorAll('.signature');
