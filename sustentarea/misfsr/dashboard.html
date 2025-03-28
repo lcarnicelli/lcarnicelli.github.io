@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="pt-BR" data-bs-theme="auto">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>MISFS-R - Painel interativo</title>
+  
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+  </head>
+  <body>
+    
+    <main class="container-fluid vh-100 m-0 p-0">
+
+      <div class="row gx-0 h-100">
+        
+        <!-- Sidebar -->
+        <div class="col-2">
+          <div class="text-bg-dark p-4 h-100">
+            <h2>MISFS-R</h2>
+            <h5 class="text-secondary">Painel interativo</h5>
+            <hr>
+            <a href="#" class="btn btn-sm btn-outline-light" data-bs-toggle="modal" data-bs-target="#instructionsModal">Instruções</a>
+            <hr>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="typeRadio" id="estadosRadio" checked>
+              <label class="form-check-label" for="estadosRadio">
+                Estados
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="typeRadio" id="capitaisRadio">
+              <label class="form-check-label" for="capitaisRadio">
+                Capitais
+              </label>
+            </div>
+            <hr>
+            <select id="filterSelect" class="form-select" multiple size="20" style="font-size: 14px;"></select>
+          </div>
+        </div>
+        
+        <!-- Content -->
+        <div class="col-10">
+          <div class="text-bg-light h-100">
+            <div class="container p-4">
+
+              <!-- Totals -->
+              <div class="row gx-3 mb-4 h-100">
+                <div class="col">
+                  <div class="p-3 bg-white rounded shadow-sm" style="border-left: 5px solid #a05a96;">
+                    <div class="d-flex flex-row align-items-start justify-content-between">
+                      <div class="d-flex flex-column me-3">
+                        <p class="fw-bold mb-1" style="font-size: 14px; color: #a05a96;">MISFS-R</p>
+                        <p id="misfsrPts" class="fs-3 mb-2">-</p>
+                        <p class="text-secondary mb-0">Brasil: 58</p>
+                      </div>
+                      <img src="img/misfs-r-icon.png" width="46">
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="p-3 bg-white rounded shadow-sm" style="border-left: 5px solid rgba(112,173,71,1);">
+                    <div class="d-flex flex-row align-items-start justify-content-between">
+                      <div class="d-flex flex-column me-3">
+                        <p class="fw-bold mb-1" style="font-size: 14px; color: rgba(112,173,71,1);">SOCIAL</p>
+                        <p id="socialPts" class="fs-3 mb-2">-</p>
+                        <p class="text-secondary mb-0">Brasil: 62</p>
+                      </div>
+                      <img src="img/misfs-r-icon-social.png" width="46">
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="p-3 bg-white rounded shadow-sm" style="border-left: 5px solid rgba(237,125,49,1);">
+                    <div class="d-flex flex-row align-items-start justify-content-between">
+                      <div class="d-flex flex-column me-3">
+                        <p class="fw-bold mb-1" style="font-size: 14px; color: rgba(237,125,49,1);">NUTRICIONAL</p>
+                        <p id="nutricionalPts" class="fs-3 mb-2">-</p>
+                        <p class="text-secondary mb-0">Brasil: 64</p>
+                      </div>
+                      <img src="img/misfs-r-icon-nutricional.png" width="46">
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="p-3 bg-white rounded shadow-sm" style="border-left: 5px solid rgba(91,155,213,1);">
+                    <div class="d-flex flex-row align-items-start justify-content-between">
+                      <div class="d-flex flex-column me-3">
+                        <p class="fw-bold mb-1" style="font-size: 14px; color: rgba(91,155,213,1);">AMBIENTAL</p>
+                        <p id="ambientalPts" class="fs-3 mb-2">-</p>
+                        <p class="text-secondary mb-0">Brasil: 45</p>
+                      </div>
+                      <img src="img/misfs-r-icon-ambiental.png" width="46">
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="p-3 bg-white rounded shadow-sm" style="border-left: 5px solid rgba(255,192,0,1);">
+                    <div class="d-flex flex-row align-items-start justify-content-between">
+                      <div class="d-flex flex-column me-3">
+                        <p class="fw-bold mb-1" style="font-size: 14px; color: rgba(255,192,0,1);">ECONÔMICO</p>
+                        <p id="economicoPts" class="fs-3 mb-2">-</p>
+                        <p class="text-secondary mb-0">Brasil: 38</p>
+                      </div>
+                      <img src="img/misfs-r-icon-economico.png" width="46">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Charts -->
+              <div class="d-flex flex-row bg-white p-4 rounded shadow-sm">
+                <div class="d-flex flex-column" style="width: 28%;">
+                  <div class="position-relative" style="height: 200px;">
+                    <canvas id="economicoChart"></canvas>
+                  </div>
+                  <div class="position-relative pt-5" style="height: 240px;">
+                    <canvas id="ambientalChart"></canvas>
+                  </div>
+                </div>
+                <div class="flex-fill pt-4" style="width: 44%;">
+                  <div class="position-relative" style="height: 400px;">
+                    <canvas id="misfsrChart"></canvas>
+                  </div>
+                </div>
+                <div class="d-flex flex-column" style="width: 28%;">
+                  <div class="position-relative" style="height: 200px;">
+                    <canvas id="socialChart"></canvas>
+                  </div>
+                  <div class="position-relative pt-5" style="height: 240px;">
+                    <canvas id="nutricionalChart"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+    <!-- Instructions modal -->
+    <div class="modal modal-lg fade" id="instructionsModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">PAINEL INTERATIVO SOBRE SISTEMAS ALIMENTARES BRASILEIROS</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <h5><span class="bg-body-secondary">O que é?</span></h5>
+            <p>Esse painel foi desenvolvido pelo Núcleo de Pesquisa e Extensão da USP, Sustentarea, com o intuito de disponibilizar informações sobre os sistemas alimentares dos estados e capitais brasileiros de forma intuitiva e interativa. Os indicadores apresentados fazem parte da pesquisa realizada na USP com apoio do WWF-Brasil, na qual foi desenvolvido o Índice Multidimensional de Sistemas Alimentares Sustentáveis Revisado para o Brasil (MISFS-R), o qual conta com 46 indicadores, divididos entre as dimensões de sustentabilidade ambiental, social, econômica e nutricional dos sistemas alimentares, para cada um dos estados e capitais brasileiras.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+        
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+
+  </body>
+</html>
