@@ -13,126 +13,146 @@
   </head>
   <body>
     
-    <main class="container-fluid vh-100 m-0 p-0">
+    <main class="vh-100">
 
-      <div class="row gx-0 h-100">
+      <div class="d-flex flex-row h-100">
         
         <!-- Sidebar -->
-        <div class="col-2">
-          <div class="text-bg-dark p-4 h-100">
-            <h2>MISFS-R</h2>
-            <h5 class="text-secondary">Painel interativo</h5>
-            <hr>
-            <a href="#" class="btn btn-sm btn-outline-light" data-bs-toggle="modal" data-bs-target="#instructionsModal">Instruções</a>
-            <hr>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="typeRadio" id="estadosRadio" checked>
-              <label class="form-check-label" for="estadosRadio">
-                Estados
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="typeRadio" id="capitaisRadio">
-              <label class="form-check-label" for="capitaisRadio">
-                Capitais
-              </label>
-            </div>
-            <hr>
-            <select id="filterSelect" class="form-select" multiple size="20" style="font-size: 14px;"></select>
+        <div class="d-flex flex-column text-bg-dark p-4 h-100" style="width: 240px;">
+          <h2>MISFS-R</h2>
+          <h5 class="text-white-50 mb-4">Painel interativo</h5>
+          <div class="mb-2">
+            <a href="#" class="btn btn-sm btn-outline-light" data-bs-toggle="modal" data-bs-target="#informacoesModal">Informações</a>
+            <a href="#" class="btn btn-sm btn-outline-light" data-bs-toggle="modal" data-bs-target="#comousarModal">Como usar</a>
+          </div>
+          <hr>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="typeRadio" id="estadosRadio" checked>
+            <label class="form-check-label" for="estadosRadio">
+              Estados
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="typeRadio" id="capitaisRadio">
+            <label class="form-check-label" for="capitaisRadio">
+              Capitais
+            </label>
+          </div>
+          <hr>
+          <div class="flex-fill">
+            <select id="filterSelect" class="form-select h-100" multiple style="font-size: 14px;"></select>
           </div>
         </div>
         
         <!-- Content -->
-        <div class="col-10">
-          <div class="text-bg-light h-100">
-            <div class="container p-4">
+        <div class="flex-fill text-bg-light h-100 overflow-y-scroll">
+          <div class="container p-4">
 
-              <!-- Totals -->
-              <div class="row gx-3 mb-4 h-100">
-                <div class="col">
-                  <div class="p-3 bg-white rounded shadow-sm" style="border-left: 5px solid #a05a96;">
-                    <div class="d-flex flex-row align-items-start justify-content-between">
-                      <div class="d-flex flex-column me-3">
-                        <p class="fw-bold mb-1" style="font-size: 14px; color: #a05a96;">MISFS-R</p>
-                        <p id="misfsrPts" class="fs-3 mb-2">-</p>
-                        <p class="text-secondary mb-0">Brasil: 58</p>
-                      </div>
-                      <img src="img/misfs-r-icon.png" width="46">
+            <!-- Totals -->
+            <div class="row gx-3 mb-4 h-100">
+              <div class="col">
+                <div class="p-3 bg-white rounded shadow-sm" style="border-left: 5px solid #a05a96;">
+                  <div class="d-flex flex-row align-items-start justify-content-between">
+                    <div class="d-flex flex-column me-3">
+                      <p class="fw-bold mb-1" style="font-size: 14px; color: #a05a96;">MISFS-R</p>
+                      <p id="misfsrPts" class="fs-3 mb-2">-</p>
+                      <p class="text-secondary mb-0">Brasil: 58</p>
                     </div>
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="p-3 bg-white rounded shadow-sm" style="border-left: 5px solid rgba(112,173,71,1);">
-                    <div class="d-flex flex-row align-items-start justify-content-between">
-                      <div class="d-flex flex-column me-3">
-                        <p class="fw-bold mb-1" style="font-size: 14px; color: rgba(112,173,71,1);">SOCIAL</p>
-                        <p id="socialPts" class="fs-3 mb-2">-</p>
-                        <p class="text-secondary mb-0">Brasil: 62</p>
-                      </div>
-                      <img src="img/misfs-r-icon-social.png" width="46">
-                    </div>
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="p-3 bg-white rounded shadow-sm" style="border-left: 5px solid rgba(237,125,49,1);">
-                    <div class="d-flex flex-row align-items-start justify-content-between">
-                      <div class="d-flex flex-column me-3">
-                        <p class="fw-bold mb-1" style="font-size: 14px; color: rgba(237,125,49,1);">NUTRICIONAL</p>
-                        <p id="nutricionalPts" class="fs-3 mb-2">-</p>
-                        <p class="text-secondary mb-0">Brasil: 64</p>
-                      </div>
-                      <img src="img/misfs-r-icon-nutricional.png" width="46">
-                    </div>
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="p-3 bg-white rounded shadow-sm" style="border-left: 5px solid rgba(91,155,213,1);">
-                    <div class="d-flex flex-row align-items-start justify-content-between">
-                      <div class="d-flex flex-column me-3">
-                        <p class="fw-bold mb-1" style="font-size: 14px; color: rgba(91,155,213,1);">AMBIENTAL</p>
-                        <p id="ambientalPts" class="fs-3 mb-2">-</p>
-                        <p class="text-secondary mb-0">Brasil: 45</p>
-                      </div>
-                      <img src="img/misfs-r-icon-ambiental.png" width="46">
-                    </div>
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="p-3 bg-white rounded shadow-sm" style="border-left: 5px solid rgba(255,192,0,1);">
-                    <div class="d-flex flex-row align-items-start justify-content-between">
-                      <div class="d-flex flex-column me-3">
-                        <p class="fw-bold mb-1" style="font-size: 14px; color: rgba(255,192,0,1);">ECONÔMICO</p>
-                        <p id="economicoPts" class="fs-3 mb-2">-</p>
-                        <p class="text-secondary mb-0">Brasil: 38</p>
-                      </div>
-                      <img src="img/misfs-r-icon-economico.png" width="46">
-                    </div>
+                    <img src="img/misfs-r-icon.png" width="46">
                   </div>
                 </div>
               </div>
-              
-              <!-- Charts -->
-              <div class="d-flex flex-row bg-white p-4 rounded shadow-sm">
-                <div class="d-flex flex-column" style="width: 28%;">
-                  <div class="position-relative" style="height: 200px;">
-                    <canvas id="economicoChart"></canvas>
-                  </div>
-                  <div class="position-relative pt-5" style="height: 240px;">
-                    <canvas id="ambientalChart"></canvas>
-                  </div>
-                </div>
-                <div class="flex-fill pt-4" style="width: 44%;">
-                  <div class="position-relative" style="height: 400px;">
-                    <canvas id="misfsrChart"></canvas>
+              <div class="col">
+                <div class="p-3 bg-white rounded shadow-sm" style="border-left: 5px solid rgba(112,173,71,1);">
+                  <div class="d-flex flex-row align-items-start justify-content-between">
+                    <div class="d-flex flex-column me-3">
+                      <p class="fw-bold mb-1" style="font-size: 14px; color: rgba(112,173,71,1);">SOCIAL</p>
+                      <p id="socialPts" class="fs-3 mb-2">-</p>
+                      <p class="text-secondary mb-0">Brasil: 62</p>
+                    </div>
+                    <img src="img/misfs-r-icon-social.png" width="46">
                   </div>
                 </div>
-                <div class="d-flex flex-column" style="width: 28%;">
-                  <div class="position-relative" style="height: 200px;">
-                    <canvas id="socialChart"></canvas>
+              </div>
+              <div class="col">
+                <div class="p-3 bg-white rounded shadow-sm" style="border-left: 5px solid rgba(237,125,49,1);">
+                  <div class="d-flex flex-row align-items-start justify-content-between">
+                    <div class="d-flex flex-column me-3">
+                      <p class="fw-bold mb-1" style="font-size: 14px; color: rgba(237,125,49,1);">NUTRICIONAL</p>
+                      <p id="nutricionalPts" class="fs-3 mb-2">-</p>
+                      <p class="text-secondary mb-0">Brasil: 64</p>
+                    </div>
+                    <img src="img/misfs-r-icon-nutricional.png" width="46">
                   </div>
-                  <div class="position-relative pt-5" style="height: 240px;">
-                    <canvas id="nutricionalChart"></canvas>
+                </div>
+              </div>
+              <div class="col">
+                <div class="p-3 bg-white rounded shadow-sm" style="border-left: 5px solid rgba(91,155,213,1);">
+                  <div class="d-flex flex-row align-items-start justify-content-between">
+                    <div class="d-flex flex-column me-3">
+                      <p class="fw-bold mb-1" style="font-size: 14px; color: rgba(91,155,213,1);">AMBIENTAL</p>
+                      <p id="ambientalPts" class="fs-3 mb-2">-</p>
+                      <p class="text-secondary mb-0">Brasil: 45</p>
+                    </div>
+                    <img src="img/misfs-r-icon-ambiental.png" width="46">
                   </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="p-3 bg-white rounded shadow-sm" style="border-left: 5px solid rgba(255,192,0,1);">
+                  <div class="d-flex flex-row align-items-start justify-content-between">
+                    <div class="d-flex flex-column me-3">
+                      <p class="fw-bold mb-1" style="font-size: 14px; color: rgba(255,192,0,1);">ECONÔMICO</p>
+                      <p id="economicoPts" class="fs-3 mb-2">-</p>
+                      <p class="text-secondary mb-0">Brasil: 38</p>
+                    </div>
+                    <img src="img/misfs-r-icon-economico.png" width="46">
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Charts -->
+            <div class="d-flex flex-row bg-white p-4 rounded shadow-sm">
+              <div class="d-flex flex-column" style="width: 28%;">
+                <div class="position-relative mb-5" style="height: 200px;">
+                  <div class="btn-indicador d-none position-absolute">
+                    <div data-bs-toggle="modal" data-bs-target="#economicoIndicadores">
+                      <a href="#" data-bs-toggle="tooltip" data-bs-title="Ver indicadores"><i class="bi bi-plus-circle-fill fs-5" style="color: rgba(255,192,0,1);"></i></a>
+                    </div>
+                  </div>
+                  <canvas id="economicoChart"></canvas>
+                </div>
+                <div class="position-relative" style="height: 200px;">
+                  <div class="btn-indicador d-none position-absolute bottom-0">
+                    <div data-bs-toggle="modal" data-bs-target="#ambientalIndicadores">
+                      <a href="#" data-bs-toggle="tooltip" data-bs-title="Ver indicadores"><i class="bi bi-plus-circle-fill fs-5" style="color: rgba(91,155,213,1);"></i></a>
+                    </div>
+                  </div>
+                  <canvas id="ambientalChart"></canvas>
+                </div>
+              </div>
+              <div class="flex-fill pt-4" style="width: 44%;">
+                <div class="position-relative" style="height: 400px;">
+                  <canvas id="misfsrChart"></canvas>
+                </div>
+              </div>
+              <div class="d-flex flex-column" style="width: 28%;">
+                <div class="position-relative mb-5" style="height: 200px;">
+                  <div class="btn-indicador d-none position-absolute end-0">
+                    <div data-bs-toggle="modal" data-bs-target="#socialIndicadores">
+                      <a href="#" data-bs-toggle="tooltip" data-bs-title="Ver indicadores"><i class="bi bi-plus-circle-fill fs-5" style="color: rgba(112,173,71,1);"></i></a>
+                    </div>
+                  </div>
+                  <canvas id="socialChart"></canvas>
+                </div>
+                <div class="position-relative" style="height: 200px;">
+                  <div class="btn-indicador d-none position-absolute end-0 bottom-0">
+                    <div data-bs-toggle="modal" data-bs-target="#nutricionalIndicadores">
+                      <a href="#" data-bs-toggle="tooltip" data-bs-title="Ver indicadores"><i class="bi bi-plus-circle-fill fs-5" style="color: rgba(237,125,49,1);"></i></a>
+                    </div>
+                  </div>
+                  <canvas id="nutricionalChart"></canvas>
                 </div>
               </div>
             </div>
@@ -143,25 +163,477 @@
 
     </main>
 
-    <!-- Instructions modal -->
-    <div class="modal modal-lg fade" id="instructionsModal" tabindex="-1">
-      <div class="modal-dialog">
+    <!-- Informações modal -->
+    <div class="modal modal-lg fade" id="informacoesModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
-          <div class="modal-header">
+          <div class="modal-header bg-light">
             <h1 class="modal-title fs-5" id="exampleModalLabel">PAINEL INTERATIVO SOBRE SISTEMAS ALIMENTARES BRASILEIROS</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
           </div>
           <div class="modal-body">
-            <h5><span class="bg-body-secondary">O que é?</span></h5>
-            <p>Esse painel foi desenvolvido pelo Núcleo de Pesquisa e Extensão da USP, Sustentarea, com o intuito de disponibilizar informações sobre os sistemas alimentares dos estados e capitais brasileiros de forma intuitiva e interativa. Os indicadores apresentados fazem parte da pesquisa realizada na USP com apoio do WWF-Brasil, na qual foi desenvolvido o Índice Multidimensional de Sistemas Alimentares Sustentáveis Revisado para o Brasil (MISFS-R), o qual conta com 46 indicadores, divididos entre as dimensões de sustentabilidade ambiental, social, econômica e nutricional dos sistemas alimentares, para cada um dos estados e capitais brasileiras.</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            <h5>O que é?</h5>
+            <hr class="mt-1 mb-2">
+            <p class="mb-4">Esse painel foi desenvolvido pelo Núcleo de Pesquisa e Extensão da USP, Sustentarea, com o intuito de disponibilizar informações sobre os sistemas alimentares dos estados e capitais brasileiros de forma intuitiva e interativa. Os indicadores apresentados fazem parte da pesquisa realizada na USP com apoio do WWF-Brasil, na qual foi desenvolvido o Índice Multidimensional de Sistemas Alimentares Sustentáveis Revisado para o Brasil (MISFS-R), o qual conta com 46 indicadores, divididos entre as dimensões de sustentabilidade ambiental, social, econômica e nutricional dos sistemas alimentares, para cada um dos estados e capitais brasileiras.</p>
+
+            <h5>Como citar?</h5>
+            <hr class="mt-1 mb-2">
+            <p class="mb-4">Norde MM; Camusso IG; Carvalho AM. Painel interativo sobre os sistemas alimentares brasileiros. Disponível em: <a href="https://www.fsp.usp.br/sustentarea/" target="_blank">fsp.usp.br/sustentarea</a></p>
+
+            <h5>Mais</h5>
+            <hr class="mt-1 mb-2">
+            <p>Conheça o trabalho completo clicando na referência, aqui:<br>NORDE, M. M. ; PORCIUNCULA, L. ; GARRIDO, G. ; NUNES-GALBES, N. M. ; SARTI, F. M. ; MARCHIONI, DML; CARVALHO, A. M. Measuring food systems sustainability in heterogenous countries: the Brazilian Multidimensional Index updated version applicability. Sustainable Development, v. 2376, p. 1-17, 2022.<br>NORDE, M.M.; PORCIUNCULA. L.; GARRIDO, G. et al. Índice Multidimensional de Sistemas Alimentares Sustentáveis Revisado para o Brasil - MISFS-R: relatório ilustrado. São Paulo, 2022.</p>
           </div>
         </div>
       </div>
     </div>
-        
+
+    <!-- Como usar modal -->
+    <div class="modal modal-xl fade" id="comousarModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header bg-light">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">COMO USAR?</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div class="container">
+              <div class="row g-5 mb-5">
+                <div class="col-5">
+                  <div class="row">
+                    <div class="col-7">
+                      <p><strong>1. </strong>Escolha se deseja visualizar os indicadores dos estados ou das capitais brasileiras. Depois selecione o estado/capital de interesse no campo logo abaixo.</p>
+                    </div>
+                    <div class="col-5">
+                      <img src="img/como-usar-1.png" width="100%">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-7">
+                  <div class="row">
+                    <div class="col-7">
+                      <p><strong>2. </strong>Observe o valor médio do índice para o estado/capital de interesse e compare com o valor médio do Brasil.</p>
+                      <p class="text-secondary" style="font-size: 14px;">OBS: os valores variam de 0 a 100.</p>
+                    </div>
+                    <div class="col-5">
+                      <img src="img/como-usar-2.png" width="100%">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row g-5 mb-5">
+                <div class="col-8">
+                  <p><strong>3. </strong>Observe o valor médio de cada dimensão para o estado/capital de interesse no gráfico central e compare com o valor médio do Brasil apresentado nos ícones superiores.</p>
+                  <p class="text-secondary mb-5" style="font-size: 14px;">OBS: os valores vão de 0 a 100 porque indicam a posição de cada estado ou capital em relação aos outros. Valores próximos de 0 significam que o estado ou a capital tem um indicador mais baixo.</p>
+                  <img src="img/como-usar-3.png" width="100%">
+                </div>
+                <div class="col-4">
+                  <img src="img/como-usar-4.png" width="100%">
+                </div>
+              </div>
+              <div class="row g-5 mb-5">
+                <div class="col-8">
+                  <p><strong>4. </strong>Observe a performance do estado/capital escolhido para cada um dos indicadores. Os gráficos mostram o percentil ocupado pelo estado. Percentis mais altos ou baixos devem ser interpretados conforme o contexto de cada indicador: os indicadores que estão inversamente relacionados à sustentabilidade estão assinalados com um “*” indicando que os estados que tem maior valor para esses indicadores, tem pior sustentabilidade de seus sistemas alimentares.</p>
+                  <p class="text-secondary" style="font-size: 14px;">OBS: ressalta-se que as partes amarelas representam os indicadores econômicos, as em verdes representam os indicadores sociais, as em laranja representam os nutricionais, e as azuis representam os ambientais.</p>
+                </div>
+                <div class="col-4">
+                  <img src="img/como-usar-5.png" width="100%">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-5">
+                  <p><strong>5. </strong>Clique no ícone "+" ao lado de cada gráfico e observe a descrição dos indicadores nas tabelas que serão exibidas.</p>
+                </div>
+                <div class="col-7">
+                  <img src="img/como-usar-6.png" width="100%">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Social modal -->
+    <div class="modal modal-lg fade" id="socialIndicadores" tabindex="-1">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header" style="background-color: rgba(112,173,71,1);">
+            <h3 class="text-white mb-0">Social: <span class="title-indicador"></span></h3>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" style="font-size: 13px;"></button>
+          </div>
+          <div class="modal-body">
+            <table class="table table-hover align-middle">
+              <thead>
+                <tr class="table-light align-middle">
+                  <th style="width: 160px;">Indicador</th>
+                  <th>Descrição</th>
+                  <th class="text-center" style="width: 100px;">Valor</th>
+                  <th class="text-center" style="width: 180px;">Brasil<span class="d-block fw-light" style="font-size: 12px">mediana (min-max)</span></th>
+                </tr>
+              </thead>
+              <tbody style="font-size: 14px;">
+                <tr>
+                  <th>Despesas alimentares</th>
+                  <td>Percentual da renda domiciliar destinada a aquisição de alimentos (%)*</td>
+                  <td class="text-center"><span id="indS01"></span></td>
+                  <td class="text-center"><span id="medS01"></span></td>
+                </tr>
+                <tr>
+                  <th>Acesso à alimentação</th>
+                  <td>Densidade de estabelecimentos para compra de alimentos por 10.000 habitantes (n)</td>
+                  <td class="text-center"><span id="indS02"></span></td>
+                  <td class="text-center"><span id="medS02"></span></td>
+                </tr>
+                <tr>
+                  <th>Subnutrição</th>
+                  <td>Prevalência de baixo peso na população geral (%)*</td>
+                  <td class="text-center"><span id="indS03"></span></td>
+                  <td class="text-center"><span id="medS03"></span></td>
+                </tr>
+                <tr>
+                  <th>Segurança Alimentar</th>
+                  <td>Prevalência de Segurança Alimentar e Nutricional (SAN) na população geral (%)</td>
+                  <td class="text-center"><span id="indS04"></span></td>
+                  <td class="text-center"><span id="medS04"></span></td>
+                </tr>
+                <tr>
+                  <th>Equidade de gênero</th>
+                  <td>Porcentagem de mulheres trabalhando na agricultura (%)</td>
+                  <td class="text-center"><span id="indS051"></span></td>
+                  <td class="text-center"><span id="medS051"></span></td>
+                </tr>
+                <tr>
+                  <th>Equidade de gênero (chefia)</th>
+                  <td>Percentual de fazendas chefiadas por mulheres (%)</td>
+                  <td class="text-center"><span id="indS052"></span></td>
+                  <td class="text-center"><span id="medS052"></span></td>
+                </tr>
+                <tr>
+                  <th>Equidade racial</th>
+                  <td>Razão entre a porcentagem de fazendas chefiadas por indivíduos autodeclarados não-brancos e a porcentagem de fazendas chefiadas por indivíduos autodeclarados brancos (razão)</td>
+                  <td class="text-center"><span id="indS06"></span></td>
+                  <td class="text-center"><span id="medS06"></span></td>
+                </tr>
+                <tr>
+                  <th>Trabalho infantil</th>
+                  <td>Prevalência de trabalho infantil na produção de alimentos (%)*</td>
+                  <td class="text-center"><span id="indS07"></span></td>
+                  <td class="text-center"><span id="medS07"></span></td>
+                </tr>
+                <tr>
+                  <th>Trabalho informal</th>
+                  <td>Prevalência de trabalhadores informais na produção de alimentos (%)*</td>
+                  <td class="text-center"><span id="indS08"></span></td>
+                  <td class="text-center"><span id="medS08"></span></td>
+                </tr>
+                <tr>
+                  <th>Pobreza</th>
+                  <td>Porcentagem de trabalhadores na produção de alimentos recebendo menos que o limiar da pobreza (%)*</td>
+                  <td class="text-center"><span id="indS09"></span></td>
+                  <td class="text-center"><span id="medS09"></span></td>
+                </tr>
+                <tr>
+                  <th>Saúde do trabalhador</th>
+                  <td>Número de notificações de intoxicação por pesticida no trabalho por 10.000 trabalhadores na produção de alimentos (n)*</td>
+                  <td class="text-center"><span id="indS10"></span></td>
+                  <td class="text-center"><span id="medS10"></span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nutricional modal -->
+    <div class="modal modal-lg fade" id="nutricionalIndicadores" tabindex="-1">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header" style="background-color: rgba(237,125,49,1);">
+            <h3 class="text-white mb-0">Nutricional: <span class="title-indicador"></span></h3>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" style="font-size: 13px;"></button>
+          </div>
+          <div class="modal-body">
+            <table class="table table-hover align-middle">
+              <thead>
+                <tr class="table-light align-middle">
+                  <th style="width: 160px;">Indicador</th>
+                  <th>Descrição</th>
+                  <th class="text-center" style="width: 100px;">Valor</th>
+                  <th class="text-center" style="width: 180px;">Brasil<span class="d-block fw-light" style="font-size: 12px">mediana (min-max)</span></th>
+                </tr>
+              </thead>
+              <tbody style="font-size: 14px;">
+                <tr>
+                  <th>Desnutrição</th>
+                  <td>Prevalência de desnutrição crônica entre menores de cinco anos (%)*</td>
+                  <td class="text-center"><span id="indN01"></span></td>
+                  <td class="text-center"><span id="medN01"></span></td>
+                </tr>
+                <tr>
+                  <th>Obesidade</th>
+                  <td>Prevalência de obesidade em indivíduos >18 anos (%)*</td>
+                  <td class="text-center"><span id="indN02"></span></td>
+                  <td class="text-center"><span id="medN02"></span></td>
+                </tr>
+                <tr>
+                  <th>DCNT</th>
+                  <td>Mortalidade por Doenças Crônicas Não Transmissíveis (DCNT) (morte/1000)*</td>
+                  <td class="text-center"><span id="indN03"></span></td>
+                  <td class="text-center"><span id="medN03"></span></td>
+                </tr>
+                <tr>
+                  <th>Deficiência de micronutrientes</th>
+                  <td>Anos de vida ajustados à incapacidade atribuídos a deficiências nutricionais (DALY/1000)*</td>
+                  <td class="text-center"><span id="indN04"></span></td>
+                  <td class="text-center"><span id="medN04"></span></td>
+                </tr>
+                <tr>
+                  <th>Doenças transmitidas por alimentos (DTAs)</th>
+                  <td>Anos de vida ajustados à incapacidade atribuídos a infecções intestinais (DALY/1000)*</td>
+                  <td class="text-center"><span id="indN05"></span></td>
+                  <td class="text-center"><span id="medN05"></span></td>
+                </tr>
+                <tr>
+                  <th>Pesticidas em alimentos</th>
+                  <td>Ingestão estimada de pesticidas (g/dia)*</td>
+                  <td class="text-center"><span id="indN06"></span></td>
+                  <td class="text-center"><span id="medN06"></span></td>
+                </tr>
+                <tr>
+                  <th>Adequação nutricional</th>
+                  <td>Nutrient Rich Diet 9.3 (adequação nutricional) (escore)</td>
+                  <td class="text-center"><span id="indN07"></span></td>
+                  <td class="text-center"><span id="medN07"></span></td>
+                </tr>
+                <tr>
+                  <th>Aleitamento materno</th>
+                  <td>Prevalência de aleitamento materno exclusivo (%)</td>
+                  <td class="text-center"><span id="indN08"></span></td>
+                  <td class="text-center"><span id="medN08"></span></td>
+                </tr>
+                <tr>
+                  <th>Diversidade alimentar</th>
+                  <td>Porcentagem de pessoas com um Escore de Diversidade da Dieta maior ou igual a 5 (%)</td>
+                  <td class="text-center"><span id="indN09"></span></td>
+                  <td class="text-center"><span id="medN09"></span></td>
+                </tr>
+                <tr>
+                  <th>Cultura alimentar</th>
+                  <td>Participação de alimentos ultraprocessados na dieta (%)*</td>
+                  <td class="text-center"><span id="indN10"></span></td>
+                  <td class="text-center"><span id="medN10"></span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ambiental modal -->
+    <div class="modal modal-lg fade" id="ambientalIndicadores" tabindex="-1">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header" style="background-color: rgba(91,155,213,1);">
+            <h3 class="text-white mb-0">Ambiental: <span class="title-indicador"></span></h3>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" style="font-size: 13px;"></button>
+          </div>
+          <div class="modal-body">
+            <table class="table table-hover align-middle">
+              <thead>
+                <tr class="table-light align-middle">
+                  <th style="width: 160px;">Indicador</th>
+                  <th>Descrição</th>
+                  <th class="text-center" style="width: 100px;">Valor</th>
+                  <th class="text-center" style="width: 180px;">Brasil<span class="d-block fw-light" style="font-size: 12px">mediana (min-max)</span></th>
+                </tr>
+              </thead>
+              <tbody style="font-size: 14px;">
+                <tr>
+                  <th>Uso de água na produção</th>
+                  <td>Recursos hídricos alocados para a produção agropecuária (m3/s)*</td>
+                  <td class="text-center"><span id="indAE01"></span></td>
+                  <td class="text-center"><span id="medAE01"></span></td>
+                </tr>
+                <tr>
+                  <th>Uso de água pela dieta</th>
+                  <td>Escassez de água pela dieta per capita (Km3eq/day)*</td>
+                  <td class="text-center"><span id="indAE02"></span></td>
+                  <td class="text-center"><span id="medAE02"></span></td>
+                </tr>
+                <tr>
+                  <th>Superfície de água</th>
+                  <td>Superfície de água (hectares)</td>
+                  <td class="text-center"><span id="indAE031"></span></td>
+                  <td class="text-center"><span id="medAE031"></span></td>
+                </tr>
+                <tr>
+                  <th>Precipitação anual</th>
+                  <td>Precipitação anual (L/s/hectares)</td>
+                  <td class="text-center"><span id="indAE032"></span></td>
+                  <td class="text-center"><span id="medAE032"></span></td>
+                </tr>
+                <tr>
+                  <th>Qualidade da água</th>
+                  <td>Eutrofização da água pela dieta per capita (tons [PO4]3-eq)*</td>
+                  <td class="text-center"><span id="indAE04"></span></td>
+                  <td class="text-center"><span id="medAE04"></span></td>
+                </tr>
+                <tr>
+                  <th>Uso do solo</th>
+                  <td>Uso da terra para agricultura (%)*</td>
+                  <td class="text-center"><span id="indAE05"></span></td>
+                  <td class="text-center"><span id="medAE05"></span></td>
+                </tr>
+                <tr>
+                  <th>Produção de orgânicos</th>
+                  <td>Porcentagem de agricultores orgânicos certificados (%)</td>
+                  <td class="text-center"><span id="indAE06"></span></td>
+                  <td class="text-center"><span id="medAE06"></span></td>
+                </tr>
+                <tr>
+                  <th>Degradação do solo</th>
+                  <td>Alteração da área agrícola nos últimos 5 anos (%)*</td>
+                  <td class="text-center"><span id="indAE07"></span></td>
+                  <td class="text-center"><span id="medAE07"></span></td>
+                </tr>
+                <tr>
+                  <th>Emissão de GEE pela dieta</th>
+                  <td>Emissão de Gases de Efeito Estufa (GEE) pela dieta per capita (Mt CO2-eq)*</td>
+                  <td class="text-center"><span id="indAE08"></span></td>
+                  <td class="text-center"><span id="medAE08"></span></td>
+                </tr>
+                <tr>
+                  <th>Emissão de GEE na produção</th>
+                  <td>Emissão de GEE pela agropecuária (Mt CO2-eq)*</td>
+                  <td class="text-center"><span id="indAE09"></span></td>
+                  <td class="text-center"><span id="medAE09"></span></td>
+                </tr>
+                <tr>
+                  <th>Desmatamento</th>
+                  <td>Desmatamento nos últimos 5 anos (%)*</td>
+                  <td class="text-center"><span id="indAE10"></span></td>
+                  <td class="text-center"><span id="medAE10"></span></td>
+                </tr>
+                <tr>
+                  <th>Uso de pesticidas</th>
+                  <td>Uso de agrotóxicos na agricultura (tons/hectare)*</td>
+                  <td class="text-center"><span id="indAE11"></span></td>
+                  <td class="text-center"><span id="medAE11"></span></td>
+                </tr>
+                <tr>
+                  <th>Biodiversidade</th>
+                  <td>Índice de Shannon para diversidade de culturas (escore)</td>
+                  <td class="text-center"><span id="indAE12"></span></td>
+                  <td class="text-center"><span id="medAE12"></span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Economico modal -->
+    <div class="modal modal-lg fade" id="economicoIndicadores" tabindex="-1">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header" style="background-color: rgba(255,192,0,1);">
+            <h3 class="text-white mb-0">Econômico: <span class="title-indicador"></span></h3>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" style="font-size: 13px;"></button>
+          </div>
+          <div class="modal-body">
+            <table class="table table-hover align-middle">
+              <thead>
+                <tr class="table-light align-middle">
+                  <th style="width: 160px;">Indicador</th>
+                  <th>Descrição</th>
+                  <th class="text-center" style="width: 100px;">Valor</th>
+                  <th class="text-center" style="width: 180px;">Brasil<span class="d-block fw-light" style="font-size: 12px">mediana (min-max)</span></th>
+                </tr>
+              </thead>
+              <tbody style="font-size: 14px;">
+                <tr>
+                  <th>Resiliência</th>
+                  <td>Percentual de produtores em cooperativas (%)</td>
+                  <td class="text-center"><span id="indE01"></span></td>
+                  <td class="text-center"><span id="medE01"></span></td>
+                </tr>
+                <tr>
+                  <th>Lucratividade</th>
+                  <td>Valor acrescentado no Produto Interno Bruto pela agricultura (%)</td>
+                  <td class="text-center"><span id="indE02"></span></td>
+                  <td class="text-center"><span id="medE02"></span></td>
+                </tr>
+                <tr>
+                  <th>Produtividade</th>
+                  <td>Produtividade (US$/hectare)</td>
+                  <td class="text-center"><span id="indE03"></span></td>
+                  <td class="text-center"><span id="medE03"></span></td>
+                </tr>
+                <tr>
+                  <th>Renda</th>
+                  <td>Renda média dos trabalhadores na produção de alimentos (BRL)</td>
+                  <td class="text-center"><span id="indE04"></span></td>
+                  <td class="text-center"><span id="medE04"></span></td>
+                </tr>
+                <tr>
+                  <th>Empregabilidade</th>
+                  <td>Empregabilidade na produção de alimentos (%)</td>
+                  <td class="text-center"><span id="indE05"></span></td>
+                  <td class="text-center"><span id="medE05"></span></td>
+                </tr>
+                <tr>
+                  <th>Distribuição de renda</th>
+                  <td>Índice de GINI para distribuição de renda na produção de alimentos (escore)*</td>
+                  <td class="text-center"><span id="indE06"></span></td>
+                  <td class="text-center"><span id="medE06"></span></td>
+                </tr>
+                <tr>
+                  <th>Exportação de alimentos</th>
+                  <td>Porcentagem da produção de alimentos exportada (%)*</td>
+                  <td class="text-center"><span id="indE07"></span></td>
+                  <td class="text-center"><span id="medE07"></span></td>
+                </tr>
+                <tr>
+                  <th>Preço dos alimentos</th>
+                  <td>Preço da cesta básica de alimentos (BRL)*</td>
+                  <td class="text-center"><span id="indE08"></span></td>
+                  <td class="text-center"><span id="medE08"></span></td>
+                </tr>
+                <tr>
+                  <th>Maquinário</th>
+                  <td>Número de tratores por 1.000 habitantes (n)</td>
+                  <td class="text-center"><span id="indE09"></span></td>
+                  <td class="text-center"><span id="medE09"></span></td>
+                </tr>
+                <tr>
+                  <th>Eletricidade</th>
+                  <td>Acesso à eletricidade nas fazendas (%)</td>
+                  <td class="text-center"><span id="indE10"></span></td>
+                  <td class="text-center"><span id="medE10"></span></td>
+                </tr>
+                <tr>
+                  <th>Orientação técnica</th>
+                  <td>Percentual de produtores que receberam orientação técnica (%)</td>
+                  <td class="text-center"><span id="indE11"></span></td>
+                  <td class="text-center"><span id="medE11"></span></td>
+                </tr>
+                <tr>
+                  <th>Distribuição de terras</th>
+                  <td>Índice de GINI para distribuição de terras para a produção de alimentos (escore)*</td>
+                  <td class="text-center"><span id="indE12"></span></td>
+                  <td class="text-center"><span id="medE12"></span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>
