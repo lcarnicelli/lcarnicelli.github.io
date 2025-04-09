@@ -144,13 +144,6 @@ window.onload = (e) => {
 	  });
 	});
 
-	document.querySelectorAll('[data-bs-toggle="modal"]').forEach((m) => {
-		m.addEventListener('click', (e) => {
-			document.querySelectorAll('.indicador-grafico').forEach((l) => { l.style.zIndex = "1"; });
-			e.srcElement.closest('.indicador-grafico').style.zIndex = "1051";
-		});
-	});
-
 	toSelectOptions(estadosObj);
 };
 
