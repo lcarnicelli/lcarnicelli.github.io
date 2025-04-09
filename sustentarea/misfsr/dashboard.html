@@ -115,7 +115,7 @@
             <!-- Charts -->
             <div class="d-flex flex-row bg-white p-4 rounded shadow-sm">
               <div class="d-flex flex-column" style="width: 28%;">
-                <div class="position-relative mb-5" style="height: 200px;">
+                <div class="indicador-grafico bg-white position-relative p-1 mb-5 rounded" style="height: 200px;">
                   <div class="btn-indicador d-none position-absolute">
                     <div data-bs-toggle="modal" data-bs-target="#economicoIndicadores">
                       <a href="#" data-bs-toggle="tooltip" data-bs-title="Ver indicadores"><i class="bi bi-plus-circle-fill fs-5" style="color: rgba(255,192,0,1);"></i></a>
@@ -123,7 +123,7 @@
                   </div>
                   <canvas id="economicoChart"></canvas>
                 </div>
-                <div class="position-relative" style="height: 200px;">
+                <div class="indicador-grafico bg-white position-relative p-1 rounded" style="height: 200px;">
                   <div class="btn-indicador d-none position-absolute bottom-0">
                     <div data-bs-toggle="modal" data-bs-target="#ambientalIndicadores">
                       <a href="#" data-bs-toggle="tooltip" data-bs-title="Ver indicadores"><i class="bi bi-plus-circle-fill fs-5" style="color: rgba(91,155,213,1);"></i></a>
@@ -138,7 +138,7 @@
                 </div>
               </div>
               <div class="d-flex flex-column" style="width: 28%;">
-                <div class="position-relative mb-5" style="height: 200px;">
+                <div class="indicador-grafico bg-white position-relative p-1 mb-5 rounded" style="height: 200px;">
                   <div class="btn-indicador d-none position-absolute end-0">
                     <div data-bs-toggle="modal" data-bs-target="#socialIndicadores">
                       <a href="#" data-bs-toggle="tooltip" data-bs-title="Ver indicadores"><i class="bi bi-plus-circle-fill fs-5" style="color: rgba(112,173,71,1);"></i></a>
@@ -146,7 +146,7 @@
                   </div>
                   <canvas id="socialChart"></canvas>
                 </div>
-                <div class="position-relative" style="height: 200px;">
+                <div class="indicador-grafico bg-white position-relative p-1 rounded" style="height: 200px;">
                   <div class="btn-indicador d-none position-absolute end-0 bottom-0">
                     <div data-bs-toggle="modal" data-bs-target="#nutricionalIndicadores">
                       <a href="#" data-bs-toggle="tooltip" data-bs-title="Ver indicadores"><i class="bi bi-plus-circle-fill fs-5" style="color: rgba(237,125,49,1);"></i></a>
@@ -174,11 +174,12 @@
           <div class="modal-body">
             <h5>O que é?</h5>
             <hr class="mt-1 mb-2">
-            <p class="mb-4">Esse painel foi desenvolvido pelo Núcleo de Pesquisa e Extensão da USP, Sustentarea, com o intuito de disponibilizar informações sobre os sistemas alimentares dos estados e capitais brasileiros de forma intuitiva e interativa. Os indicadores apresentados fazem parte da pesquisa realizada na USP com apoio do WWF-Brasil, na qual foi desenvolvido o Índice Multidimensional de Sistemas Alimentares Sustentáveis Revisado para o Brasil (MISFS-R), o qual conta com 46 indicadores, divididos entre as dimensões de sustentabilidade ambiental, social, econômica e nutricional dos sistemas alimentares, para cada um dos estados e capitais brasileiras.</p>
+            <p class="mb-4">Esse painel foi desenvolvido pelo Sustentarea, Núcleo de Pesquisa e Extensão da USP, com o intuito de disponibilizar informações sobre os sistemas alimentares dos estados e capitais brasileiros de forma intuitiva e interativa. Os indicadores apresentados fazem parte da pesquisa realizada na USP com apoio do WWF-Brasil, na qual foi desenvolvido o Índice Multidimensional de Sistemas Alimentares Sustentáveis Revisado para o Brasil (MISFS-R), o qual conta com 46 indicadores, divididos entre as dimensões de sustentabilidade ambiental, social, econômica e nutricional dos sistemas alimentares, para cada um dos estados e capitais brasileiras.</p>
 
             <h5>Como citar?</h5>
             <hr class="mt-1 mb-2">
-            <p class="mb-4">Norde MM; Camusso IG; Carvalho AM. Painel interativo sobre os sistemas alimentares brasileiros. Disponível em: <a href="https://www.fsp.usp.br/sustentarea/" target="_blank">fsp.usp.br/sustentarea</a></p>
+            <p>Norde MM; Camusso IG; Carvalho AM. Painel interativo sobre os sistemas alimentares brasileiros. Disponível em: <a href="https://www.fsp.usp.br/sustentarea/misfs-painel-interativo" target="_blank">fsp.usp.br/sustentarea/misfs-painel-interativo/</a></p>
+            <p class="mb-4">O painel foi desenvolvido por Lucas Carnicelli.</p>
 
             <h5>Mais</h5>
             <hr class="mt-1 mb-2">
@@ -202,7 +203,7 @@
                 <div class="col-5">
                   <div class="row">
                     <div class="col-7">
-                      <p><strong>1. </strong>Escolha se deseja visualizar os indicadores dos estados ou das capitais brasileiras. Depois selecione o estado/capital de interesse no campo logo abaixo.</p>
+                      <p><strong>1. </strong>Escolha se deseja visualizar os indicadores dos estados ou das capitais brasileiras. Depois selecione o estado ou capital de interesse, clicando sobre o nome no campo logo abaixo.</p>
                     </div>
                     <div class="col-5">
                       <img src="img/como-usar-1.png" width="100%">
@@ -212,7 +213,7 @@
                 <div class="col-7">
                   <div class="row">
                     <div class="col-7">
-                      <p><strong>2. </strong>Observe o valor médio do índice para o estado/capital de interesse e compare com o valor médio do Brasil.</p>
+                      <p><strong>2. </strong>Observe o valor  do índice para o estado ou capital de interesse e compare com o valor mediano do Brasil.</p>
                       <p class="text-secondary" style="font-size: 14px;">OBS: os valores variam de 0 a 100.</p>
                     </div>
                     <div class="col-5">
@@ -223,8 +224,8 @@
               </div>
               <div class="row g-5 mb-5">
                 <div class="col-8">
-                  <p><strong>3. </strong>Observe o valor médio de cada dimensão para o estado/capital de interesse no gráfico central e compare com o valor médio do Brasil apresentado nos ícones superiores.</p>
-                  <p class="text-secondary mb-5" style="font-size: 14px;">OBS: os valores vão de 0 a 100 porque indicam a posição de cada estado ou capital em relação aos outros. Valores próximos de 0 significam que o estado ou a capital tem um indicador mais baixo.</p>
+                  <p><strong>3. </strong>Observe o valor de cada dimensão para o estado ou capital de interesse no gráfico central e compare com o valor mediano do Brasil apresentado nos ícones superiores.</p>
+                  <p class="text-secondary mb-5" style="font-size: 14px;">OBS: os valores das dimensões do MISFS-R vão de 0 a 100, indicando a posição de cada estado ou capital em relação aos outros. Valores próximos de 0 significam que o estado ou a capital tem pontuações mais baixas diante do restante do país.</p>
                   <img src="img/como-usar-3.png" width="100%">
                 </div>
                 <div class="col-4">
@@ -233,8 +234,8 @@
               </div>
               <div class="row g-5 mb-5">
                 <div class="col-8">
-                  <p><strong>4. </strong>Observe a performance do estado/capital escolhido para cada um dos indicadores. Os gráficos mostram o percentil ocupado pelo estado. Percentis mais altos ou baixos devem ser interpretados conforme o contexto de cada indicador: os indicadores que estão inversamente relacionados à sustentabilidade estão assinalados com um “*” indicando que os estados que tem maior valor para esses indicadores, tem pior sustentabilidade de seus sistemas alimentares.</p>
-                  <p class="text-secondary" style="font-size: 14px;">OBS: ressalta-se que as partes amarelas representam os indicadores econômicos, as em verdes representam os indicadores sociais, as em laranja representam os nutricionais, e as azuis representam os ambientais.</p>
+                  <p><strong>4. </strong>Observe a performance do estado ou capital escolhido para cada um dos indicadores. Os gráficos mostram o percentil ocupado pelo estado para cada indicador do MISFS-R. Percentis mais altos ou baixos devem ser interpretados conforme o contexto de cada indicador: os indicadores que estão inversamente relacionados à sustentabilidade estão assinalados com um "*" indicando que os estados que tem maior valor para esses indicadores, tem pior sustentabilidade de seus sistemas alimentares.</p>
+                  <p class="text-secondary" style="font-size: 14px;">OBS: ressalta-se que as partes amarelas representam os indicadores econômicos, as em verdes, os indicadores sociais, as em laranja, os indicadores nutricionais  e as azuis, os indicadores ambientais.</p>
                 </div>
                 <div class="col-4">
                   <img src="img/como-usar-5.png" width="100%">
@@ -242,7 +243,7 @@
               </div>
               <div class="row">
                 <div class="col-5">
-                  <p><strong>5. </strong>Clique no ícone "+" ao lado de cada gráfico e observe a descrição dos indicadores nas tabelas que serão exibidas.</p>
+                  <p><strong>5. </strong>Para visualizar a descrição de cada indicador e seus valores brutos nos estados ou capitais de interesse, clique no ícone "+" ao lado de cada gráfico.</p>
                 </div>
                 <div class="col-7">
                   <img src="img/como-usar-6.png" width="100%">
@@ -256,7 +257,7 @@
 
     <!-- Social modal -->
     <div class="modal modal-lg fade" id="socialIndicadores" tabindex="-1">
-      <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-dialog modal-dialog-scrollable" style="margin-left: 18%;">
         <div class="modal-content">
           <div class="modal-header" style="background-color: rgba(112,173,71,1);">
             <h3 class="text-white mb-0">Social: <span class="title-indicador"></span></h3>
@@ -274,7 +275,7 @@
               </thead>
               <tbody style="font-size: 14px;">
                 <tr>
-                  <th>Despesas alimentares</th>
+                  <th>Despesas alimentares*</th>
                   <td>Percentual da renda domiciliar destinada a aquisição de alimentos (%)*</td>
                   <td class="text-center"><span id="indS01"></span></td>
                   <td class="text-center"><span id="medS01"></span></td>
@@ -286,7 +287,7 @@
                   <td class="text-center"><span id="medS02"></span></td>
                 </tr>
                 <tr>
-                  <th>Subnutrição</th>
+                  <th>Subnutrição*</th>
                   <td>Prevalência de baixo peso na população geral (%)*</td>
                   <td class="text-center"><span id="indS03"></span></td>
                   <td class="text-center"><span id="medS03"></span></td>
@@ -316,25 +317,25 @@
                   <td class="text-center"><span id="medS06"></span></td>
                 </tr>
                 <tr>
-                  <th>Trabalho infantil</th>
+                  <th>Trabalho infantil*</th>
                   <td>Prevalência de trabalho infantil na produção de alimentos (%)*</td>
                   <td class="text-center"><span id="indS07"></span></td>
                   <td class="text-center"><span id="medS07"></span></td>
                 </tr>
                 <tr>
-                  <th>Trabalho informal</th>
+                  <th>Trabalho informal*</th>
                   <td>Prevalência de trabalhadores informais na produção de alimentos (%)*</td>
                   <td class="text-center"><span id="indS08"></span></td>
                   <td class="text-center"><span id="medS08"></span></td>
                 </tr>
                 <tr>
-                  <th>Pobreza</th>
+                  <th>Pobreza*</th>
                   <td>Porcentagem de trabalhadores na produção de alimentos recebendo menos que o limiar da pobreza (%)*</td>
                   <td class="text-center"><span id="indS09"></span></td>
                   <td class="text-center"><span id="medS09"></span></td>
                 </tr>
                 <tr>
-                  <th>Saúde do trabalhador</th>
+                  <th>Risco ocupacional*</th>
                   <td>Número de notificações de intoxicação por pesticida no trabalho por 10.000 trabalhadores na produção de alimentos (n)*</td>
                   <td class="text-center"><span id="indS10"></span></td>
                   <td class="text-center"><span id="medS10"></span></td>
@@ -348,7 +349,7 @@
 
     <!-- Nutricional modal -->
     <div class="modal modal-lg fade" id="nutricionalIndicadores" tabindex="-1">
-      <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-dialog modal-dialog-scrollable" style="margin-left: 18%;">
         <div class="modal-content">
           <div class="modal-header" style="background-color: rgba(237,125,49,1);">
             <h3 class="text-white mb-0">Nutricional: <span class="title-indicador"></span></h3>
@@ -366,37 +367,37 @@
               </thead>
               <tbody style="font-size: 14px;">
                 <tr>
-                  <th>Desnutrição</th>
+                  <th>Desnutrição*</th>
                   <td>Prevalência de desnutrição crônica entre menores de cinco anos (%)*</td>
                   <td class="text-center"><span id="indN01"></span></td>
                   <td class="text-center"><span id="medN01"></span></td>
                 </tr>
                 <tr>
-                  <th>Obesidade</th>
+                  <th>Obesidade*</th>
                   <td>Prevalência de obesidade em indivíduos >18 anos (%)*</td>
                   <td class="text-center"><span id="indN02"></span></td>
                   <td class="text-center"><span id="medN02"></span></td>
                 </tr>
                 <tr>
-                  <th>DCNT</th>
+                  <th>DCNT*</th>
                   <td>Mortalidade por Doenças Crônicas Não Transmissíveis (DCNT) (morte/1000)*</td>
                   <td class="text-center"><span id="indN03"></span></td>
                   <td class="text-center"><span id="medN03"></span></td>
                 </tr>
                 <tr>
-                  <th>Deficiência de micronutrientes</th>
+                  <th>Deficiência de micronutrientes*</th>
                   <td>Anos de vida ajustados à incapacidade atribuídos a deficiências nutricionais (DALY/1000)*</td>
                   <td class="text-center"><span id="indN04"></span></td>
                   <td class="text-center"><span id="medN04"></span></td>
                 </tr>
                 <tr>
-                  <th>Doenças transmitidas por alimentos (DTAs)</th>
+                  <th>Doenças transmitidas por alimentos (DTAs)*</th>
                   <td>Anos de vida ajustados à incapacidade atribuídos a infecções intestinais (DALY/1000)*</td>
                   <td class="text-center"><span id="indN05"></span></td>
                   <td class="text-center"><span id="medN05"></span></td>
                 </tr>
                 <tr>
-                  <th>Pesticidas em alimentos</th>
+                  <th>Pesticidas em alimentos*</th>
                   <td>Ingestão estimada de pesticidas (g/dia)*</td>
                   <td class="text-center"><span id="indN06"></span></td>
                   <td class="text-center"><span id="medN06"></span></td>
@@ -420,7 +421,7 @@
                   <td class="text-center"><span id="medN09"></span></td>
                 </tr>
                 <tr>
-                  <th>Cultura alimentar</th>
+                  <th>Alimentos ultraprocessados*</th>
                   <td>Participação de alimentos ultraprocessados na dieta (%)*</td>
                   <td class="text-center"><span id="indN10"></span></td>
                   <td class="text-center"><span id="medN10"></span></td>
@@ -434,7 +435,7 @@
 
     <!-- Ambiental modal -->
     <div class="modal modal-lg fade" id="ambientalIndicadores" tabindex="-1">
-      <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-dialog modal-dialog-scrollable" style="margin-right: 30px;">
         <div class="modal-content">
           <div class="modal-header" style="background-color: rgba(91,155,213,1);">
             <h3 class="text-white mb-0">Ambiental: <span class="title-indicador"></span></h3>
@@ -452,13 +453,13 @@
               </thead>
               <tbody style="font-size: 14px;">
                 <tr>
-                  <th>Uso de água na produção</th>
+                  <th>Uso de água na produção*</th>
                   <td>Recursos hídricos alocados para a produção agropecuária (m3/s)*</td>
                   <td class="text-center"><span id="indAE01"></span></td>
                   <td class="text-center"><span id="medAE01"></span></td>
                 </tr>
                 <tr>
-                  <th>Uso de água pela dieta</th>
+                  <th>Uso de água pela dieta*</th>
                   <td>Escassez de água pela dieta per capita (Km3eq/day)*</td>
                   <td class="text-center"><span id="indAE02"></span></td>
                   <td class="text-center"><span id="medAE02"></span></td>
@@ -476,13 +477,13 @@
                   <td class="text-center"><span id="medAE032"></span></td>
                 </tr>
                 <tr>
-                  <th>Qualidade da água</th>
+                  <th>Eutrofização pela dieta*</th>
                   <td>Eutrofização da água pela dieta per capita (tons [PO4]3-eq)*</td>
                   <td class="text-center"><span id="indAE04"></span></td>
                   <td class="text-center"><span id="medAE04"></span></td>
                 </tr>
                 <tr>
-                  <th>Uso do solo</th>
+                  <th>Uso do solo*</th>
                   <td>Uso da terra para agricultura (%)*</td>
                   <td class="text-center"><span id="indAE05"></span></td>
                   <td class="text-center"><span id="medAE05"></span></td>
@@ -494,31 +495,31 @@
                   <td class="text-center"><span id="medAE06"></span></td>
                 </tr>
                 <tr>
-                  <th>Degradação do solo</th>
+                  <th>Degradação do solo*</th>
                   <td>Alteração da área agrícola nos últimos 5 anos (%)*</td>
                   <td class="text-center"><span id="indAE07"></span></td>
                   <td class="text-center"><span id="medAE07"></span></td>
                 </tr>
                 <tr>
-                  <th>Emissão de GEE pela dieta</th>
+                  <th>Emissão de GEE pela dieta*</th>
                   <td>Emissão de Gases de Efeito Estufa (GEE) pela dieta per capita (Mt CO2-eq)*</td>
                   <td class="text-center"><span id="indAE08"></span></td>
                   <td class="text-center"><span id="medAE08"></span></td>
                 </tr>
                 <tr>
-                  <th>Emissão de GEE na produção</th>
+                  <th>Emissão de GEE na produção*</th>
                   <td>Emissão de GEE pela agropecuária (Mt CO2-eq)*</td>
                   <td class="text-center"><span id="indAE09"></span></td>
                   <td class="text-center"><span id="medAE09"></span></td>
                 </tr>
                 <tr>
-                  <th>Desmatamento</th>
+                  <th>Desmatamento*</th>
                   <td>Desmatamento nos últimos 5 anos (%)*</td>
                   <td class="text-center"><span id="indAE10"></span></td>
                   <td class="text-center"><span id="medAE10"></span></td>
                 </tr>
                 <tr>
-                  <th>Uso de pesticidas</th>
+                  <th>Uso de pesticidas*</th>
                   <td>Uso de agrotóxicos na agricultura (tons/hectare)*</td>
                   <td class="text-center"><span id="indAE11"></span></td>
                   <td class="text-center"><span id="medAE11"></span></td>
@@ -538,7 +539,7 @@
 
     <!-- Economico modal -->
     <div class="modal modal-lg fade" id="economicoIndicadores" tabindex="-1">
-      <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-dialog modal-dialog-scrollable" style="margin-right: 30px;">
         <div class="modal-content">
           <div class="modal-header" style="background-color: rgba(255,192,0,1);">
             <h3 class="text-white mb-0">Econômico: <span class="title-indicador"></span></h3>
@@ -586,19 +587,19 @@
                   <td class="text-center"><span id="medE05"></span></td>
                 </tr>
                 <tr>
-                  <th>Distribuição de renda</th>
+                  <th>Concentração de renda*</th>
                   <td>Índice de GINI para distribuição de renda na produção de alimentos (escore)*</td>
                   <td class="text-center"><span id="indE06"></span></td>
                   <td class="text-center"><span id="medE06"></span></td>
                 </tr>
                 <tr>
-                  <th>Exportação de alimentos</th>
+                  <th>Exportação de alimentos*</th>
                   <td>Porcentagem da produção de alimentos exportada (%)*</td>
                   <td class="text-center"><span id="indE07"></span></td>
                   <td class="text-center"><span id="medE07"></span></td>
                 </tr>
                 <tr>
-                  <th>Preço dos alimentos</th>
+                  <th>Preço dos alimentos*</th>
                   <td>Preço da cesta básica de alimentos (BRL)*</td>
                   <td class="text-center"><span id="indE08"></span></td>
                   <td class="text-center"><span id="medE08"></span></td>
@@ -622,7 +623,7 @@
                   <td class="text-center"><span id="medE11"></span></td>
                 </tr>
                 <tr>
-                  <th>Distribuição de terras</th>
+                  <th>Concentração de terras*</th>
                   <td>Índice de GINI para distribuição de terras para a produção de alimentos (escore)*</td>
                   <td class="text-center"><span id="indE12"></span></td>
                   <td class="text-center"><span id="medE12"></span></td>
