@@ -32,7 +32,7 @@ window.onload = (e) => {
   let socialChart = new Chart(document.getElementById('socialChart'), {
     type: 'polarArea',
     data: {
-      labels: [['Despesas', 'alimentares'], ['Acesso à', 'alimentação'], 'Subnutrição', ['Segurança', 'alimentar'], ['Equidade', 'de gênero'], ['Equidade de', 'gênero (chefia)'], 'Equidade racial', ['Trabalho', 'infantil'], ['Trabalho', 'informal'], 'Pobreza', ['Saúde do', 'trabalhador']],
+      labels: [['Despesas', 'alimentares'], ['Acesso à', 'alimentação'], 'Subnutrição', ['Segurança', 'alimentar'], ['Equidade', 'de gênero'], ['Equidade de', 'gênero (chefia)'], 'Equidade racial', ['Trabalho', 'infantil'], ['Trabalho', 'informal'], 'Pobreza', ['Risco', 'ocupacional*']],
       datasets: [{
       	borderWidth: 1,
         backgroundColor: ['rgba(112,173,71,.7)'],
@@ -49,7 +49,7 @@ window.onload = (e) => {
   let nutricionalChart = new Chart(document.getElementById('nutricionalChart'), {
     type: 'polarArea',
     data: {
-      labels: ['Desnutrição', 'Obesidade', 'DCNT', ['Deficiência de', 'micronutrientes'], 'DTAs', ['Pesticidas', 'em alimentos'], ['Adequação', 'nutricional'], ['Aleitamento', 'materno'], ['Diversidade', 'alimentar'], ['Cultura', 'alimentar']],
+      labels: ['Desnutrição', 'Obesidade', 'DCNT', ['Deficiência de', 'micronutrientes'], 'DTAs', ['Pesticidas', 'em alimentos'], ['Adequação', 'nutricional'], ['Aleitamento', 'materno'], ['Diversidade', 'alimentar'], ['Alimentos', 'ultraprocessados*']],
       datasets: [{
       	borderWidth: 1,
         backgroundColor: ['rgba(237,125,49,.7)'],
@@ -66,7 +66,7 @@ window.onload = (e) => {
   let ambientalChart = new Chart(document.getElementById('ambientalChart'), {
     type: 'polarArea',
     data: {
-      labels: [['Uso de água', 'na produção'], ['Uso de água', 'pela dieta'], ['Superfície', 'de água'], ['Precipitação', 'anual'], ['Qualidade', 'da água'], ['Uso do', 'solo'], ['Produção de', 'orgânicos'], ['Degradação', 'do solo'], ['GEE pela', 'dieta'], ['GEE na', 'produção'], 'Desmatamento', ['Uso de', 'pesticidas'], 'Biodiversidade'],
+      labels: [['Uso de água', 'na produção'], ['Uso de água', 'pela dieta'], ['Superfície', 'de água'], ['Precipitação', 'anual'], ['Eutrofização', 'pela dieta*'], ['Uso do', 'solo'], ['Produção de', 'orgânicos'], ['Degradação', 'do solo'], ['GEE pela', 'dieta'], ['GEE na', 'produção'], 'Desmatamento', ['Uso de', 'pesticidas'], 'Biodiversidade'],
       datasets: [{
       	borderWidth: 1,
         backgroundColor: ['rgba(91,155,213,.7)'],
@@ -83,7 +83,7 @@ window.onload = (e) => {
   let economicoChart = new Chart(document.getElementById('economicoChart'), {
     type: 'polarArea',
     data: {
-      labels: ['Resiliência', 'Lucratividade', 'Produtividade', 'Renda', 'Empregabilidade', ['Distribuição', 'de renda'], 'Exportação', ['Preço dos', 'alimentos'], 'Maquinário', 'Eletricidade', ['Orientação', 'técnica'], ['Distribuição', 'de terras']],
+      labels: ['Resiliência', 'Lucratividade', 'Produtividade', 'Renda', 'Empregabilidade', ['Concentração', 'de renda*'], 'Exportação', ['Preço dos', 'alimentos'], 'Maquinário', 'Eletricidade', ['Orientação', 'técnica'], ['Concentração', 'de terras*']],
       datasets: [{
       	borderWidth: 1,
         backgroundColor: ['rgba(255,192,0,.7)'],
@@ -142,6 +142,13 @@ window.onload = (e) => {
 	  document.querySelectorAll('.title-indicador').forEach((t) => {
 	  	t.innerHTML = e.srcElement[e.srcElement.value].text;
 	  });
+	});
+
+	document.querySelectorAll('[data-bs-toggle="modal"]').forEach((m) => {
+		m.addEventListener('click', (e) => {
+			document.querySelectorAll('.indicador-grafico').forEach((l) => { l.style.zIndex = "1"; });
+			e.srcElement.closest('.indicador-grafico').style.zIndex = "1051";
+		});
 	});
 
 	toSelectOptions(estadosObj);
