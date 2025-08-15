@@ -29,9 +29,10 @@ window.onload = (e) => {
 	});
 
 	const urlParams = new URLSearchParams(window.location.search);
-	const cardID = urlParams.get('card');
+	const cardID = urlParams.get('c');
 
 	let cardSelected = cards.find((e) => e.id == cardID);
 	cardModal.querySelector('.card-title').innerHTML = cardSelected.title;
 	cardModal.querySelector('.card-text').innerHTML = cardSelected.excerpt;
+
 };
