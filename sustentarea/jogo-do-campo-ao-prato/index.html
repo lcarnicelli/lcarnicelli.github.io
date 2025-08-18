@@ -12,29 +12,58 @@
 
   </head>
   <body>
-    
-    <main class="row d-none">
-      <div class="col-3">
-        
-      </div>
-      <div class="col-9">
-        <div id="cards" class="d-flex flex-row justify-content-between mb-3">
-          
+    <div class="container">
+      <div id="cards-list" class="row d-none">
+        <div class="col-2">
+          <ul class="list-group">
+            <a href="#categoria1" class="list-group-item list-group-item-action">Categoria 1</a>
+            <a href="#categoria2" class="list-group-item list-group-item-action">Categoria 2</a>
+            <a href="#categoria3" class="list-group-item list-group-item-action">Categoria 3</a>
+            <a href="#categoria4" class="list-group-item list-group-item-action">Categoria 4</a>
+            <a href="#categoria5" class="list-group-item list-group-item-action">Categoria 5</a>
+          </ul>
+        </div>
+        <div class="col-10">
+          <div id="cards" class="row row-cols-1 row-cols-md-4 g-4"></div>
         </div>
       </div>
-    </main>
 
-    <section id="card-modal">
-      <h4 class="card-title"></h4>
-      <p class="card-text"></p>
-    </section>
+      <div id="card-data" class="d-none">
+        <div class="row">
+          <div class="col-2"></div>
+          <div class="col-8">
+            <h2 class="card-title mb-4"></h2>
+          </div>
+          <div class="col-2"></div>
+        </div>
+        <div class="row">
+          <div class="col-2"></div>
+          <div class="col-5">
+            <div class="card-text"></div>
+          </div>
+          <div class="col-3 text-end">
+            <div class="mb-4">
+              <img class="card-image border" src="" alt="" style="max-width: 260px;">
+            </div>
+            <a class="icon-link" href="?">
+              <i class="bi bi-arrow-left"></i> Voltar
+            </a>
+          </div>
+          <div class="col-2"></div>
+        </div>
+      </div>
 
-    <div id="card-template" class="d-none">
-      <div class="card flex-grow-1">  
-        <div class="card-body">
-          <h5 class="card-title"></h5>
-          <p class="card-text"></p>
-          <a href="#" class="btn btn-primary">Ver cartão</a>
+      <div id="card-template" class="d-none">
+        <div class="col">
+          <div class="card h-100">  
+            <div class="card-body">
+              <h5 class="card-title"></h5>
+              <p class="card-text"></p>
+            </div>
+            <div class="card-footer">
+              <a href="#" class="card-button btn btn-outline-primary btn-sm">Ver cartão</a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
