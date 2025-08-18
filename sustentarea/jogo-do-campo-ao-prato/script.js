@@ -43,18 +43,9 @@ window.onload = (e) => {
 	];
 
 	const urlParams = new URLSearchParams(window.location.search);
-	const cardID = urlParams.get('c');
-	console.log(cardID);
+	const cardID = Number(urlParams.get('c'));
 
-	if (cardID) {
-		let cardData = document.getElementById('card-data');
-		let cardSelected = cards.find((e) => e.id == cardID);
-		
-		cardData.querySelector('.card-title').innerHTML = cardSelected.title;
-		cardData.querySelector('.card-text').innerHTML = cardSelected.text;
-		cardData.querySelector('.card-image').src = cardSelected.image;
-		cardData.classList.remove('d-none');
-	} else {
+	if (cardID == 0) {
 		let cardsList = document.getElementById('cards-list');
 		let cardsContainer = document.getElementById('cards');
 		let cardTemplate = document.getElementById('card-template');
@@ -68,7 +59,14 @@ window.onload = (e) => {
 		});
 
 		cardsList.classList.remove('d-none');
+	} else {
+		let cardData = document.getElementById('card-data');
+		let cardSelected = cards.find((e) => e.id == cardID);
+		
+		cardData.querySelector('.card-title').innerHTML = cardSelected.title;
+		cardData.querySelector('.card-text').innerHTML = cardSelected.text;
+		cardData.querySelector('.card-image').src = cardSelected.image;
+		cardData.classList.remove('d-none');
 	}
 
 };
-
