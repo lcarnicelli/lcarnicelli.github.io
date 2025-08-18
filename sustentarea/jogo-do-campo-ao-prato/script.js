@@ -45,7 +45,7 @@ window.onload = (e) => {
 	const urlParams = new URLSearchParams(window.location.search);
 	const cardID = Number(urlParams.get('c'));
 
-	if (cardID == 0) {
+	if (isNaN(cardID) || cardID == 0) {
 		let cardsList = document.getElementById('cards-list');
 		let cardsContainer = document.getElementById('cards');
 		let cardTemplate = document.getElementById('card-template');
@@ -70,3 +70,4 @@ window.onload = (e) => {
 	}
 
 };
+
