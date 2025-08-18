@@ -44,6 +44,7 @@ window.onload = (e) => {
 
 	const urlParams = new URLSearchParams(window.location.search);
 	const cardID = urlParams.get('c');
+	console.log(cardID);
 
 	if (cardID) {
 		let cardData = document.getElementById('card-data');
@@ -70,3 +71,4 @@ window.onload = (e) => {
 	}
 
 };
+
