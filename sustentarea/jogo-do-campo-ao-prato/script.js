@@ -70,9 +70,13 @@ window.onload = (e) => {
 
 		cards.forEach((c) => {
 			let cardNew = cardTemplate.children[0].cloneNode(true);
+			let cardCategory = category.find((cat) => cat.id == c.category);
+
+			cardNew.querySelector('.card-category').innerHTML = cardCategory.title;
+			cardNew.querySelector('.card-category').style.backgroundColor = cardCategory.color;
+			cardNew.querySelector('.card-img-top').src = c.image;
 			cardNew.querySelector('.card-title').innerHTML = c.title;
-			cardNew.querySelector('.card-text').innerHTML = c.excerpt;
-			cardNew.querySelector('.card-button').href = '?c=' + c.id;
+			cardNew.querySelector('.card-title').href = '?c=' + c.id;
 			cardsContainer.appendChild(cardNew);
 		});
 
