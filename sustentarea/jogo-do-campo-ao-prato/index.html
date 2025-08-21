@@ -12,15 +12,15 @@
 
   </head>
   <body>
-    <div class="container">
+    <div class="container-fluid">
       <div id="cards-list" class="row d-none">
         <div class="col-2">
           <ul class="list-group">
-            <a href="#categoria1" class="list-group-item list-group-item-action">Categoria 1</a>
-            <a href="#categoria2" class="list-group-item list-group-item-action">Categoria 2</a>
-            <a href="#categoria3" class="list-group-item list-group-item-action">Categoria 3</a>
-            <a href="#categoria4" class="list-group-item list-group-item-action">Categoria 4</a>
-            <a href="#categoria5" class="list-group-item list-group-item-action">Categoria 5</a>
+            <a href="#categoria1" class="list-group-item list-group-item-action">Produção</a>
+            <a href="#categoria2" class="list-group-item list-group-item-action">Comércio</a>
+            <a href="#categoria3" class="list-group-item list-group-item-action">Transporte</a>
+            <a href="#categoria4" class="list-group-item list-group-item-action">Consumo</a>
+            <a href="#categoria5" class="list-group-item list-group-item-action">Descarte</a>
           </ul>
         </div>
         <div class="col-10">
@@ -29,27 +29,29 @@
       </div>
 
       <div id="card-data" class="d-none">
-        <div class="row">
-          <div class="col-1"></div>
-          <div class="col-10">
-            <h2 class="card-title mb-4"></h2>
+        <div class="row gx-0 align-items-center" style="background-color: #FFFAF0;">
+          <div class="col-8 p-5">
+            <h2 class="card-title text-center mb-4" style="font-size: 80px; line-height: 78px;"></h2>            
           </div>
-          <div class="col-1"></div>
+          <div class="col-4">
+            <img class="card-image-header w-100" src="">
+          </div>
         </div>
-        <div class="row">
-          <div class="col-1"></div>
-          <div class="col-7">
-            <div class="card-text"></div>
-          </div>
-          <div class="col-3 text-end">
-            <div class="mb-4">
-              <img class="card-image border" src="" style="max-width: 200px;">
-            </div>
-            <a class="icon-link" href="?">
+        <div class="row gx-0 py-5">
+          <div class="col-3 px-5 text-end">
+            <h4 class="mb-4"><span class="card-category badge"></span></h4>
+            <a class="icon-link text-secondary link-underline-secondary" href="?">
               <i class="bi bi-arrow-left"></i> Voltar
             </a>
           </div>
-          <div class="col-1"></div>
+          <div class="col-6">
+            <div class="card-text mb-5" style="font-size: 20px;"></div>
+            <h5 class="mb-3">Saiba mais</h5>
+            <div class="card-text-more mb-5" style="font-size: 20px;"></div>
+            <h5 class="mb-3">Carta</h5>
+            <img class="card-image border" src="" style="max-width: 200px;">
+          </div>
+          <div class="col-3"></div>
         </div>
       </div>
 
