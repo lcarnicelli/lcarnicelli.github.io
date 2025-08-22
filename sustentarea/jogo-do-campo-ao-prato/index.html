@@ -10,53 +10,89 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
+    <style>
+      #card-data .card-title { font-size: 2.5em; line-height: 1em; }
+      @media (min-width: 768px) { #card-data .card-title { font-size: 4.5em; } }
+    </style>
+
   </head>
   <body>
     <div class="container-fluid">
       <div id="cards-list" class="row d-none">
-        <div class="col-2">
-          <ul class="list-group">
-            <a href="#categoria1" class="list-group-item list-group-item-action">Produção</a>
-            <a href="#categoria2" class="list-group-item list-group-item-action">Comércio</a>
-            <a href="#categoria3" class="list-group-item list-group-item-action">Transporte</a>
-            <a href="#categoria4" class="list-group-item list-group-item-action">Consumo</a>
-            <a href="#categoria5" class="list-group-item list-group-item-action">Descarte</a>
+        <div class="col-12 col-md-2">
+          <ul class="list-group d-none d-md-block">
+            <a href="#producao" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-filter-category="1">
+              Produção
+              <span class="badge rounded-pill" style="background-color: #a8d08d;"> </span>
+            </a>
+            <a href="#comercio" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-filter-category="2">
+              Comércio
+              <span class="badge rounded-pill" style="background-color: #f9cb9c;"> </span>
+            </a>
+            <a href="#transporte" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-filter-category="3">
+              Transporte
+              <span class="badge rounded-pill" style="background-color: #e6b8af;"> </span>
+            </a>
+            <a href="#consumo" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-filter-category="4">
+              Consumo
+              <span class="badge rounded-pill" style="background-color: #d5a6bd;"> </span>
+            </a>
+            <a href="#descarte" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-filter-category="5">
+              Descarte
+              <span class="badge rounded-pill" style="background-color: #d9d2e9;"> </span>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action" data-filter-category="all">Ver todas</a>
           </ul>
+          <div class="dropdown d-md-none mb-4">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Categorias
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#producao" data-filter-category="1">Produção</a></li>
+              <li><a class="dropdown-item" href="#comercio" data-filter-category="2">Comércio</a></li>
+              <li><a class="dropdown-item" href="#transporte" data-filter-category="3">Transporte</a></li>
+              <li><a class="dropdown-item" href="#consumo" data-filter-category="4">Consumo</a></li>
+              <li><a class="dropdown-item" href="#descarte" data-filter-category="5">Descarte</a></li>
+              <li><a class="dropdown-item" href="#" data-filter-category="all">Ver todas</a></li>
+            </ul>
+          </div>
         </div>
-        <div class="col-10">
+        <div class="col-12 col-md-10">
           <div id="cards" class="row row-cols-1 row-cols-md-4 g-4"></div>
         </div>
       </div>
 
       <div id="card-data" class="d-none">
         <div class="row gx-0 align-items-center" style="background-color: #FFFAF0;">
-          <div class="col-8 p-5">
-            <h2 class="card-title text-center mb-4" style="font-size: 80px; line-height: 78px;"></h2>            
+          <div class="col-12 col-md-8 p-4 p-md-5">
+            <h2 class="card-title text-center py-3 py-md-0"></h2>            
           </div>
-          <div class="col-4">
+          <div class="col-12 col-md-4">
             <img class="card-image-header w-100" src="">
           </div>
         </div>
-        <div class="row gx-0 py-5">
-          <div class="col-3 px-5 text-end">
-            <h4 class="mb-4"><span class="card-category badge"></span></h4>
-            <a class="icon-link text-secondary link-underline-secondary" href="?">
-              <i class="bi bi-arrow-left"></i> Voltar
-            </a>
+        <div class="row gx-0 py-4 py-md-5">
+          <div class="col-12 col-md-3 px-4 px-md-5">
+            <div class="d-flex flex-md-column justify-content-between align-items-md-end mb-4 mb-md-0">
+              <h4 class="mb-md-4"><span class="card-category badge"></span></h4>
+              <a class="icon-link text-secondary link-underline-secondary" href="?">
+                <i class="bi bi-arrow-left"></i> Voltar
+              </a>              
+            </div>
           </div>
-          <div class="col-6">
-            <div class="card-text mb-5" style="font-size: 20px;"></div>
+          <div class="col-12 col-md-6 px-4 px-md-0">
+            <div class="card-text mb-5 text-break" style="font-size: 20px;"></div>
             <h5 class="mb-3">Saiba mais</h5>
-            <div class="card-text-more mb-5" style="font-size: 20px;"></div>
+            <div class="card-text-more mb-5 text-break" style="font-size: 20px;"></div>
             <h5 class="mb-3">Carta</h5>
             <img class="card-image border" src="" style="max-width: 200px;">
           </div>
-          <div class="col-3"></div>
+          <div class="col-12 col-md-3"></div>
         </div>
       </div>
 
       <div id="card-template" class="d-none">
-        <div class="col position-relative">
+        <div class="col-12 col-md-4 col-lg-3 position-relative">
           <div class="card h-100 border-0 shadow-sm">
             <img src="" class="card-img-top w-100" style="height: 160px; object-fit: cover;">
             <div class="card-body">
