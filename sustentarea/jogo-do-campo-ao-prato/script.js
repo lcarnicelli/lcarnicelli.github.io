@@ -108,5 +108,7 @@ window.onload = (e) => {
 				}
 			});
 		});
-	})
+	});
+	
+	document.getElementById("body").scrollIntoView();
 };
