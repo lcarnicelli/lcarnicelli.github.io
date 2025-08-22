@@ -12,12 +12,16 @@
 
     <style>
       #card-data .card-title { font-size: 2.5em; line-height: 1em; }
-      @media (min-width: 768px) { #card-data .card-title { font-size: 4.5em; } }
+      @media (min-width: 768px) { 
+        #card-data .card-title { font-size: 4.5em; }
+        #card-data .card-text { font-size: 20px; }
+        #card-data .card-text-more { font-size: 20px; }
+      }
     </style>
 
   </head>
   <body>
-    <div class="container-fluid">
+    <div class="container-fluid p-0">
       <div id="cards-list" class="row d-none">
         <div class="col-12 col-md-2">
           <ul class="list-group d-none d-md-block">
@@ -72,7 +76,7 @@
           </div>
         </div>
         <div class="row gx-0 py-4 py-md-5">
-          <div class="col-12 col-md-3 px-4 px-md-5">
+          <div class="col-12 col-md-3 px-md-5">
             <div class="d-flex flex-md-column justify-content-between align-items-md-end mb-4 mb-md-0">
               <h4 class="mb-md-4"><span class="card-category badge"></span></h4>
               <a class="icon-link text-secondary link-underline-secondary" href="?">
@@ -80,10 +84,10 @@
               </a>              
             </div>
           </div>
-          <div class="col-12 col-md-6 px-4 px-md-0">
-            <div class="card-text mb-5 text-break" style="font-size: 20px;"></div>
+          <div class="col-12 col-md-6">
+            <div class="card-text mb-5 text-break"></div>
             <h5 class="mb-3">Saiba mais</h5>
-            <div class="card-text-more mb-5 text-break" style="font-size: 20px;"></div>
+            <div class="card-text-more mb-5 text-break"></div>
             <h5 class="mb-3">Carta</h5>
             <img class="card-image border" src="" style="max-width: 200px;">
           </div>
