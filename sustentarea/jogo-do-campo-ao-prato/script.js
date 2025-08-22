@@ -72,6 +72,7 @@ window.onload = (e) => {
 			let cardNew = cardTemplate.children[0].cloneNode(true);
 			let cardCategory = category.find((cat) => cat.id == c.category);
 
+			cardNew.dataset.category = cardCategory.id;
 			cardNew.querySelector('.card-category').innerHTML = cardCategory.title;
 			cardNew.querySelector('.card-category').style.backgroundColor = cardCategory.color;
 			cardNew.querySelector('.card-img-top').src = c.image;
@@ -96,4 +97,16 @@ window.onload = (e) => {
 		cardData.classList.remove('d-none');
 	}
 
+	document.querySelectorAll('[data-filter-category]').forEach((f) => {
+		let categoryID = f.dataset.filterCategory;
+		f.addEventListener('click', (e) => {
+			document.querySelectorAll('[data-category]').forEach((c) => {
+				if (categoryID == 'all' || c.dataset.category == categoryID) {
+					c.style.display = 'block';
+				} else {
+					c.style.display = 'none';
+				}
+			});
+		});
+	})
 };
