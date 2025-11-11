@@ -1,0 +1,11 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Gomes;Leandro;;;
+FN:Leandro Gomes
+ORG:CJC
+TITLE: Assistente Administrativo
+TEL;TYPE=cell:+55 31 9 9848-3521
+EMAIL:leandrogv1@gmail.com
+URL:https://www.catedrajc.fsp.usp.br/
+ADR;TYPE=work: teste
+END:VCARD
