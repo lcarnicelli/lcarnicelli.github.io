@@ -199,8 +199,6 @@ const chartBarrasInst = new Chart(document.getElementById('chartBarras'), {
   }
 });
 
-const rnd    = (a, b) => (a + Math.random() * (b - a)).toFixed(2);
-const rndInt = (a, b) => Math.floor(a + Math.random() * (b - a));
 
 /* ── Clima data ── */
 const temasClima = {
@@ -331,7 +329,7 @@ function aplicarTemaClima() {
   chartBarrasC.update();
 
   const rowsC = dadosMunicipios
-    .filter(r => r.prioridade_geepessoa !== '.')
+    .filter(r => r.prioridade_geepessoa && r.prioridade_geepessoa !== '.')
     .sort((a, b) => parseInt(a.prioridade_geepessoa) - parseInt(b.prioridade_geepessoa));
   const tbodyC = rowsC.map(r => {
     const gee = parseFloat(r.gee_pessoa.replace(',', '.')).toFixed(2);
@@ -343,7 +341,7 @@ function aplicarTemaClima() {
     </tr>`;
   }).join('');
   document.getElementById('tabelaClima').innerHTML =
-    `<thead><tr><th>Ranking</th><th>Município</th><th>Estado</th><th>tCO₂e/pessoa</th></tr></thead><tbody>${tbodyC}</tbody>`;
+    `<thead><tr><th>Posição</th><th>Município</th><th>Estado</th><th>tCO₂e/pessoa</th></tr></thead><tbody>${tbodyC}</tbody>`;
 
   renderMapaClima();
 }
@@ -425,7 +423,7 @@ function atualizarTabela(tema) {
   if (tema === 'excesso' || tema === 'desnutricao') {
     const col = tema === 'excesso' ? 'prioridade_exce_peso' : 'prioridade_desn';
     const rows = dadosMunicipios
-      .filter(r => r[col] !== '.')
+      .filter(r => r[col] && r[col] !== '.')
       .sort((a, b) => parseInt(a[col]) - parseInt(b[col]));
     const tbody = rows.map(r =>
       `<tr>
@@ -434,10 +432,10 @@ function atualizarTabela(tema) {
         <td>${r.state}</td>
       </tr>`
     ).join('');
-    html = `<thead><tr><th>Ranking</th><th>Município</th><th>Estado</th></tr></thead><tbody>${tbody}</tbody>`;
+    html = `<thead><tr><th>Posição</th><th>Município</th><th>Estado</th></tr></thead><tbody>${tbody}</tbody>`;
   } else if (tema === 'dupla') {
     const rows = dadosMunicipios
-      .filter(r => r.prioridade_dupla !== '.')
+      .filter(r => r.prioridade_dupla && r.prioridade_dupla !== '.')
       .sort((a, b) => parseInt(a.prioridade_dupla) - parseInt(b.prioridade_dupla));
     const tbody = rows.map(r =>
       `<tr>
@@ -446,9 +444,9 @@ function atualizarTabela(tema) {
         <td>${r.state}</td>
       </tr>`
     ).join('');
-    html = `<thead><tr><th>Ranking</th><th>Município</th><th>Estado</th></tr></thead><tbody>${tbody}</tbody>`;
+    html = `<thead><tr><th>Posição</th><th>Município</th><th>Estado</th></tr></thead><tbody>${tbody}</tbody>`;
   } else {
-    html = `<thead><tr><th>Ranking</th><th>Município</th><th>Estado</th></tr></thead><tbody></tbody>`;
+    html = `<thead><tr><th>Posição</th><th>Município</th><th>Estado</th></tr></thead><tbody></tbody>`;
   }
   document.getElementById('tabelaMunicipios').innerHTML = html;
 }
@@ -516,7 +514,7 @@ function renderMatriz() {
     if (i === 0) html += `<th rowspan="3" class="matriz-header-row-group">Desnutrição</th>`;
     html += `<th class="matriz-header-row">${rowLabel}</th>`;
     matrizDados[i].forEach((val, j) => {
-      html += `<td class="matriz-cell" style="background:${matrizCores[i][j]};color:${matrizTextoCores[i][j]};">${val}</td>`;
+      html += `<td class="matriz-cell" style="background:${matrizCores[i][j]};color:${matrizTextoCores[i][j]};">${val}%</td>`;
     });
     html += `</tr>`;
   });
@@ -535,6 +533,13 @@ function switchNutri(tema, btn) {
   document.getElementById('col-barras').style.display = isDupla ? 'none' : '';
   document.getElementById('col-matriz').style.display = isDupla ? '' : 'none';
   if (isDupla) renderMatriz();
+
+  const infoIcon = document.getElementById('infoIconDupla');
+  infoIcon.style.display = '';
+  if (!infoIcon._ttInit) {
+    new bootstrap.Tooltip(infoIcon);
+    infoIcon._ttInit = true;
+  }
 
   aplicarTema(tema);
 }
@@ -564,4 +569,8 @@ fetch('data/municipios.json')
   .then(data => {
     dadosMunicipios = data;
     aplicarTema('excesso');
+    const infoIcon = document.getElementById('infoIconDupla');
+    infoIcon.style.display = '';
+    new bootstrap.Tooltip(infoIcon);
+    infoIcon._ttInit = true;
   });
