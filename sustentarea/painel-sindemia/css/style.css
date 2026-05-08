@@ -73,10 +73,6 @@ body { font-family: 'DM Sans', sans-serif; overflow: hidden; }
 .stat-badge { font-size: 10px; font-weight: 600; color: #6b7f93; background: #edf1f7; border-radius: 20px; padding: 2px 8px; white-space: nowrap; flex-shrink: 0; }
 .chart-title ~ .stat-badge { font-size: 12px; }
 
-.stat-icons { display: flex; flex-direction: column; align-items: center; gap: 2px; flex-shrink: 0; }
-.stat-icon-secondary { font-size: 13px; color: #4a7db5; opacity: .6; }
-
-.stats-divider { border: none; border-top: 1px solid #dde3ec; margin: 24px 0 0; }
 
 /* ── Content area ── */
 #content-area { background: #f0f3f6; }
