@@ -53,7 +53,7 @@ const temas = {
     barrasSubtitle: 'Indicadores de desnutrição por macrorregião (2019)',
     linha: {
       datasets: [
-        { label: 'Desnutrição aguda',      data: dadosLinha.desn, borderColor: '#2e7d52', bg: 'rgba(46,125,82,0.08)',    dash: [] },
+        { label: 'Média de desnutrição (%)', data: dadosLinha.desn, borderColor: '#2e7d52', bg: 'rgba(46,125,82,0.08)',    dash: [] },
         { label: 'Baixo peso para idade',  data: [22.1,21.5,20.8,20.0,19.4,18.7,18.1,17.2,16.5,15.8,15.1,14.3], borderColor: '#7ecba1', bg: 'rgba(126,203,161,0.06)', dash: [5,3] },
       ]
     },
@@ -91,7 +91,7 @@ const temas = {
     barrasSubtitle: 'Indicadores de excesso de peso por macrorregião (2019)',
     linha: {
       datasets: [
-        { label: 'Sobrepeso', data: dadosLinha.exce_peso, borderColor: '#e67e22', bg: 'rgba(230,126,34,0.08)', dash: [] },
+        { label: 'Média de excesso de peso (%)', data: dadosLinha.exce_peso, borderColor: '#e67e22', bg: 'rgba(230,126,34,0.08)', dash: [] },
         { label: 'Obesidade', data: [4.1,4.4,4.8,5.2,5.7,6.1,6.6,7.0,7.5,7.9,8.4,8.9],             borderColor: '#e74c3c', bg: 'rgba(231,76,60,0.06)',  dash: [5,3] },
       ]
     },
@@ -541,26 +541,43 @@ function switchNutri(tema, btn) {
     infoIcon._ttInit = true;
   }
 
+  const input = document.getElementById('searchNutri');
+  input.value = '';
+  input.style.color = '';
+  input.style.borderColor = '';
+  document.querySelectorAll('#tabelaMunicipios tbody tr').forEach(tr => tr.classList.remove('table-row-highlight'));
+  document.getElementById('tabelaMunicipios').closest('.table-scroll').scrollTo({ top: 0, behavior: 'instant' });
+
   aplicarTema(tema);
 }
 
 /* ── Table search ── */
+const semAcento = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '');
+
 function buscarTabela(inputId, tableId) {
-  const termo = document.getElementById(inputId).value.trim().toLowerCase();
+  const input = document.getElementById(inputId);
+  const termo = semAcento(input.value.trim().toLowerCase());
   const rows  = document.querySelectorAll(`#${tableId} tbody tr`);
   let primeiro = null;
+  let achou = false;
+
   rows.forEach(tr => {
     tr.classList.remove('table-row-highlight');
-    if (termo && tr.cells[1] && tr.cells[1].textContent.toLowerCase().includes(termo)) {
+    if (termo.length >= 3 && tr.cells[1] && semAcento(tr.cells[1].textContent.toLowerCase()).includes(termo)) {
       tr.classList.add('table-row-highlight');
       if (!primeiro) primeiro = tr;
+      achou = true;
     }
   });
+
+  const semResultado = termo.length >= 3 && !achou;
+  input.style.color       = semResultado ? '#e74c3c' : '';
+  input.style.borderColor = semResultado ? '#e74c3c' : '';
+
   if (primeiro) {
-    const container  = document.getElementById(tableId).closest('.table-scroll');
-    const headerH    = document.querySelector(`#${tableId} thead`).offsetHeight;
-    const rowTop     = primeiro.offsetTop - headerH;
-    container.scrollTo({ top: rowTop, behavior: 'smooth' });
+    const container = input.closest('.card-body').querySelector('.table-scroll');
+    const headerH   = document.querySelector(`#${tableId} thead`).offsetHeight;
+    container.scrollTo({ top: primeiro.offsetTop - headerH, behavior: 'smooth' });
   }
 }
 
