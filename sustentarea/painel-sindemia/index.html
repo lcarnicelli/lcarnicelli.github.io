@@ -32,7 +32,7 @@
       <ul class="nav flex-column nav-main">
 
         <li class="nav-item">
-          <button id="btn-nutri" class="nav-link nav-nutri d-flex align-items-center gap-3 w-100 text-start py-4 active-nutri"
+          <button class="nav-link d-flex align-items-center gap-3 w-100 text-start py-4 active-nutri"
                   onclick="switchTab('nutri', this)">
             <i class="bi bi-heart-pulse fs-4 flex-shrink-0"></i>
             <span>Problema<br>Nutricional</span>
@@ -40,7 +40,7 @@
         </li>
 
         <li class="nav-item">
-          <button class="nav-link nav-clima d-flex align-items-center gap-3 w-100 text-start py-4"
+          <button class="nav-link d-flex align-items-center gap-3 w-100 text-start py-4"
                   onclick="switchTab('clima', this)">
             <i class="bi bi-cloud-lightning-rain fs-4 flex-shrink-0"></i>
             <span>Problema<br>Climático</span>
@@ -48,7 +48,7 @@
         </li>
 
         <li class="nav-item">
-          <button class="nav-link nav-integ d-flex align-items-center gap-3 w-100 text-start py-4"
+          <button class="nav-link d-flex align-items-center gap-3 w-100 text-start py-4"
                   onclick="switchTab('integ', this)">
             <i class="bi bi-diagram-3 fs-4 flex-shrink-0"></i>
             <span>Integração<br>Nutrição + Clima</span>
@@ -130,9 +130,9 @@
         <div class="tab-pane-custom active" id="tab-nutri">
 
           <div class="d-flex gap-2 mb-3">
-            <button class="nutri-pill active" data-tema="excesso" onclick="switchNutri('excesso', this)">Excesso de peso</button>
-            <button class="nutri-pill" data-tema="desnutricao" onclick="switchNutri('desnutricao', this)">Desnutrição</button>
-            <button class="nutri-pill" data-tema="dupla" onclick="switchNutri('dupla', this)">Dupla Carga Nutricional</button>
+            <button class="nutri-pill active" onclick="switchNutri('excesso', this)">Excesso de peso</button>
+            <button class="nutri-pill" onclick="switchNutri('desnutricao', this)">Desnutrição</button>
+            <button class="nutri-pill" onclick="switchNutri('dupla', this)">Dupla Carga Nutricional</button>
           </div>
 
           <div class="row g-3 pb-3">
@@ -140,7 +140,7 @@
             <div class="col-6" id="col-linha">
               <div class="card border-0 rounded-0 h-100">
                 <div class="card-body">
-                  <div class="mb-4 d-flex align-items-center justify-content-between"><span class="chart-title" id="linhaTitle">Evolução no Brasil</span><span class="stat-badge">2008–2019</span></div>
+                  <div class="mb-4 d-flex align-items-center justify-content-between"><span class="chart-title">Evolução no Brasil</span><span class="stat-badge">2008–2019</span></div>
                   <div class="chart-wrapper" style="height:220px;"><canvas id="chartLinha"></canvas></div>
                 </div>
               </div>
@@ -149,7 +149,7 @@
             <div class="col-6" id="col-barras">
               <div class="card border-0 rounded-0 h-100">
                 <div class="card-body">
-                  <div class="mb-4 d-flex align-items-center justify-content-between"><span class="chart-title" id="barrasTitle">Distribuição por Sistema Alimentar</span><span class="stat-badge">2019</span></div>
+                  <div class="mb-4 d-flex align-items-center justify-content-between"><span class="chart-title">Distribuição por Sistema Alimentar</span><span class="stat-badge">2019</span></div>
                   <div class="chart-wrapper" style="height:220px;"><canvas id="chartBarras"></canvas></div>
                 </div>
               </div>
@@ -158,7 +158,7 @@
             <div class="col-6">
               <div class="card border-0 rounded-0 h-100">
                 <div class="card-body">
-                  <div class="mb-4 d-flex align-items-center justify-content-between"><span class="chart-title">Municípios prioritários</span><span class="stat-badge">2008–2019</span></div>
+                  <div class="mb-4 d-flex align-items-center justify-content-between"><span class="d-flex align-items-center gap-2"><span class="chart-title">Municípios prioritários</span><i id="infoIconDupla" class="bi bi-info-circle" style="display:none;font-size:14px;color:#7a8fa3;cursor:default;" data-bs-toggle="tooltip" data-bs-placement="top" title="Municípios prioritários com maiores prevalências em 2019 e tendência de aumento"></i></span><span class="stat-badge">2008–2019</span></div>
                   <div class="table-search-wrap mb-2">
                     <i class="bi bi-search table-search-icon"></i>
                     <input id="searchNutri" type="text" class="table-search-input" placeholder="Buscar município…" oninput="buscarTabela('searchNutri','tabelaMunicipios')">
@@ -182,7 +182,7 @@
             <div class="col-12" id="col-matriz" style="display:none;">
               <div class="card border-0 rounded-0">
                 <div class="card-body">
-                  <div class="mb-4"><span class="chart-title">Matriz de Dupla Carga Nutricional</span></div>
+                  <div class="mb-4 d-flex align-items-center justify-content-between"><span class="chart-title">% de municípios com dupla carga de doença ao longo dos anos</span><span class="stat-badge">2008–2019</span></div>
                   <div id="matrizDupla"></div>
                 </div>
               </div>
@@ -203,7 +203,7 @@
             <div class="col-6">
               <div class="card border-0 rounded-0 h-100">
                 <div class="card-body">
-                  <div class="mb-4 d-flex align-items-center justify-content-between"><span class="chart-title" id="linhaTitleC">Evolução no Brasil</span><span class="stat-badge">2008–2019</span></div>
+                  <div class="mb-4 d-flex align-items-center justify-content-between"><span class="chart-title">Evolução no Brasil</span><span class="stat-badge">2008–2019</span></div>
                   <div class="chart-wrapper" style="height:220px;"><canvas id="chartLinhaC"></canvas></div>
                 </div>
               </div>
@@ -212,7 +212,7 @@
             <div class="col-6">
               <div class="card border-0 rounded-0 h-100">
                 <div class="card-body">
-                  <div class="mb-4 d-flex align-items-center justify-content-between"><span class="chart-title" id="barrasTitleC">Distribuição por Sistema Alimentar</span><span class="stat-badge">2019</span></div>
+                  <div class="mb-4 d-flex align-items-center justify-content-between"><span class="chart-title">Distribuição por Sistema Alimentar</span><span class="stat-badge">2019</span></div>
                   <div class="chart-wrapper" style="height:220px;"><canvas id="chartBarrasC"></canvas></div>
                 </div>
               </div>
@@ -221,7 +221,7 @@
             <div class="col-6">
               <div class="card border-0 rounded-0 h-100">
                 <div class="card-body">
-                  <div class="mb-4 d-flex align-items-center justify-content-between"><span class="chart-title">Municípios prioritários</span><span class="stat-badge">2008–2019</span></div>
+                  <div class="mb-4 d-flex align-items-center justify-content-between"><span class="chart-title">Municípios com maiores emissões</span><span class="stat-badge">2008–2019</span></div>
                   <div class="table-search-wrap mb-2">
                     <i class="bi bi-search table-search-icon"></i>
                     <input id="searchClima" type="text" class="table-search-input" placeholder="Buscar município…" oninput="buscarTabela('searchClima','tabelaClima')">
@@ -270,14 +270,12 @@
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body p-4" style="font-size:13.5px;line-height:1.7;">
-        <h6 class="fw-bold" style="color:#2a2e39;">📌 Sobre o Painel</h6>
-        <p>Este painel monitora a <strong>Sindemia Global Municipal</strong> em crianças menores de 5 anos no Brasil, integrando dados de <strong>segurança alimentar e nutricional</strong> com <strong>variáveis climáticas</strong>, conforme conceito proposto por Richard Horton (The Lancet, 2019).</p>
-        <h6 class="fw-bold mt-3" style="color:#2a2e39;">📊 Fontes de Dados</h6>
-        <p><strong>SISVAN</strong> – Ministério da Saúde: estado nutricional de crianças &lt;5 anos, 2008–2019.<br><strong>INMET</strong> – Temperatura, precipitação e eventos extremos por município.<br><strong>IBGE</strong> – Dados demográficos e cobertura de saúde.</p>
-        <h6 class="fw-bold mt-3" style="color:#2a2e39;">🔬 Metodologia</h6>
-        <p>O <strong>Índice Sindêmico</strong> foi calculado pela composição ponderada de indicadores de desnutrição aguda, crônica, eventos climáticos extremos e vulnerabilidade socioeconômica.</p>
-        <h6 class="fw-bold mt-3" style="color:#2a2e39;">📁 Versão</h6>
-        <p class="mb-0">Painel v2.0 — Dados: 2008–2019 — Atualização: Anual</p>
+        <h6 class="fw-bold" style="color:#2a2e39;">Sobre o Painel</h6>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+        <h6 class="fw-bold mt-5" style="color:#2a2e39;">Fontes de Dados</h6>
+        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.</p>
+        <h6 class="fw-bold mt-5" style="color:#2a2e39;">Metodologia</h6>
+        <p class="mb-0">Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi.</p>
       </div>
     </div>
   </div>
