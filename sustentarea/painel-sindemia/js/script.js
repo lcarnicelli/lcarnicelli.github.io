@@ -16,6 +16,44 @@ function switchTab(id, btn) {
       setTimeout(() => { mapClimaInstance.invalidateSize(); }, 50);
     }
   }
+  if (id === 'integ') resetInteg();
+}
+
+function resetInteg() {
+  /* Campo de busca do autocomplete */
+  const input = document.getElementById('inputMunicipio');
+  if (input) {
+    input.value = '';
+    input.style.color = '';
+    input.style.borderColor = '';
+  }
+  const dropdown = document.getElementById('municipioDropdown');
+  if (dropdown) { dropdown.style.display = 'none'; dropdown.innerHTML = ''; }
+
+  /* Gráfico de perfil */
+  if (chartPerfilInst) {
+    chartPerfilInst.destroy();
+    chartPerfilInst = null;
+  }
+
+  /* Badge e indicadores */
+  const badgePos2 = document.getElementById('badgePosicao');
+  if (badgePos2) { badgePos2.textContent = '—'; }
+  const badge = document.getElementById('badgeSituacao');
+  if (badge) { badge.textContent = '—'; badge.style.background = '#e8e8e8'; badge.style.color = '#6b7f93'; badge.style.border = '1px solid #e8e8e8'; }
+  ['ind2019ExcPeso', 'ind2019Desn', 'ind2019Gee'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = '—';
+  });
+
+  /* Ranking: volta ao topo e recarrega as primeiras 50 linhas */
+  const scroll = document.getElementById('scrollInteg');
+  if (scroll) scroll.scrollTop = 0;
+  if (_integRows.length) {
+    _integPage = 0;
+    document.getElementById('tabelaIntegBody').innerHTML = '';
+    _appendIntegRows();
+  }
 }
 
 const anos = [2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019];
@@ -260,6 +298,7 @@ let mapClimaInicializado = false;
 let mapClimaInstance;
 
 let mapaClimaLayer = null;
+let mapaClimaZoomSet = false;
 
 function getCorClima(val) {
   if (val == null) return '#e8e8e8';
@@ -300,12 +339,19 @@ function renderMapaClima() {
       onEachFeature: (feature, layer) => {
         const val = lookup[feature.properties.id];
         const valStr = val != null ? val.toFixed(2) : 'Sem dados';
-        layer.bindPopup(`<strong>${feature.properties.name}</strong><br>GEE per capita: ${valStr}`);
+        layer.bindPopup(`<strong>${feature.properties.name}</strong><br>GEE per capita: ${valStr}`, { autoPanPadding: [20, 20] });
         layer.on('mouseover', function() { this.setStyle({ fillOpacity: 0.4 }); });
         layer.on('mouseout',  function() { this.setStyle({ fillOpacity: 0.85 }); });
       }
     }).addTo(mapClimaInstance);
     mapClimaInstance.fitBounds(mapaClimaLayer.getBounds());
+    if (!mapaClimaZoomSet) {
+      mapaClimaZoomSet = true;
+      const z = mapClimaInstance.getZoom();
+      mapClimaInstance.setMinZoom(z);
+      mapClimaInstance.setMaxZoom(z + 3);
+      mapClimaInstance.setMaxBounds(mapaClimaLayer.getBounds().pad(0.3));
+    }
   });
 }
 
@@ -353,6 +399,7 @@ const geoMunicipiosPromise = fetch('data/municipios-geo.json').then(r => r.json(
 
 let mapaNutriLayer = null;
 let legendaNutriDiv = null;
+let mapaNutriZoomSet = false;
 
 const legendaNutri = L.control({ position: 'bottomleft' });
 legendaNutri.onAdd = () => { legendaNutriDiv = L.DomUtil.create('div', 'mapa-legenda'); return legendaNutriDiv; };
@@ -379,7 +426,11 @@ function renderMapaNutri(tema) {
   if (tema === 'dupla') {
     dadosMunicipios.forEach(r => {
       if (r.municipality_code && r.desn_exce_pesso_niveis && r.desn_exce_pesso_niveis !== '.')
-        lookup[String(r.municipality_code)] = r.desn_exce_pesso_niveis;
+        lookup[String(r.municipality_code)] = {
+          nivel:      r.desn_exce_pesso_niveis,
+          exce_peso:  r.p_exce_peso  && r.p_exce_peso  !== '.' ? (parseFloat(r.p_exce_peso.replace(',',  '.')) * 100).toFixed(2) : null,
+          desn:       r.p_desn       && r.p_desn        !== '.' ? (parseFloat(r.p_desn.replace(',',       '.')) * 100).toFixed(2) : null,
+        };
     });
   } else {
     const col = tema === 'excesso' ? 'p_exce_peso' : 'p_desn';
@@ -398,20 +449,34 @@ function renderMapaNutri(tema) {
     mapaNutriLayer = L.geoJSON(data, {
       style: feature => {
         const val = lookup[feature.properties.id];
-        const cor = tema === 'dupla' ? (_corDupla[val] || '#e8e8e8') : getCorNutri(val ?? null);
+        const cor = tema === 'dupla' ? (_corDupla[val?.nivel] || '#e8e8e8') : getCorNutri(val ?? null);
         return { fillColor: cor, color: '#fff', weight: 0.2, fillOpacity: 0.85 };
       },
       onEachFeature: (feature, layer) => {
-        const val   = lookup[feature.properties.id];
-        const valStr = tema === 'dupla'
-          ? (_labelDupla[val] || 'Sem dados')
-          : (val != null ? val.toFixed(2) + '%' : 'Sem dados');
-        layer.bindPopup(`<strong>${feature.properties.name}</strong><br>${label}: ${valStr}`);
+        const val = lookup[feature.properties.id];
+        let popupHtml;
+        if (tema === 'dupla') {
+          const nivelStr = val ? (_labelDupla[val.nivel] || 'Sem dados') : 'Sem dados';
+          const exceStr  = val?.exce_peso != null ? val.exce_peso + '%' : 'Sem dados';
+          const desnStr  = val?.desn      != null ? val.desn      + '%' : 'Sem dados';
+          popupHtml = `<strong>${feature.properties.name}</strong><br>${label}: ${nivelStr}<br>Excesso de peso: ${exceStr}<br>Desnutrição: ${desnStr}`;
+        } else {
+          const valStr = val != null ? val.toFixed(2) + '%' : 'Sem dados';
+          popupHtml = `<strong>${feature.properties.name}</strong><br>${label}: ${valStr}`;
+        }
+        layer.bindPopup(popupHtml, { autoPanPadding: [20, 20] });
         layer.on('mouseover', function() { this.setStyle({ fillOpacity: 0.4 }); });
         layer.on('mouseout',  function() { this.setStyle({ fillOpacity: 0.85 }); });
       }
     }).addTo(mapInstance);
     mapInstance.fitBounds(mapaNutriLayer.getBounds());
+    if (!mapaNutriZoomSet) {
+      mapaNutriZoomSet = true;
+      const z = mapInstance.getZoom();
+      mapInstance.setMinZoom(z);
+      mapInstance.setMaxZoom(z + 3);
+      mapInstance.setMaxBounds(mapaNutriLayer.getBounds().pad(0.3));
+    }
   });
 }
 
@@ -581,13 +646,204 @@ function buscarTabela(inputId, tableId) {
   }
 }
 
+/* ── Perfil do município ── */
+const _coresSituacao = {
+  'Prioridade máxima':     { bg: '#f2cece', color: '#a03c3c' },
+  'Vulnerabilidade social':{ bg: '#fdd5b1', color: '#7a3010' },
+  'Risco climático':       { bg: '#fef3cd', color: '#7a5c00' },
+  'Alerta':                { bg: '#fff8e1', color: '#7a6500' },
+  'Sustentável':           { bg: '#b2dfcb', color: '#1e5c38' },
+};
+
+let chartPerfilInst = null;
+
+function setupMunicipioAutocomplete() {
+  const input    = document.getElementById('inputMunicipio');
+  const dropdown = document.getElementById('municipioDropdown');
+
+  input.addEventListener('input', () => {
+    const termo = semAcento(input.value.trim().toLowerCase());
+    if (termo.length < 3) { dropdown.style.display = 'none'; dropdown.innerHTML = ''; return; }
+
+    const matches = dadosMunicipios
+      .filter(r => semAcento(r.municipality.toLowerCase()).includes(termo))
+      .sort((a, b) => a.municipality.localeCompare(b.municipality, 'pt-BR'))
+      .slice(0, 10);
+
+    if (!matches.length) { dropdown.style.display = 'none'; return; }
+
+    dropdown.innerHTML = matches.map(r =>
+      `<li data-code="${r.municipality_code}" data-name="${r.municipality} (${r.federal_unit || r.state})"
+           style="padding:8px 12px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">
+         ${r.municipality} <span style="color:#9aacbe;font-size:12px;">${r.federal_unit || r.state}</span>
+       </li>`
+    ).join('');
+
+    dropdown.querySelectorAll('li').forEach(li => {
+      li.addEventListener('mouseenter', () => li.style.background = '#f0f3f6');
+      li.addEventListener('mouseleave', () => li.style.background = '');
+      li.addEventListener('click', () => {
+        input.value = li.dataset.name;
+        input.style.color = '';
+        input.style.borderColor = '';
+        dropdown.style.display = 'none';
+        renderPerfilMunicipio(li.dataset.code);
+      });
+    });
+
+    dropdown.style.display = 'block';
+  });
+
+  document.addEventListener('click', e => {
+    if (!document.getElementById('municipioAutocomplete').contains(e.target))
+      dropdown.style.display = 'none';
+  });
+
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Escape') dropdown.style.display = 'none';
+  });
+}
+
+function renderPerfilMunicipio(code) {
+  const r = dadosMunicipios.find(m => String(m.municipality_code) === String(code));
+
+  /* — Badge posição no ranking — */
+  const posicao = _integRows.findIndex(m => String(m.municipality_code) === String(code));
+  const badgePos = document.getElementById('badgePosicao');
+  badgePos.textContent = posicao >= 0 ? `#${posicao + 1}` : '—';
+
+  /* — Badge situação — */
+  const badge = document.getElementById('badgeSituacao');
+  const sit   = r?.situacao && r.situacao !== '.' ? r.situacao : null;
+  const cores  = sit ? (_coresSituacao[sit] || { bg: '#e8e8e8', color: '#6b7f93' }) : { bg: '#e8e8e8', color: '#6b7f93' };
+  badge.textContent      = sit || 'Sem dados';
+  badge.style.background = cores.bg;
+  badge.style.color      = cores.color;
+  badge.style.border     = `1px solid ${cores.bg}`;
+
+  /* — Indicadores 2019 — */
+  const fmtPct = v => (v != null && v !== '.' && v !== '')
+    ? (parseFloat(String(v).replace(',', '.')) * 100).toFixed(2) + '%' : '—';
+  const fmtGee = v => (v != null && v !== '.' && v !== '')
+    ? parseFloat(String(v).replace(',', '.')).toFixed(2) + ' t' : '—';
+  document.getElementById('ind2019ExcPeso').textContent = r ? fmtPct(r.p_exce_peso) : '—';
+  document.getElementById('ind2019Desn').textContent    = r ? fmtPct(r.p_desn)       : '—';
+  document.getElementById('ind2019Gee').textContent     = r ? fmtGee(r.gee_pessoa)   : '—';
+
+  /* — Dados do gráfico — */
+  const excPeso2008 = r?.p_exce_peso_2008 != null ? +(r.p_exce_peso_2008 * 100).toFixed(4) : null;
+  const excPeso2019 = r?.p_exce_peso && r.p_exce_peso !== '.' ? +(parseFloat(String(r.p_exce_peso).replace(',', '.')) * 100).toFixed(4) : null;
+  const desn2008    = r?.p_desn_2008 != null ? +(r.p_desn_2008 * 100).toFixed(4) : null;
+  const desn2019    = r?.p_desn && r.p_desn !== '.' ? +(parseFloat(String(r.p_desn).replace(',', '.')) * 100).toFixed(4) : null;
+  const gee2009     = r?.p_gee_2009 != null ? +r.p_gee_2009.toFixed(4) : null;
+  const gee2019     = r?.p_gee_2019 != null ? +r.p_gee_2019.toFixed(4) : null;
+
+  const dash = [6, 4];
+  const dsExc = { label: 'Excesso de peso', data: [excPeso2008, excPeso2019], borderColor: '#e67e22', backgroundColor: 'transparent', borderDash: dash, pointRadius: 4, pointBackgroundColor: '#e67e22', tension: 0, borderWidth: 2 };
+  const dsDesn = { label: 'Desnutrição',    data: [desn2008,    desn2019],    borderColor: '#2e7d52', backgroundColor: 'transparent', borderDash: dash, pointRadius: 4, pointBackgroundColor: '#2e7d52', tension: 0, borderWidth: 2 };
+  const dsGee  = { label: 'Emissões de GEE', data: [gee2009,    gee2019],     borderColor: '#1a5f8a', backgroundColor: 'transparent', borderDash: dash, pointRadius: 4, pointBackgroundColor: '#1a5f8a', tension: 0, borderWidth: 2 };
+
+  if (!chartPerfilInst) {
+    chartPerfilInst = new Chart(document.getElementById('chartPerfil').getContext('2d'), {
+      type: 'line',
+      data: { labels: ['2008', '2019'], datasets: [dsExc, dsDesn, dsGee] },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true, position: 'bottom',
+            labels: {
+              font: { family: 'DM Sans', size: 11 },
+              boxWidth: 7, boxHeight: 7, padding: 12,
+              usePointStyle: true, pointStyle: 'circle'
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: ctx => {
+                const v = ctx.parsed.y;
+                if (v == null) return `${ctx.dataset.label}: —`;
+                return `${ctx.dataset.label}: ${v.toFixed(2)}%`;
+              }
+            }
+          }
+        },
+        scales: {
+          x: { grid: { display: false }, ticks: { font: { family: 'DM Sans', size: 11 } } },
+          y: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { family: 'DM Sans', size: 11 } } }
+        }
+      }
+    });
+  } else {
+    chartPerfilInst.data.datasets[0].data = [excPeso2008, excPeso2019];
+    chartPerfilInst.data.datasets[1].data = [desn2008,    desn2019];
+    chartPerfilInst.data.datasets[2].data = [gee2009,     gee2019];
+    chartPerfilInst.update();
+  }
+}
+
+let _integRows  = [];
+let _integPage  = 0;
+const _INTEG_PAGE_SIZE = 50;
+
+function renderTabelaInteg() {
+  _integRows = dadosMunicipios
+    .filter(r => r.trend_final !== '' && r.trend_final !== '.')
+    .sort((a, b) => {
+      const tf = parseFloat(b.trend_final.replace(',', '.')) - parseFloat(a.trend_final.replace(',', '.'));
+      if (tf !== 0) return tf;
+      return a.municipality.localeCompare(b.municipality, 'pt-BR');
+    });
+
+  _integPage = 0;
+  document.getElementById('tabelaIntegBody').innerHTML = '';
+  _appendIntegRows();
+
+  const container = document.getElementById('scrollInteg');
+  container.addEventListener('scroll', _onIntegScroll);
+}
+
+function _rowHtmlInteg(r, i) {
+  const sit   = r.situacao && r.situacao !== '.' ? r.situacao : null;
+  const cores  = sit ? (_coresSituacao[sit] || { bg: '#e8e8e8', color: '#6b7f93' }) : { bg: '#e8e8e8', color: '#6b7f93' };
+  const badgeSit = `<span style="display:inline-block;padding:2px 10px;border-radius:20px;font-size:11.5px;font-weight:600;background:${cores.bg};color:${cores.color};white-space:nowrap;">${sit || 'Sem dados'}</span>`;
+  return `<tr>
+    <td><strong>#${i + 1}</strong></td>
+    <td>${r.municipality}</td>
+    <td>${r.federal_unit}</td>
+    <td class="text-center">${r.trend_ob2}</td>
+    <td class="text-center">${r.trend_desn2}</td>
+    <td class="text-center">${r.trend_seeg3}</td>
+    <td class="text-center">${badgeSit}</td>
+  </tr>`;
+}
+
+function _appendIntegRows() {
+  const start  = _integPage * _INTEG_PAGE_SIZE;
+  const slice  = _integRows.slice(start, start + _INTEG_PAGE_SIZE);
+  if (!slice.length) return;
+  const tbody  = document.getElementById('tabelaIntegBody');
+  tbody.insertAdjacentHTML('beforeend', slice.map((r, j) => _rowHtmlInteg(r, start + j)).join(''));
+  _integPage++;
+}
+
+function _onIntegScroll() {
+  const el = document.getElementById('scrollInteg');
+  if (el.scrollTop + el.clientHeight >= el.scrollHeight - 80) {
+    _appendIntegRows();
+  }
+}
+
 fetch('data/municipios.json')
   .then(r => r.json())
   .then(data => {
     dadosMunicipios = data;
     aplicarTema('excesso');
+    renderTabelaInteg();
+    setupMunicipioAutocomplete();
     const infoIcon = document.getElementById('infoIconDupla');
     infoIcon.style.display = '';
     new bootstrap.Tooltip(infoIcon);
     infoIcon._ttInit = true;
+    new bootstrap.Tooltip(document.getElementById('infoIconInteg'));
   });
