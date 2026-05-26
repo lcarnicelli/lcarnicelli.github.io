@@ -114,7 +114,7 @@ body { font-family: 'DM Sans', sans-serif; overflow: hidden; }
 /* ── Cards ── */
 #tab-nutri .card { border-left: 4px solid #2e7d52 !important; border-radius: 10px !important; }
 #tab-clima .card { border-left: 4px solid #1a5f8a !important; border-radius: 10px !important; }
-#tab-integ .card { border-left: 4px solid #9c6fd6 !important; border-radius: 10px !important; }
+#tab-integ .card { border-left: 4px solid #6a4b9a !important; border-radius: 10px !important; }
 
 .chart-title { font-weight: 700; text-transform: uppercase; letter-spacing: .8px; font-size: 13px; }
 .chart-wrapper { position: relative; }
@@ -154,3 +154,9 @@ tr.table-row-highlight { background: #fff8e1 !important; outline: 2px solid #f5a
 .table-nutri thead th:last-child  { border-radius: 0 8px 0 0; }
 .table-nutri tbody tr:nth-child(even) { background: #f5f8f5; }
 .table-nutri tbody tr:hover { background: #e8f5ee; }
+
+.table-integ thead th { background: #6a4b9a; color: #fff; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; position: sticky; top: 0; }
+.table-integ thead th:first-child { border-radius: 8px 0 0 0; }
+.table-integ thead th:last-child  { border-radius: 0 8px 0 0; }
+.table-integ tbody tr:nth-child(even) { background: #f5f2fa; }
+.table-integ tbody tr:hover { background: #ede6f7; }
