@@ -31,10 +31,7 @@ function resetInteg() {
   if (dropdown) { dropdown.style.display = 'none'; dropdown.innerHTML = ''; }
 
   /* Gráfico de perfil */
-  if (chartPerfilInst) {
-    chartPerfilInst.destroy();
-    chartPerfilInst = null;
-  }
+  document.getElementById('perfilPlaceholder').classList.remove('d-none');
 
   /* Badge e indicadores */
   const badgePos2 = document.getElementById('badgePosicao');
@@ -91,14 +88,14 @@ const temas = {
     barrasSubtitle: 'Indicadores de desnutrição por macrorregião (2019)',
     linha: {
       datasets: [
-        { label: 'Média de desnutrição (%)', data: dadosLinha.desn, borderColor: '#2e7d52', bg: 'rgba(46,125,82,0.08)',    dash: [] },
+        { label: 'Desnutrição', data: dadosLinha.desn, borderColor: '#2e7d52', bg: 'rgba(46,125,82,0.08)',    dash: [] },
         { label: 'Baixo peso para idade',  data: [22.1,21.5,20.8,20.0,19.4,18.7,18.1,17.2,16.5,15.8,15.1,14.3], borderColor: '#7ecba1', bg: 'rgba(126,203,161,0.06)', dash: [5,3] },
       ]
     },
     barras: {
-      labels: ['CO', 'N', 'NE', 'S/SE'],
+      labels: [['CO', 'Cinturão Agrícola'], ['N', 'Fronteira da', 'Vulnerabilidade'], ['NE', 'Eixo de', 'Desenvolvimento', 'Latente'], ['S/SE', 'Polo Econômico', 'Central']],
       datasets: [
-        { label: 'Média desnutrição (%)', data: [11.63, 18.87, 12.04, 8.92], bg: 'rgba(46,125,82,0.80)' },
+        { label: 'Desnutrição', data: [11.63, 18.87, 12.04, 8.92], bg: 'rgba(46,125,82,0.80)' },
       ]
     },
     mapa: [
@@ -129,14 +126,14 @@ const temas = {
     barrasSubtitle: 'Indicadores de excesso de peso por macrorregião (2019)',
     linha: {
       datasets: [
-        { label: 'Média de excesso de peso (%)', data: dadosLinha.exce_peso, borderColor: '#e67e22', bg: 'rgba(230,126,34,0.08)', dash: [] },
+        { label: 'Excesso de peso', data: dadosLinha.exce_peso, borderColor: '#e67e22', bg: 'rgba(230,126,34,0.08)', dash: [] },
         { label: 'Obesidade', data: [4.1,4.4,4.8,5.2,5.7,6.1,6.6,7.0,7.5,7.9,8.4,8.9],             borderColor: '#e74c3c', bg: 'rgba(231,76,60,0.06)',  dash: [5,3] },
       ]
     },
     barras: {
-      labels: ['CO', 'N', 'NE', 'S/SE'],
+      labels: [['CO', 'Cinturão Agrícola'], ['N', 'Fronteira da', 'Vulnerabilidade'], ['NE', 'Eixo de', 'Desenvolvimento', 'Latente'], ['S/SE', 'Polo Econômico', 'Central']],
       datasets: [
-        { label: 'Média excesso de peso (%)', data: [9.96, 9.75, 11.83, 10.00], bg: 'rgba(230,126,34,0.80)' },
+        { label: 'Excesso de peso', data: [9.96, 9.75, 11.83, 10.00], bg: 'rgba(230,126,34,0.80)' },
       ]
     },
     mapa: [
@@ -216,7 +213,10 @@ const chartLinhaInst = new Chart(document.getElementById('chartLinha'), {
   data: { labels: anos, datasets: [] },
   options: {
     responsive: true, maintainAspectRatio: false, animation: { duration: 500 },
-    plugins: { legend: { display: false } },
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y}%` } }
+    },
     scales: {
       x: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { family: 'DM Sans', size: 11 } } },
       y: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { family: 'DM Sans', size: 11 }, callback: v => v + '%' }, min: 0, max: 15 }
@@ -229,9 +229,15 @@ const chartBarrasInst = new Chart(document.getElementById('chartBarras'), {
   data: { labels: [], datasets: [] },
   options: {
     responsive: true, maintainAspectRatio: false, animation: { duration: 500 },
-    plugins: { legend: { display: false } },
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: {
+        title: items => { const lbl = items[0].chart.data.labels[items[0].dataIndex]; return Array.isArray(lbl) ? lbl[0] : lbl; },
+        label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y}%`
+      } }
+    },
     scales: {
-      x: { grid: { display: false }, ticks: { font: { family: 'DM Sans', size: 11 } } },
+      x: { grid: { display: false }, ticks: { font: { family: 'DM Sans', size: 11 }, maxRotation: 0, minRotation: 0 } },
       y: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { family: 'DM Sans', size: 11 }, callback: v => v + '%' }, min: 0, max: 20 }
     }
   }
@@ -243,7 +249,7 @@ const temasClima = {
   gee: {
     linha: { data: dadosLinha.gee_pessoa, label: 'GEE per capita (tCO₂eq/hab)' },
     barras: {
-      labels: ['CO', 'N', 'NE', 'S/SE'],
+      labels: [['CO', 'Cinturão Agrícola'], ['N', 'Fronteira da', 'Vulnerabilidade'], ['NE', 'Eixo de', 'Desenvolvimento', 'Latente'], ['S/SE', 'Polo Econômico', 'Central']],
       datasets: [
         { label: 'Média GEE (tCO₂eq/hab)', data: [56.19744, -9.502312, 7.785395, 11.85305] },
       ]
@@ -285,9 +291,12 @@ const chartBarrasC = new Chart(document.getElementById('chartBarrasC'), {
   data: { labels: [], datasets: [] },
   options: {
     responsive: true, maintainAspectRatio: false, animation: { duration: 500 },
-    plugins: { legend: { display: false } },
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { title: items => { const lbl = items[0].chart.data.labels[items[0].dataIndex]; return Array.isArray(lbl) ? lbl[0] : lbl; } } }
+    },
     scales: {
-      x: { grid: { display: false }, ticks: { font: { family: 'DM Sans', size: 11 } } },
+      x: { grid: { display: false }, ticks: { font: { family: 'DM Sans', size: 11 }, maxRotation: 0, minRotation: 0 } },
       y: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { family: 'DM Sans', size: 11 } }, min: -20, max: 60 }
     }
   }
@@ -314,6 +323,7 @@ function inicializarMapaClima() {
   legendaClima.onAdd = () => {
     const div = L.DomUtil.create('div', 'mapa-legenda');
     div.innerHTML =
+      `<div style="font-weight:700;font-size:11px;margin-bottom:4px;">Emissão de GEE per capita</div>` +
       `<div class="legenda-item"><span class="legenda-cor" style="background:#4caf7d"></span>&lt; 2Kt</div>` +
       `<div class="legenda-item"><span class="legenda-cor" style="background:#ffc107"></span>2Kt – 4Kt</div>` +
       `<div class="legenda-item"><span class="legenda-cor" style="background:#e74c3c"></span>&gt; 4Kt</div>` +
@@ -406,8 +416,8 @@ legendaNutri.onAdd = () => { legendaNutriDiv = L.DomUtil.create('div', 'mapa-leg
 legendaNutri.addTo(mapInstance);
 
 const _legendaNutriHtml = {
-  excesso:    `<div class="legenda-item"><span class="legenda-cor" style="background:#4caf7d"></span>&lt; 5%</div><div class="legenda-item"><span class="legenda-cor" style="background:#ffc107"></span>5% – 10%</div><div class="legenda-item"><span class="legenda-cor" style="background:#e74c3c"></span>&gt; 10%</div>`,
-  desnutricao:`<div class="legenda-item"><span class="legenda-cor" style="background:#4caf7d"></span>&lt; 5%</div><div class="legenda-item"><span class="legenda-cor" style="background:#ffc107"></span>5% – 10%</div><div class="legenda-item"><span class="legenda-cor" style="background:#e74c3c"></span>&gt; 10%</div>`,
+  excesso:    `<div style="font-weight:700;font-size:11px;margin-bottom:4px;">Prevalência de excesso de peso</div><div class="legenda-item"><span class="legenda-cor" style="background:#4caf7d"></span>&lt; 5%</div><div class="legenda-item"><span class="legenda-cor" style="background:#ffc107"></span>5% – 10%</div><div class="legenda-item"><span class="legenda-cor" style="background:#e74c3c"></span>&gt; 10%</div>`,
+  desnutricao:`<div style="font-weight:700;font-size:11px;margin-bottom:4px;">Prevalência de desnutrição</div><div class="legenda-item"><span class="legenda-cor" style="background:#4caf7d"></span>&lt; 5%</div><div class="legenda-item"><span class="legenda-cor" style="background:#ffc107"></span>5% – 10%</div><div class="legenda-item"><span class="legenda-cor" style="background:#e74c3c"></span>&gt; 10%</div>`,
   dupla:      `<div class="legenda-item"><span class="legenda-cor" style="background:#1b4332"></span>Muito bom</div><div class="legenda-item"><span class="legenda-cor" style="background:#4caf7d"></span>Bom</div><div class="legenda-item"><span class="legenda-cor" style="background:#ffc107"></span>Regular</div><div class="legenda-item"><span class="legenda-cor" style="background:#e74c3c"></span>Ruim</div><div class="legenda-item"><span class="legenda-cor" style="background:#7b1d1d"></span>Muito ruim</div>`,
 };
 
@@ -540,6 +550,16 @@ function aplicarTema(tema) {
 
   atualizarTabela(tema);
   renderMapaNutri(tema);
+
+  const _jmeLink = `<a href="https://data.unicef.org/resources/jme-report-2021/" target="_blank" style="color:#9aacbe;">https://data.unicef.org/resources/jme-report-2021/</a>`;
+  const _fontes = {
+    excesso:     `Fonte: Pontos de corte para prevalência de sobrepeso infantil estabelecidos com base na referência utilizada pelos relatórios da UNICEF: UNICEF/WHO/World Bank Joint Child Malnutrition Estimates Database [Internet]. UNICEF DATA. 2021. ${_jmeLink}`,
+    desnutricao: `Fonte: Pontos de corte para o déficit de estatura estabelecidos com base na referência utilizada pelos relatórios da UNICEF: UNICEF/WHO/World Bank Joint Child Malnutrition Estimates Database [Internet]. UNICEF DATA. 2021. ${_jmeLink}`,
+    dupla:       '',
+  };
+  const fonteEl = document.getElementById('fonteMapaNutri');
+  fonteEl.innerHTML  = _fontes[tema] || '';
+  fonteEl.style.display = _fontes[tema] ? '' : 'none';
 }
 
 const matrizDados = [
@@ -731,22 +751,43 @@ function renderPerfilMunicipio(code) {
   document.getElementById('ind2019Gee').textContent     = r ? fmtGee(r.gee_pessoa)   : '—';
 
   /* — Dados do gráfico — */
-  const excPeso2008 = r?.p_exce_peso_2008 != null ? +(r.p_exce_peso_2008 * 100).toFixed(4) : null;
-  const excPeso2019 = r?.p_exce_peso && r.p_exce_peso !== '.' ? +(parseFloat(String(r.p_exce_peso).replace(',', '.')) * 100).toFixed(4) : null;
-  const desn2008    = r?.p_desn_2008 != null ? +(r.p_desn_2008 * 100).toFixed(4) : null;
-  const desn2019    = r?.p_desn && r.p_desn !== '.' ? +(parseFloat(String(r.p_desn).replace(',', '.')) * 100).toFixed(4) : null;
-  const gee2009     = r?.p_gee_2009 != null ? +r.p_gee_2009.toFixed(4) : null;
-  const gee2019     = r?.p_gee_2019 != null ? +r.p_gee_2019.toFixed(4) : null;
+  const parseT = v => {
+    if (!v || v === '.' || v === '') return null;
+    const parts = String(v).split('|');
+    if (parts.length !== 2) return null;
+    return { year: parts[0], value: parseFloat(parts[1].replace(',', '.')) };
+  };
+
+  const excT = parseT(r?.exce_peso_t);
+  const desnT = parseT(r?.desn_t);
+  const geeT  = parseT(r?.gee_t);
+
+  const excPeso2019 = r?.p_exce_peso && r.p_exce_peso !== '.' ? +(parseFloat(String(r.p_exce_peso).replace(',', '.')) * 100).toFixed(2) : null;
+  const desn2019    = r?.p_desn      && r.p_desn      !== '.' ? +(parseFloat(String(r.p_desn).replace(',',      '.')) * 100).toFixed(2) : null;
+
+  // Labels fixos de 2008 a 2019
+  const allYears = ['2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019'];
+
+  // Monta array esparso: valor no ano inicial, valor em 2019, null nos demais
+  const mkSparse = (startYear, startVal, endVal) =>
+    allYears.map(y => y === startYear ? startVal : y === '2019' ? endVal : null);
+
+  const excData  = excT  ? mkSparse(excT.year,  +excT.value.toFixed(2),  excPeso2019) : allYears.map(() => null);
+  const desnData = desnT ? mkSparse(desnT.year, +desnT.value.toFixed(2), desn2019)   : allYears.map(() => null);
+  const geeData  = geeT  ? mkSparse(geeT.year,  0, +geeT.value.toFixed(2))                   : allYears.map(() => null);
 
   const dash = [6, 4];
-  const dsExc = { label: 'Excesso de peso', data: [excPeso2008, excPeso2019], borderColor: '#e67e22', backgroundColor: 'transparent', borderDash: dash, pointRadius: 4, pointBackgroundColor: '#e67e22', tension: 0, borderWidth: 2 };
-  const dsDesn = { label: 'Desnutrição',    data: [desn2008,    desn2019],    borderColor: '#2e7d52', backgroundColor: 'transparent', borderDash: dash, pointRadius: 4, pointBackgroundColor: '#2e7d52', tension: 0, borderWidth: 2 };
-  const dsGee  = { label: 'Emissões de GEE', data: [gee2009,    gee2019],     borderColor: '#1a5f8a', backgroundColor: 'transparent', borderDash: dash, pointRadius: 4, pointBackgroundColor: '#1a5f8a', tension: 0, borderWidth: 2 };
+  const mkDs = (label, data, color) => ({ label, data, borderColor: color, backgroundColor: 'transparent', borderDash: dash, pointRadius: 4, pointBackgroundColor: color, tension: 0, borderWidth: 2, spanGaps: true });
+  const dsExc  = mkDs('Excesso de peso',  excData,  '#e67e22');
+  const dsDesn = mkDs('Desnutrição',      desnData, '#2e7d52');
+  const dsGee  = mkDs('Emissões de GEE', geeData,  '#1a5f8a');
+
+  document.getElementById('perfilPlaceholder').classList.add('d-none');
 
   if (!chartPerfilInst) {
     chartPerfilInst = new Chart(document.getElementById('chartPerfil').getContext('2d'), {
       type: 'line',
-      data: { labels: ['2008', '2019'], datasets: [dsExc, dsDesn, dsGee] },
+      data: { labels: allYears, datasets: [dsExc, dsDesn, dsGee] },
       options: {
         responsive: true, maintainAspectRatio: false,
         plugins: {
@@ -769,15 +810,16 @@ function renderPerfilMunicipio(code) {
           }
         },
         scales: {
-          x: { grid: { display: false }, ticks: { font: { family: 'DM Sans', size: 11 } } },
-          y: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { family: 'DM Sans', size: 11 } } }
+          x: { grid: { display: false }, ticks: { font: { family: 'DM Sans', size: 11 }, autoSkip: false, maxRotation: 45, minRotation: 45 } },
+          y: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { family: 'DM Sans', size: 11 } }, title: { display: true, text: '% de mudança', font: { family: 'DM Sans', size: 10 }, color: '#9aacbe' } }
         }
       }
     });
   } else {
-    chartPerfilInst.data.datasets[0].data = [excPeso2008, excPeso2019];
-    chartPerfilInst.data.datasets[1].data = [desn2008,    desn2019];
-    chartPerfilInst.data.datasets[2].data = [gee2009,     gee2019];
+    chartPerfilInst.data.labels            = allYears;
+    chartPerfilInst.data.datasets[0].data  = excData;
+    chartPerfilInst.data.datasets[1].data  = desnData;
+    chartPerfilInst.data.datasets[2].data  = geeData;
     chartPerfilInst.update();
   }
 }
@@ -803,6 +845,9 @@ function renderTabelaInteg() {
   container.addEventListener('scroll', _onIntegScroll);
 }
 
+const _trendLabel = { '-2': 'Muito bom', '-1': 'Bom', '0': 'Regular', '1': 'Ruim', '2': 'Muito ruim' };
+function _fmtTrend(v) { return _trendLabel[String(v)] || v; }
+
 function _rowHtmlInteg(r, i) {
   const sit   = r.situacao && r.situacao !== '.' ? r.situacao : null;
   const cores  = sit ? (_coresSituacao[sit] || { bg: '#e8e8e8', color: '#6b7f93' }) : { bg: '#e8e8e8', color: '#6b7f93' };
@@ -811,9 +856,9 @@ function _rowHtmlInteg(r, i) {
     <td><strong>#${i + 1}</strong></td>
     <td>${r.municipality}</td>
     <td>${r.federal_unit}</td>
-    <td class="text-center">${r.trend_ob2}</td>
-    <td class="text-center">${r.trend_desn2}</td>
-    <td class="text-center">${r.trend_seeg3}</td>
+    <td class="text-center">${_fmtTrend(r.trend_ob2)}</td>
+    <td class="text-center">${_fmtTrend(r.trend_desn2)}</td>
+    <td class="text-center">${_fmtTrend(r.trend_seeg3)}</td>
     <td class="text-center">${badgeSit}</td>
   </tr>`;
 }
@@ -845,5 +890,6 @@ fetch('data/municipios.json')
     infoIcon.style.display = '';
     new bootstrap.Tooltip(infoIcon);
     infoIcon._ttInit = true;
-    new bootstrap.Tooltip(document.getElementById('infoIconInteg'));
+    new bootstrap.Tooltip(document.getElementById('infoIconSistAlimNutri'), { customClass: 'tooltip-light' });
+    new bootstrap.Tooltip(document.getElementById('infoIconSistAlimClima'), { customClass: 'tooltip-light' });
   });
