@@ -84,7 +84,7 @@
           <i class="bi bi-exclamation-triangle stat-icon"></i>
           <div>
             <div class="stat-number">&lt;1%</div>
-            <div class="stat-label">dos municípios em situação de sustentabilidade</div>
+            <div class="stat-label">dos municípios com bons indicadores de sindemia global</div>
           </div>
         </div>
         <div class="stat-panel">
@@ -149,7 +149,7 @@
             <div class="col-6" id="col-barras">
               <div class="card border-0 rounded-0 h-100">
                 <div class="card-body">
-                  <div class="mb-4 d-flex align-items-center justify-content-between"><span class="chart-title">Distribuição por Sistema Alimentar</span><span class="stat-badge">2019</span></div>
+                  <div class="mb-4 d-flex align-items-center justify-content-between"><span class="d-flex align-items-center gap-2"><span class="chart-title">Distribuição por Sistema Alimentar</span><i id="infoIconSistAlimNutri" class="bi bi-info-circle" style="font-size:14px;color:#7a8fa3;cursor:default;" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true" title="<ul style='margin:0;padding-left:16px;'><li><strong>CO</strong>: Cinturão Agrícola (municípios do Acre, Rondônia, Mato Grosso, Mato Grosso do Sul, Goiás e Tocantins)</li><li><strong>NE</strong>: Eixo de Desenvolvimento Latente (municípios do Nordeste)</li><li><strong>S/SE</strong>: Polo Econômico Central (municípios do Sul e Sudeste)</li><li><strong>N</strong>: Fronteira da Vulnerabilidade (municípios do Pará, Amazonas, Roraima e Amapá)</li></ul>"></i></span><span class="stat-badge">2019</span></div>
                   <div class="chart-wrapper" style="height:220px;"><canvas id="chartBarras"></canvas></div>
                 </div>
               </div>
@@ -175,6 +175,7 @@
                 <div class="card-body">
                   <div class="mb-4 d-flex align-items-center justify-content-between"><span class="chart-title">Classificação Municipal</span><span class="stat-badge">2019</span></div>
                   <div id="map"></div>
+                  <p id="fonteMapaNutri" class="mt-2 mb-0" style="font-size:11px;color:#9aacbe;line-height:1.5;"></p>
                 </div>
               </div>
             </div>
@@ -182,7 +183,7 @@
             <div class="col-12" id="col-matriz" style="display:none;">
               <div class="card border-0 rounded-0">
                 <div class="card-body">
-                  <div class="mb-4 d-flex align-items-center justify-content-between"><span class="chart-title">% de municípios com dupla carga de doença ao longo dos anos</span><span class="stat-badge">2008–2019</span></div>
+                  <div class="mb-4 d-flex align-items-center justify-content-between"><span class="chart-title">Matriz de tendência da dupla carga nutricional e proporção de municípios em cada categoria</span><span class="stat-badge">2008–2019</span></div>
                   <div id="matrizDupla"></div>
                 </div>
               </div>
@@ -212,7 +213,7 @@
             <div class="col-6">
               <div class="card border-0 rounded-0 h-100">
                 <div class="card-body">
-                  <div class="mb-4 d-flex align-items-center justify-content-between"><span class="chart-title">Distribuição por Sistema Alimentar</span><span class="stat-badge">2019</span></div>
+                  <div class="mb-4 d-flex align-items-center justify-content-between"><span class="d-flex align-items-center gap-2"><span class="chart-title">Distribuição por Sistema Alimentar</span><i id="infoIconSistAlimClima" class="bi bi-info-circle" style="font-size:14px;color:#7a8fa3;cursor:default;" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true" title="<ul style='margin:0;padding-left:16px;'><li><strong>CO</strong>: Cinturão Agrícola (municípios do Acre, Rondônia, Mato Grosso, Mato Grosso do Sul, Goiás e Tocantins)</li><li><strong>NE</strong>: Eixo de Desenvolvimento Latente (municípios do Nordeste)</li><li><strong>S/SE</strong>: Polo Econômico Central (municípios do Sul e Sudeste)</li><li><strong>N</strong>: Fronteira da Vulnerabilidade (municípios do Pará, Amazonas, Roraima e Amapá)</li></ul>"></i></span><span class="stat-badge">2019</span></div>
                   <div class="chart-wrapper" style="height:220px;"><canvas id="chartBarrasC"></canvas></div>
                 </div>
               </div>
@@ -221,7 +222,7 @@
             <div class="col-6">
               <div class="card border-0 rounded-0 h-100">
                 <div class="card-body">
-                  <div class="mb-4 d-flex align-items-center justify-content-between"><span class="chart-title">Municípios com maiores emissões</span><span class="stat-badge">2008–2019</span></div>
+                  <div class="mb-4 d-flex align-items-center justify-content-between"><span class="chart-title">Municípios com maiores emissões</span><span class="stat-badge">2019</span></div>
                   <div class="table-search-wrap mb-2">
                     <i class="bi bi-search table-search-icon"></i>
                     <input id="searchClima" type="text" class="table-search-input" placeholder="Buscar município…" oninput="buscarTabela('searchClima','tabelaClima')">
@@ -238,6 +239,7 @@
                 <div class="card-body">
                   <div class="mb-4 d-flex align-items-center justify-content-between"><span class="chart-title">Classificação Municipal</span><span class="stat-badge">2019</span></div>
                   <div id="map-c"></div>
+                  <p class="mt-2 mb-0" style="font-size:11px;color:#9aacbe;line-height:1.5;">Pontos de corte para as emissões de GEE per capita estabelecidos com base nos dados do sexto relatório do IPCC (<a href="https://www.ipcc.ch/report/ar6/syr/" target="_blank" style="color:#9aacbe;">AR6 - https://www.ipcc.ch/report/ar6/syr/</a>).</p>
                 </div>
               </div>
             </div>
@@ -331,15 +333,19 @@
                     <div class="d-flex gap-4 flex-grow-1">
                       <!-- Gráfico -->
                       <div style="width:50%;display:flex;flex-direction:column;">
-                        <div class="mb-1 stats-heading" style="font-size:13px;">Tendência 2008–2019</div>
+                        <div class="mb-1 stats-heading" style="font-size:13px;">Tendência</div>
                         <div style="position:relative;flex:1;min-height:150px;">
                           <canvas id="chartPerfil"></canvas>
+                          <div id="perfilPlaceholder" class="d-flex flex-column align-items-center justify-content-center gap-2" style="position:absolute;inset:0;background:#fff;color:#c0cad6;z-index:1;">
+                            <i class="bi bi-graph-up" style="font-size:32px;"></i>
+                            <span style="font-size:12px;text-align:center;line-height:1.5;">Digite o nome de um município<br>para ver a tendência</span>
+                          </div>
                         </div>
                       </div>
                       <!-- Classificação + Indicadores -->
                       <div style="width:50%;display:flex;flex-direction:column;">
                         <div class="mb-4">
-                          <div class="mb-2 stats-heading" style="margin-bottom:8px!important;">Classificação</div>
+                          <div class="mb-2 stats-heading" style="margin-bottom:8px!important;">Posição</div>
                           <div class="d-flex align-items-center gap-2 flex-wrap">
                             <span id="badgePosicao" class="d-inline-block px-3 py-2 rounded-3 fw-semibold" style="font-size:13px;background:transparent;color:#6b7f93;border:1px solid #c0cad6;">—</span>
                             <span id="badgeSituacao" class="d-inline-block px-3 py-2 rounded-3 fw-semibold" style="font-size:13px;background:#e8e8e8;color:#6b7f93;border:1px solid #e8e8e8;">—</span>
@@ -378,7 +384,7 @@
                 <div class="mb-4 d-flex align-items-center justify-content-between">
                   <span class="d-flex align-items-center gap-2">
                     <span class="chart-title">Ranking de prioridade</span>
-                    <i id="infoIconInteg" class="bi bi-info-circle" style="font-size:14px;color:#7a8fa3;cursor:default;" data-bs-toggle="tooltip" data-bs-placement="top" title="Índice com 6 níveis: varia de -2 a 2, sendo -2 o melhor cenário e 2 o pior cenário"></i>
+                    <i id="infoIconInteg" class="bi bi-info-circle" style="font-size:14px;color:#7a8fa3;cursor:pointer;" data-bs-toggle="modal" data-bs-target="#modalRankingInfo"></i>
                   </span>
                   <span class="stat-badge">2008–2019</span>
                 </div>
@@ -400,7 +406,7 @@
                         <th>Estado</th>
                         <th class="text-center">Excesso de peso</th>
                         <th class="text-center">Desnutrição</th>
-                        <th class="text-center">GEE</th>
+                        <th class="text-center">Emissões GEE</th>
                         <th class="text-center">Situação</th>
                       </tr>
                     </thead>
@@ -418,6 +424,36 @@
 
   </div><!-- /#body-col -->
 </div><!-- /#app -->
+
+<!-- MODAL RANKING INFO -->
+<div class="modal fade" id="modalRankingInfo" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content rounded-4 border-0">
+      <div class="modal-header border-0 rounded-top-4" style="background:#2a2e39;">
+        <h5 class="modal-title fw-bold text-white" style="font-size:15px;">Ranking de prioridade — Legenda</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body p-4" style="font-size:13.5px;line-height:1.7;">
+        <h6 class="fw-bold mb-2" style="color:#2a2e39;">Classificação individual</h6>
+        <ul class="mb-4">
+          <li><strong>Muito ruim</strong>: significa que a tendência é de aumento ao longo do tempo E a prevalência em 2019 é alta de acordo com os pontos de corte da OMS e IPCC.</li>
+          <li><strong>Ruim</strong>: significa que a tendência é de aumento ao longo do tempo OU a prevalência em 2019 é alta de acordo com os pontos de corte da OMS e IPCC.</li>
+          <li><strong>Bom</strong>: significa que a tendência é de redução ao longo do tempo OU a prevalência em 2019 é baixa de acordo com os pontos de corte da OMS e IPCC.</li>
+          <li><strong>Muito bom</strong>: significa que a tendência é de redução ao longo do tempo E a prevalência em 2019 é baixa de acordo com os pontos de corte da OMS e IPCC.</li>
+          <li><strong>Regular</strong>: demais casos.</li>
+        </ul>
+        <h6 class="fw-bold mb-2" style="color:#2a2e39;">Situação do município</h6>
+        <ul class="mb-0">
+          <li><strong>Prioridade máxima</strong>: municípios que possuem duas classificações muito ruins e uma ruim.</li>
+          <li><strong>Sustentáveis</strong>: municípios que possuem duas classificações muito bons e uma bom.</li>
+          <li><strong>Vulnerabilidade social</strong>: municípios com classificação boa/muito boa para GEE e ruim/muito ruim para as condições de má nutrição.</li>
+          <li><strong>Risco climático</strong>: municípios com classificação ruim/muito ruim para GEE e boa/muito boa para as condições de má nutrição.</li>
+          <li><strong>Alerta</strong>: demais municípios.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- MODAL -->
 <div class="modal fade" id="modalMetodologia" tabindex="-1">
