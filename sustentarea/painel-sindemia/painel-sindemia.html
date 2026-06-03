@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Painel de Sindemia Global Municipal</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>body{font-family:'DM Sans',sans-serif;overflow:hidden}#app{height:100vh}#sidebar{width:260px;background:#2a2e39;z-index:10;overflow:hidden}.nav-main{margin:0 0 0 16px;border-radius:10px 0 0 10px;overflow:hidden;border:1px solid rgba(255,255,255,.1);border-right:none}.nav-main .nav-item{border-bottom:1px solid rgba(255,255,255,.08)}.nav-main .nav-item:last-child{border-bottom:none}.nav-main .nav-link{color:rgba(255,255,255,.45);font-size:15px;font-weight:600;white-space:normal;border-left:3px solid transparent;transition:all .16s;border-bottom:none;border-radius:0}.nav-main .nav-link:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.8)}.nav-main .nav-link.active-nutri{background:#f0f3f6;color:#2e7d52;border-left-color:#4caf7d}.nav-main .nav-link.active-clima{background:#f0f3f6;color:#1a5f8a;border-left-color:#1a5f8a}.nav-main .nav-link.active-integ{background:#f0f3f6;color:#6a4b9a;border-left-color:#9c6fd6}.sidebar-metod-link{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:rgba(255,255,255,.85);cursor:pointer;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.25);transition:color .15s,border-color .15s}.sidebar-metod-link:hover{color:rgba(255,255,255,.75);border-color:rgba(255,255,255,.6)}#body-col{background:#f0f3f6;overflow-y:auto}#body-col::-webkit-scrollbar{width:5px}#body-col::-webkit-scrollbar-thumb{background:#c8d0dc;border-radius:4px}#stats-section{background:#f0f3f6;padding:28px}.stats-heading{font-size:13px;font-weight:600;color:#5a6a80;text-transform:uppercase;letter-spacing:.7px;margin-bottom:14px}#stats-panels{display:flex;gap:12px}.stat-panel{flex:1;background:#fff;border-radius:12px;padding:16px;display:flex;align-items:flex-start;gap:12px;box-shadow:0 1px 4px rgba(0,0,0,.06)}.stat-icon{font-size:30px;color:#4a7db5;flex-shrink:0}.stat-body{flex:1;min-width:0}.stat-number-row{display:flex;align-items:center;justify-content:space-between;gap:8px}.stat-number{font-family:'DM Mono',monospace;font-size:24px;font-weight:500;color:#1e2d3d;line-height:1.1;letter-spacing:-.5px}.stat-label{font-size:11.5px;color:#7a8fa3;margin-top:4px;line-height:1.4}.stat-badge{font-size:12px;font-weight:600;color:#6b7f93;background:#edf1f7;border-radius:20px;padding:2px 8px;white-space:nowrap;flex-shrink:0}#stats-panels .stat-badge{font-size:10px}#content-area{background:#f0f3f6}.tab-title{font-size:18px;font-weight:700;color:#1e2d3d;margin-bottom:18px;display:flex;align-items:center}#tab-nutri .tab-title{color:#2e7d52}#tab-clima .tab-title{color:#1a5f8a}#tab-integ .tab-title{color:#6a4b9a}.clima-pill{border:1px solid #1a5f8a;color:#1a5f8a;background:0 0;border-radius:50px;font-size:14px;font-weight:500;padding:4px 14px;cursor:default}.clima-pill.active{background:#1a5f8a;color:#fff;font-weight:600}.table-clima thead th{background:#1a5f8a;color:#fff;font-size:11px;text-transform:uppercase;letter-spacing:.5px;position:sticky;top:0}.table-clima thead th:first-child{border-radius:8px 0 0 0}.table-clima thead th:last-child{border-radius:0 8px 0 0}.table-clima tbody tr:nth-child(2n) td{background-color:#f7f8fa!important}.table-clima tbody tr:hover{background:#dceef8}.tab-pane-custom{display:none}.tab-pane-custom.active{display:block}.nutri-pill{border:1px solid #2e7d52;color:#2e7d52;background:0 0;border-radius:50px;font-size:14px;font-weight:500;padding:4px 14px;transition:all .15s;cursor:pointer}.nutri-pill:hover{background:rgba(46,125,82,.08)}.nutri-pill.active{background:#2e7d52;color:#fff;font-weight:600}.nutri-pill:focus-visible{outline:0;box-shadow:none}#tab-nutri .card{border-left:4px solid #2e7d52!important;border-radius:10px!important}#tab-clima .card{border-left:4px solid #1a5f8a!important;border-radius:10px!important}#tab-integ .card{border-left:4px solid #6a4b9a!important;border-radius:10px!important}.chart-title{font-weight:700;text-transform:uppercase;letter-spacing:.8px;font-size:13px}.chart-wrapper{position:relative}#map,#map-c{height:475px;border-radius:10px;background:#f0f3f6}.leaflet-interactive:focus{outline:0}.mapa-legenda{background:rgba(255,255,255,.92);border-radius:8px;padding:8px 12px;font-family:'DM Sans',sans-serif;font-size:12px;color:#1e2d3d;box-shadow:0 1px 6px rgba(0,0,0,.12);line-height:1}.legenda-item{display:flex;align-items:center;gap:7px;padding:3px 0}.legenda-cor{display:inline-block;width:13px;height:13px;border-radius:3px;flex-shrink:0}.matriz-table{border-collapse:collapse;width:100%;font-family:'DM Sans',sans-serif;font-size:13.5px}.matriz-table td,.matriz-table th{border:1px solid #dde3ec;padding:10px 16px;text-align:center}.matriz-corner{background:#fff;border-color:transparent}.matriz-header-top{background:#f0f3f6;font-weight:700;color:#1e2d3d;letter-spacing:.3px}.matriz-header-col{background:#f7f9fb;font-weight:600;color:#4a6080}.matriz-header-row-group{background:#f0f3f6;font-weight:700;color:#1e2d3d;writing-mode:vertical-rl;transform:rotate(180deg);letter-spacing:.3px}.matriz-header-row{background:#f7f9fb;font-weight:600;color:#4a6080;text-align:left;white-space:nowrap}.matriz-cell{font-family:'DM Mono',monospace;font-size:18px;font-weight:600;min-width:80px}.table-search-wrap{position:relative}.table-search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#9aacbe;font-size:13px;pointer-events:none}.table-search-input{width:100%;border:1px solid #dde3ec;border-radius:8px;padding:6px 10px 6px 30px;font-size:13px;font-family:'DM Sans',sans-serif;color:#1e2d3d;outline:0;transition:border-color .15s}.table-search-input::placeholder{color:#b0bec8}.table-search-input:focus{border-color:#4a7db5}tr.table-row-highlight{background:#fff8e1!important;outline:2px solid #f5a623;outline-offset:-2px}.table-scroll{max-height:475px;overflow-y:auto;border-radius:8px;font-size:14px}.table-scroll::-webkit-scrollbar{width:4px}.table-scroll::-webkit-scrollbar-thumb{background:#c8d8c8;border-radius:4px}.table-nutri thead th{background:#2e7d52;color:#fff;font-size:11px;text-transform:uppercase;letter-spacing:.5px;position:sticky;top:0}.table-nutri thead th:first-child{border-radius:8px 0 0 0}.table-nutri thead th:last-child{border-radius:0 8px 0 0}.table-nutri tbody tr:nth-child(2n) td{background-color:#f7f8fa!important}.table-nutri tbody tr:hover{background:#e8f5ee}.table-integ thead th{background:#6a4b9a;color:#fff;font-size:11px;text-transform:uppercase;letter-spacing:.5px;position:sticky;top:0}.table-integ thead th:first-child{border-radius:8px 0 0 0}.table-integ thead th:last-child{border-radius:0 8px 0 0}.table-integ tbody tr:nth-child(2n) td{background-color:#f7f8fa!important}.tooltip-wide{--bs-tooltip-max-width:480px}.tooltip-wide .tooltip-inner{text-align:left;line-height:1.6;padding:10px 14px}.tooltip-wide li{margin-bottom:4px}.tooltip-light{--bs-tooltip-max-width:360px}.tooltip-light .tooltip-inner{text-align:left;line-height:1.6;padding:10px 14px}.tooltip-light li{margin-bottom:0}</style>
+</head>
+<body>
+
+<div id="app" class="d-flex">
+
+  <!-- ══════════ SIDEBAR ══════════ -->
+  <aside id="sidebar" class="d-flex flex-column flex-shrink-0">
+
+    <div class="p-4 pb-3">
+      <div class="text-white fw-bold lh-sm" style="font-size:22px;">
+        Painel de Sindemia Global Municipal
+        <small class="d-block mt-1 fw-normal" style="font-size:16px;color:rgba(255,255,255,.45);">em menores de 5 anos</small>
+      </div>
+      <a class="sidebar-metod-link pt-4" data-bs-toggle="modal" data-bs-target="#modalMetodologia">
+        <i class="bi bi-info-circle"></i> Metodologia e informações
+      </a>
+    </div>
+
+    <nav class="pt-5 flex-grow-1">
+      <ul class="nav flex-column nav-main">
+
+        <li class="nav-item">
+          <button class="nav-link d-flex align-items-center gap-3 w-100 text-start py-4 active-nutri"
+                  onclick="switchTab('nutri', this)">
+            <i class="bi bi-heart-pulse fs-4 flex-shrink-0"></i>
+            <span>Problema<br>Nutricional</span>
+          </button>
+        </li>
+
+        <li class="nav-item">
+          <button class="nav-link d-flex align-items-center gap-3 w-100 text-start py-4"
+                  onclick="switchTab('clima', this)">
+            <i class="bi bi-cloud-lightning-rain fs-4 flex-shrink-0"></i>
+            <span>Problema<br>Climático</span>
+          </button>
+        </li>
+
+        <li class="nav-item">
+          <button class="nav-link d-flex align-items-center gap-3 w-100 text-start py-4"
+                  onclick="switchTab('integ', this)">
+            <i class="bi bi-diagram-3 fs-4 flex-shrink-0"></i>
+            <span>Integração<br>Nutrição + Clima</span>
+          </button>
+        </li>
+
+      </ul>
+    </nav>
+
+    <div class="p-3 mt-auto">
+      <div style="font-size:11px;color:rgba(255,255,255,.22);">Desenvolvido pela equipe do Sustentarea</div>
+    </div>
+
+  </aside>
+
+  <!-- ══════════ BODY COLUMN ══════════ -->
+  <div id="body-col" class="d-flex flex-column flex-grow-1 overflow-y-auto">
+
+    <!-- STATS SECTION -->
+    <div id="stats-section">
+
+      <div class="stats-heading">Visão geral: onde estão os maiores desafios combinados?</div>
+
+      <div id="stats-panels">
+        <div class="stat-panel">
+          <i class="bi bi-buildings stat-icon"></i>
+          <div>
+            <div class="stat-number">5.570</div>
+            <div class="stat-label">municípios analisados</div>
+          </div>
+        </div>
+        <div class="stat-panel">
+          <i class="bi bi-exclamation-triangle stat-icon"></i>
+          <div>
+            <div class="stat-number">&lt;1%</div>
+            <div class="stat-label">dos municípios com bons indicadores de sindemia global</div>
+          </div>
+        </div>
+        <div class="stat-panel">
+          <i class="bi bi-people stat-icon"></i>
+          <div class="stat-body">
+            <div class="stat-number-row py-1">
+              <div class="stat-number">20%</div>
+              <span class="stat-badge">2008–2019</span>
+            </div>
+            <div class="stat-label">dos municípios com aumento de excesso de peso</div>
+          </div>
+        </div>
+        <div class="stat-panel">
+          <i class="bi bi-people stat-icon"></i>
+          <div class="stat-body">
+            <div class="stat-number-row py-1">
+              <div class="stat-number">5%</div>
+              <span class="stat-badge">2008–2019</span>
+            </div>
+            <div class="stat-label">dos municípios com aumento de desnutrição</div>
+          </div>
+        </div>
+        <div class="stat-panel">
+          <i class="bi bi-globe-americas stat-icon"></i>
+          <div class="stat-body">
+            <div class="stat-number-row py-1">
+              <div class="stat-number">12%</div>
+              <span class="stat-badge">2008–2019</span>
+            </div>
+            <div class="stat-label">dos municípios com aumento de emissões de GEE</div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+    <!-- CONTENT AREA -->
+    <div id="content-area" class="flex-grow-1">
+      <div class="p-4">
+
+        <!-- ABA 1 — Nutricional -->
+        <div class="tab-pane-custom active" id="tab-nutri">
+
+          <div class="d-flex gap-2 mb-3">
+            <button class="nutri-pill active" onclick="switchNutri('excesso', this)">Excesso de peso</button>
+            <button class="nutri-pill" onclick="switchNutri('desnutricao', this)">Desnutrição</button>
+            <button class="nutri-pill" onclick="switchNutri('dupla', this)">Dupla Carga Nutricional</button>
+          </div>
+
+          <div class="row g-3 pb-3">
+
+            <div class="col-6" id="col-linha">
+              <div class="card border-0 rounded-0 h-100">
+                <div class="card-body">
+                  <div class="mb-4 d-flex align-items-center justify-content-between"><span class="d-flex align-items-center gap-2"><span class="chart-title">Evolução no Brasil</span><i id="infoIconEvolNutri" class="bi bi-info-circle" style="font-size:14px;color:#7a8fa3;cursor:default;" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true" title="A classificação de crianças menores de 5 anos com excesso de peso foi feita à partir do indicador IMC-para-idade, conforme protocolos do SISVAN e da Organização Mundial da Saúde, considerando o pontos de corte em escore-z &gt; +2."></i></span><span class="stat-badge">2008–2019</span></div>
+                  <div class="chart-wrapper" style="height:220px;"><canvas id="chartLinha"></canvas></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6" id="col-barras">
+              <div class="card border-0 rounded-0 h-100">
+                <div class="card-body">
+                  <div class="mb-4 d-flex align-items-center justify-content-between"><span class="d-flex align-items-center gap-2"><span class="chart-title">Distribuição por Sistema Alimentar</span><i id="infoIconSistAlimNutri" class="bi bi-info-circle" style="font-size:14px;color:#7a8fa3;cursor:default;" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true" title="<ul style='margin:0;padding-left:16px;'><li><b>Cinturão Agrícola</b>: municípios do Acre, Rondônia, Mato Grosso, Mato Grosso do Sul, Goiás e Tocantins;</li><li><b>Fronteira da Vulnerabilidade</b>: municípios do Pará, Amazonas, Roraima e Amapá;</li><li><b>Eixo de Desenvolvimento Latente</b>: municípios do Nordeste;</li><li><b>Polo Econômico Central</b>: municípios do Sul e Sudeste.</li></ul>"></i></span><span class="stat-badge">2019</span></div>
+                  <div class="chart-wrapper" style="height:220px;"><canvas id="chartBarras"></canvas></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="card border-0 rounded-0 h-100">
+                <div class="card-body">
+                  <div class="mb-4 d-flex align-items-center justify-content-between"><span class="d-flex align-items-center gap-2"><span class="chart-title">Municípios prioritários</span><i id="infoIconDupla" class="bi bi-info-circle" style="display:none;font-size:14px;color:#7a8fa3;cursor:default;" data-bs-toggle="tooltip" data-bs-placement="top" title="Municípios prioritários com maiores prevalências em 2019 e tendência de aumento"></i></span><span class="stat-badge">2008–2019</span></div>
+                  <div class="table-search-wrap mb-2">
+                    <i class="bi bi-search table-search-icon"></i>
+                    <input id="searchNutri" type="text" class="table-search-input" placeholder="Buscar município…" oninput="buscarTabela('searchNutri','tabelaMunicipios')">
+                  </div>
+                  <div class="table-scroll">
+                    <table class="table table-sm table-nutri mb-0 w-100" id="tabelaMunicipios"></table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="card border-0 rounded-0 h-100">
+                <div class="card-body">
+                  <div class="mb-4 d-flex align-items-center justify-content-between"><span class="d-flex align-items-center gap-2"><span class="chart-title">Classificação Municipal</span><i id="infoIconMapaNutri" class="bi bi-info-circle" style="font-size:14px;color:#7a8fa3;cursor:default;display:none;" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true" title=""></i></span><span class="stat-badge">2019</span></div>
+                  <div id="map"></div>
+                  <p id="fonteMapaNutri" class="mt-2 mb-0" style="font-size:11px;color:#9aacbe;line-height:1.5;"></p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12" id="col-matriz" style="display:none;">
+              <div class="card border-0 rounded-0">
+                <div class="card-body">
+                  <div class="mb-4 d-flex align-items-center justify-content-between"><span class="d-flex align-items-center gap-2"><span class="chart-title">Matriz de tendência da dupla carga nutricional e proporção de municípios em cada categoria</span><i id="infoIconMatrizDupla" class="bi bi-info-circle" style="font-size:14px;color:#7a8fa3;cursor:default;" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true" title="Para avaliar a tendência temporal de excesso de peso e desnutrição em menores de cinco anos nos municípios brasileiros, foram ajustados modelos de regressão temporal utilizando o método de Prais-Winsten, utilizando dados anuais de 2008 a 2019. Os coeficientes associados ao ano foram interpretados como aumento se fossem estatisticamente positivos; como redução se fossem estatisticamente negativos e estabilidade se não fossem diferentes de zero."></i></span><span class="stat-badge">2008–2019</span></div>
+                  <div id="matrizDupla"></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ABA 2 — Climático -->
+        <div class="tab-pane-custom" id="tab-clima">
+
+          <div class="d-flex gap-2 mb-3">
+            <button class="clima-pill active">Emissão de Gases de Efeito Estufa por pessoa</button>
+          </div>
+
+          <div class="row g-3 pb-3">
+
+            <div class="col-6">
+              <div class="card border-0 rounded-0 h-100">
+                <div class="card-body">
+                  <div class="mb-4 d-flex align-items-center justify-content-between"><span class="chart-title">Evolução no Brasil</span><span class="stat-badge">2008–2019</span></div>
+                  <div class="chart-wrapper" style="height:220px;"><canvas id="chartLinhaC"></canvas></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="card border-0 rounded-0 h-100">
+                <div class="card-body">
+                  <div class="mb-4 d-flex align-items-center justify-content-between"><span class="d-flex align-items-center gap-2"><span class="chart-title">Distribuição por Sistema Alimentar</span><i id="infoIconSistAlimClima" class="bi bi-info-circle" style="font-size:14px;color:#7a8fa3;cursor:default;" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true" title="<ul style='margin:0;padding-left:16px;'><li><b>Cinturão Agrícola</b>: municípios do Acre, Rondônia, Mato Grosso, Mato Grosso do Sul, Goiás e Tocantins;</li><li><b>Fronteira da Vulnerabilidade</b>: municípios do Pará, Amazonas, Roraima e Amapá;</li><li><b>Eixo de Desenvolvimento Latente</b>: municípios do Nordeste;</li><li><b>Polo Econômico Central</b>: municípios do Sul e Sudeste.</li></ul>"></i></span><span class="stat-badge">2019</span></div>
+                  <div class="chart-wrapper" style="height:220px;"><canvas id="chartBarrasC"></canvas></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="card border-0 rounded-0 h-100">
+                <div class="card-body">
+                  <div class="mb-4 d-flex align-items-center justify-content-between"><span class="chart-title">Municípios com maiores emissões</span><span class="stat-badge">2019</span></div>
+                  <div class="table-search-wrap mb-2">
+                    <i class="bi bi-search table-search-icon"></i>
+                    <input id="searchClima" type="text" class="table-search-input" placeholder="Buscar município…" oninput="buscarTabela('searchClima','tabelaClima')">
+                  </div>
+                  <div class="table-scroll">
+                    <table class="table table-sm table-clima mb-0 w-100" id="tabelaClima"></table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="card border-0 rounded-0 h-100">
+                <div class="card-body">
+                  <div class="mb-4 d-flex align-items-center justify-content-between"><span class="chart-title">Classificação Municipal</span><span class="stat-badge">2019</span></div>
+                  <div id="map-c"></div>
+                  <p class="mt-2 mb-0" style="font-size:11px;color:#9aacbe;line-height:1.5;">Pontos de corte para as emissões de GEE per capita estabelecidos com base nos dados do sexto relatório do IPCC (<a href="https://www.ipcc.ch/report/ar6/syr/" target="_blank" style="color:#9aacbe;">AR6 - https://www.ipcc.ch/report/ar6/syr/</a>).</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ABA 3 — Integração -->
+        <div class="tab-pane-custom" id="tab-integ">
+
+          <div class="d-flex flex-column gap-3 pb-3">
+
+            <!-- Linha 1: Matriz + Perfil -->
+            <div class="row g-3">
+
+              <!-- Rótulos de prioridades -->
+              <div class="col-6">
+                <div class="card border-0 rounded-0 h-100">
+                  <div class="card-body d-flex flex-column">
+                    <div class="mb-3 d-flex align-items-center justify-content-between">
+                      <span class="chart-title">Rótulos de prioridades</span>
+                    </div>
+                    <table class="w-100" style="border-collapse:separate;border-spacing:0 3px;font-size:12px;flex:1;">
+                      <thead>
+                        <tr>
+                          <th style="width:38%;padding:4px 8px;font-size:11px;color:#5a6a80;font-weight:600;text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid #dde3ec;">Classificação conjunta</th>
+                          <th style="width:20.7%;padding:4px 8px;font-size:11px;color:#5a6a80;font-weight:600;text-align:center;border-bottom:1px solid #dde3ec;">Desnutrição</th>
+                          <th style="width:20.7%;padding:4px 8px;font-size:11px;color:#5a6a80;font-weight:600;text-align:center;border-bottom:1px solid #dde3ec;">Excesso de peso</th>
+                          <th style="width:20.7%;padding:4px 8px;font-size:11px;color:#5a6a80;font-weight:600;text-align:center;border-bottom:1px solid #dde3ec;">Emissão de GEE</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <!-- Prioridade máxima -->
+                        <tr>
+                          <td style="padding:5px 8px;background:#f9e5e5;border-radius:6px 0 0 6px;font-weight:700;color:#a03c3c;">Prioridade máxima</td>
+                          <td style="padding:5px 6px;background:#f9e5e5;"><div style="height:13px;border-radius:8px;background:linear-gradient(to right,#e8724a,#c0392b);"></div></td>
+                          <td style="padding:5px 6px;background:#f9e5e5;"><div style="height:13px;border-radius:8px;background:linear-gradient(to right,#e8724a,#c0392b);"></div></td>
+                          <td style="padding:5px 6px;background:#f9e5e5;border-radius:0 6px 6px 0;"><div style="height:13px;border-radius:8px;background:linear-gradient(to right,#e8724a,#c0392b);"></div></td>
+                        </tr>
+                        <!-- Clima + excesso de peso -->
+                        <tr>
+                          <td style="padding:5px 8px;background:#fdebd9;border-radius:6px 0 0 6px;font-weight:700;color:#7a3010;">Clima + excesso de peso</td>
+                          <td style="padding:5px 6px;background:#fdebd9;"><div style="height:13px;border-radius:8px;background:linear-gradient(to right,#4caf7d,#c5e17a);"></div></td>
+                          <td style="padding:5px 6px;background:#fdebd9;"><div style="height:13px;border-radius:8px;background:linear-gradient(to right,#e8724a,#c0392b);"></div></td>
+                          <td style="padding:5px 6px;background:#fdebd9;border-radius:0 6px 6px 0;"><div style="height:13px;border-radius:8px;background:linear-gradient(to right,#e8724a,#c0392b);"></div></td>
+                        </tr>
+                        <!-- Clima + desnutrição -->
+                        <tr>
+                          <td style="padding:5px 8px;background:#fdebd9;border-radius:6px 0 0 6px;font-weight:700;color:#7a3010;">Clima + desnutrição</td>
+                          <td style="padding:5px 6px;background:#fdebd9;"><div style="height:13px;border-radius:8px;background:linear-gradient(to right,#e8724a,#c0392b);"></div></td>
+                          <td style="padding:5px 6px;background:#fdebd9;"><div style="height:13px;border-radius:8px;background:linear-gradient(to right,#4caf7d,#c5e17a);"></div></td>
+                          <td style="padding:5px 6px;background:#fdebd9;border-radius:0 6px 6px 0;"><div style="height:13px;border-radius:8px;background:linear-gradient(to right,#e8724a,#c0392b);"></div></td>
+                        </tr>
+                        <!-- Dupla carga -->
+                        <tr>
+                          <td style="padding:5px 8px;background:#fdebd9;border-radius:6px 0 0 6px;font-weight:700;color:#7a3010;">Dupla carga de má nutrição</td>
+                          <td style="padding:5px 6px;background:#fdebd9;"><div style="height:13px;border-radius:8px;background:linear-gradient(to right,#e8724a,#c0392b);"></div></td>
+                          <td style="padding:5px 6px;background:#fdebd9;"><div style="height:13px;border-radius:8px;background:linear-gradient(to right,#e8724a,#c0392b);"></div></td>
+                          <td style="padding:5px 6px;background:#fdebd9;border-radius:0 6px 6px 0;"><div style="height:13px;border-radius:8px;background:linear-gradient(to right,#4caf7d,#c5e17a);"></div></td>
+                        </tr>
+                        <!-- Alerta: Desnutrição -->
+                        <tr>
+                          <td style="padding:5px 8px;background:#fef9e7;border-radius:6px 0 0 6px;font-weight:700;color:#7a6500;">Alerta: Desnutrição</td>
+                          <td style="padding:5px 6px;background:#fef9e7;"><div style="height:13px;border-radius:8px;background:linear-gradient(to right,#e8724a,#c0392b);"></div></td>
+                          <td style="padding:5px 6px;background:#fef9e7;"><div style="height:13px;border-radius:8px;background:linear-gradient(to right,#4caf7d,#c5e17a);"></div></td>
+                          <td style="padding:5px 6px;background:#fef9e7;border-radius:0 6px 6px 0;"><div style="height:13px;border-radius:8px;background:linear-gradient(to right,#4caf7d,#c5e17a);"></div></td>
+                        </tr>
+                        <!-- Alerta: Excesso de peso -->
+                        <tr>
+                          <td style="padding:5px 8px;background:#fef9e7;border-radius:6px 0 0 6px;font-weight:700;color:#7a6500;">Alerta: Excesso de peso</td>
+                          <td style="padding:5px 6px;background:#fef9e7;"><div style="height:13px;border-radius:8px;background:linear-gradient(to right,#4caf7d,#c5e17a);"></div></td>
+                          <td style="padding:5px 6px;background:#fef9e7;"><div style="height:13px;border-radius:8px;background:linear-gradient(to right,#e8724a,#c0392b);"></div></td>
+                          <td style="padding:5px 6px;background:#fef9e7;border-radius:0 6px 6px 0;"><div style="height:13px;border-radius:8px;background:linear-gradient(to right,#4caf7d,#c5e17a);"></div></td>
+                        </tr>
+                        <!-- Alerta: Clima -->
+                        <tr>
+                          <td style="padding:5px 8px;background:#fef9e7;border-radius:6px 0 0 6px;font-weight:700;color:#7a6500;">Alerta: Clima</td>
+                          <td style="padding:5px 6px;background:#fef9e7;"><div style="height:13px;border-radius:8px;background:linear-gradient(to right,#4caf7d,#c5e17a);"></div></td>
+                          <td style="padding:5px 6px;background:#fef9e7;"><div style="height:13px;border-radius:8px;background:linear-gradient(to right,#4caf7d,#c5e17a);"></div></td>
+                          <td style="padding:5px 6px;background:#fef9e7;border-radius:0 6px 6px 0;"><div style="height:13px;border-radius:8px;background:linear-gradient(to right,#e8724a,#c0392b);"></div></td>
+                        </tr>
+                        <!-- Alerta regular -->
+                        <tr>
+                          <td style="padding:5px 8px;background:#f5f5ec;border-radius:6px 0 0 6px;font-weight:700;color:#5a6a80;">Alerta regular</td>
+                          <td style="padding:5px 6px;background:#f5f5ec;"><div style="height:13px;border-radius:8px;background:linear-gradient(to right,#4caf7d,#c5e17a);"></div></td>
+                          <td style="padding:5px 6px;background:#f5f5ec;"><div style="height:13px;border-radius:8px;background:linear-gradient(to right,#4caf7d,#c5e17a);"></div></td>
+                          <td style="padding:5px 6px;background:#f5f5ec;border-radius:0 6px 6px 0;"><div style="height:13px;border-radius:8px;background:linear-gradient(to right,#4caf7d,#c5e17a);"></div></td>
+                        </tr>
+                        <!-- Sustentabilidade -->
+                        <tr>
+                          <td style="padding:5px 8px;background:#e4f2ea;border-radius:6px 0 0 6px;font-weight:700;color:#1e5c38;">Sustentabilidade</td>
+                          <td style="padding:5px 6px;background:#e4f2ea;"><div style="height:13px;border-radius:8px;background:linear-gradient(to right,#2e7d52,#4caf7d);"></div></td>
+                          <td style="padding:5px 6px;background:#e4f2ea;"><div style="height:13px;border-radius:8px;background:linear-gradient(to right,#2e7d52,#4caf7d);"></div></td>
+                          <td style="padding:5px 6px;background:#e4f2ea;border-radius:0 6px 6px 0;"><div style="height:13px;border-radius:8px;background:linear-gradient(to right,#2e7d52,#4caf7d);"></div></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <!-- Legenda -->
+                    <div class="d-flex gap-3 mt-3 flex-wrap" style="font-size:11px;color:#5a6a80;">
+                      <div class="d-flex align-items-center gap-2"><div style="width:32px;height:10px;border-radius:6px;background:linear-gradient(to right,#e8724a,#c0392b);flex-shrink:0;"></div>Muito ruim / Ruim</div>
+                      <div class="d-flex align-items-center gap-2"><div style="width:32px;height:10px;border-radius:6px;background:linear-gradient(to right,#4caf7d,#c5e17a);flex-shrink:0;"></div>Muito bom / Bom / Regular</div>
+                      <div class="d-flex align-items-center gap-2"><div style="width:32px;height:10px;border-radius:6px;background:linear-gradient(to right,#2e7d52,#4caf7d);flex-shrink:0;"></div>Muito bom / Bom</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Perfil do município -->
+              <div class="col-6">
+                <div class="card border-0 rounded-0 h-100">
+                  <div class="card-body d-flex flex-column">
+                    <div class="mb-3 d-flex align-items-center justify-content-between">
+                      <span class="chart-title">Perfil do município</span>
+                    </div>
+                    <!-- Seletor — largura total -->
+                    <div class="position-relative mb-3" id="municipioAutocomplete">
+                      <div class="table-search-wrap">
+                        <i class="bi bi-search table-search-icon"></i>
+                        <input id="inputMunicipio" type="text" class="table-search-input" placeholder="Digite o nome do município…" autocomplete="off">
+                      </div>
+                      <ul id="municipioDropdown" class="position-absolute w-100 list-unstyled mb-0" style="display:none;top:100%;left:0;z-index:200;max-height:220px;overflow-y:auto;background:#fff;border:1px solid #dde3ec;border-radius:8px;margin-top:3px;box-shadow:0 4px 12px rgba(0,0,0,.08);"></ul>
+                    </div>
+                    <!-- Linha: gráfico (50%) | Classificação + Indicadores (50%) -->
+                    <div class="d-flex gap-4 flex-grow-1">
+                      <!-- Gráfico -->
+                      <div style="width:50%;display:flex;flex-direction:column;">
+                        <div class="mb-1 stats-heading" style="font-size:13px;">Tendência</div>
+                        <div style="position:relative;flex:1;min-height:150px;">
+                          <canvas id="chartPerfil"></canvas>
+                          <div id="perfilPlaceholder" class="d-flex flex-column align-items-center justify-content-center gap-2" style="position:absolute;inset:0;background:#fff;color:#c0cad6;z-index:1;">
+                            <i class="bi bi-graph-up" style="font-size:32px;"></i>
+                            <span style="font-size:12px;text-align:center;line-height:1.5;">Digite o nome de um município<br>para ver a tendência</span>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Classificação + Indicadores -->
+                      <div style="width:50%;display:flex;flex-direction:column;">
+                        <div class="mb-4">
+                          <div class="mb-2 stats-heading" style="margin-bottom:8px!important;">Posição</div>
+                          <div class="d-flex align-items-center gap-2 flex-wrap">
+                            <span id="badgePosicao" class="d-inline-block px-3 py-2 rounded-3 fw-semibold" style="font-size:13px;background:transparent;color:#6b7f93;border:1px solid #c0cad6;">—</span>
+                            <span id="badgeSituacao" class="d-inline-block px-3 py-2 rounded-3 fw-semibold" style="font-size:13px;background:#e8e8e8;color:#6b7f93;border:1px solid #e8e8e8;">—</span>
+                          </div>
+                        </div>
+                        <div>
+                          <div class="mb-2 stats-heading" style="margin-bottom:8px!important;">Indicadores 2019</div>
+                          <table class="w-100" style="font-size:13px;border-collapse:collapse;">
+                            <tbody>
+                              <tr>
+                                <td class="py-1" style="color:#5a6a80;">Excesso de peso:</td>
+                                <td class="py-1 text-end fw-semibold" id="ind2019ExcPeso">—</td>
+                              </tr>
+                              <tr>
+                                <td class="py-1" style="color:#5a6a80;">Desnutrição:</td>
+                                <td class="py-1 text-end fw-semibold" id="ind2019Desn">—</td>
+                              </tr>
+                              <tr>
+                                <td class="py-1" style="color:#5a6a80;">Emissões GEE per capita:</td>
+                                <td class="py-1 text-end fw-semibold" id="ind2019Gee">—</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div><!-- /row linha 1 -->
+
+            <!-- Linha 2: Ranking de prioridade -->
+            <div class="card border-0 rounded-0">
+              <div class="card-body d-flex flex-column">
+                <div class="mb-4 d-flex align-items-center justify-content-between">
+                  <span class="d-flex align-items-center gap-2">
+                    <span class="chart-title">Ranking de prioridade</span>
+                    <i id="infoIconInteg" class="bi bi-info-circle" style="font-size:14px;color:#7a8fa3;cursor:pointer;" data-bs-toggle="modal" data-bs-target="#modalRankingInfo"></i>
+                  </span>
+                  <span class="stat-badge">2008–2019</span>
+                </div>
+                <div class="table-scroll" id="scrollInteg">
+                  <table class="table table-sm table-integ mb-0 w-100" id="tabelaInteg" style="table-layout:fixed;">
+                    <colgroup>
+                      <col style="width:7%;">
+                      <col style="width:24%;">
+                      <col style="width:9%;">
+                      <col style="width:13%;">
+                      <col style="width:13%;">
+                      <col style="width:12%;">
+                      <col style="width:22%;">
+                    </colgroup>
+                    <thead>
+                      <tr>
+                        <th>Posição</th>
+                        <th>Município</th>
+                        <th>Estado</th>
+                        <th class="text-center">Excesso de peso</th>
+                        <th class="text-center">Desnutrição</th>
+                        <th class="text-center">Emissões GEE</th>
+                        <th class="text-center">Situação</th>
+                      </tr>
+                    </thead>
+                    <tbody id="tabelaIntegBody"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /#body-col -->
+</div><!-- /#app -->
+
+<!-- MODAL RANKING INFO -->
+<div class="modal fade" id="modalRankingInfo" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content rounded-4 border-0">
+      <div class="modal-header border-0 rounded-top-4" style="background:#2a2e39;">
+        <h5 class="modal-title fw-bold text-white" style="font-size:15px;">Ranking de prioridade</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body p-4" style="font-size:13.5px;line-height:1.7;">
+        <h6 class="fw-bold mb-2" style="color:#2a2e39;">Classificação dos indicadores</h6>
+        <ul class="mb-4">
+          <li><strong>Muito ruim</strong>: significa que a tendência é de aumento ao longo do tempo E a prevalência em 2019 é alta de acordo com os pontos de corte da OMS e IPCC.</li>
+          <li><strong>Ruim</strong>: significa que a tendência é de aumento ao longo do tempo OU a prevalência em 2019 é alta de acordo com os pontos de corte da OMS e IPCC.</li>
+          <li><strong>Bom</strong>: significa que a tendência é de redução ao longo do tempo OU a prevalência em 2019 é baixa de acordo com os pontos de corte da OMS e IPCC.</li>
+          <li><strong>Muito bom</strong>: significa que a tendência é de redução ao longo do tempo E a prevalência em 2019 é baixa de acordo com os pontos de corte da OMS e IPCC.</li>
+          <li><strong>Regular</strong>: demais casos.</li>
+        </ul>
+        <h6 class="fw-bold mb-2" style="color:#2a2e39;">Situação do município</h6>
+        <ul class="mb-0">
+          <li><strong>Prioridade máxima:</strong> se classificados como "Muito ruim" ou "ruim" para os três componentes da Sindemia;</li>
+          <li><strong>Dupla carga de má nutrição:</strong> se classificados como "Muito ruim" ou "ruim" para os componentes desnutrição e excesso de peso, mas não para o componente climático;</li>
+          <li><strong>Clima e desnutrição:</strong> se classificados como "Muito ruim" ou "ruim" para os componentes de clima e desnutrição, mas não para o componente excesso de peso;</li>
+          <li><strong>Clima e excesso de peso:</strong> se classificados como "Muito ruim" ou "ruim" para os componentes de clima e excesso de peso, mas não para o componente desnutrição;</li>
+          <li><strong>Alerta climático:</strong> se classificados como "Muito ruim" ou "ruim" apenas para o componente climático;</li>
+          <li><strong>Alerta excesso de peso:</strong> se classificados como "Muito ruim" ou "ruim" apenas para o componente de excesso de peso;</li>
+          <li><strong>Alerta desnutrição:</strong> se classificados como "Muito ruim" ou "ruim" apenas para o componente desnutrição;</li>
+          <li><strong>Alerta regular:</strong> se não foram classificados como "Muito ruim" ou "ruim" para nenhum dos componentes da Sindemia, mas apresentaram algum ponto de atenção (classificação "Regular" em algum componente);</li>
+          <li><strong>Sustentabilidade:</strong> se não foram classificados como "Muito ruim" ou "ruim" para nenhum dos componentes da Sindemia.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal fade" id="modalMetodologia" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content rounded-4 border-0">
+      <div class="modal-header text-white border-0 rounded-top-4" style="background:#2a2e39;">
+        <h5 class="modal-title fw-bold"><i class="bi bi-journal-text me-2"></i>Metodologia e Informações</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body p-4" style="font-size:13.5px;line-height:1.7;">
+
+        <!-- Sobre o Painel -->
+        <h5 class="fw-bold mb-3" style="color:#2a2e39;">Sobre o Painel</h5>
+        <p>Bem-vindo ao <strong>Painel Interativo sobre Sindemia Global</strong>.</p>
+        <p>Hoje, a ciência entende que a <strong>obesidade</strong>, a <strong>desnutrição</strong> e as <strong>mudanças climáticas</strong> não são problemas isolados. Eles coexistem, interagem entre si e compartilham das mesmas causas estruturais. Um fenômeno conhecido como <strong>Sindemia Global</strong>.</p>
+        <p>No centro dessa dinâmica estão os nossos <strong>sistemas alimentares</strong>. Ao mesmo tempo em que os sistemas alimentares são grandes emissores de gases de efeito estufa (74% de toda a emissão do Brasil), eles definem a qualidade da alimentação da população, podendo impulsionar tanto a desnutrição quanto o excesso de peso.</p>
+
+        <h6 class="fw-bold mt-4" style="color:#2a2e39;">Por que focar em crianças menores de 5 anos?</h6>
+        <p>As crianças nessa faixa etária possuem maior vulnerabilidade biológica e social. O que elas comem e o ambiente onde vivem nos primeiros anos de vida definem seu crescimento, imunidade e saúde por toda a vida. No entanto, os impactos da crise climática e da má nutrição não são iguais: famílias de baixa renda e crianças pequenas são as que mais sofrem e as que têm menor capacidade de adaptação.</p>
+
+        <h6 class="fw-bold mt-4" style="color:#2a2e39;">As Quatro Realidades dos Sistemas Alimentares no Brasil</h6>
+        <p>Os sistemas alimentares mudam de acordo com o território. Para entender essa diversidade, este painel utiliza o <strong>Índice Multidimensional Brasileiro de Sistemas Alimentares Sustentáveis (MISFS-R)</strong>, que, a partir de uma análise de semelhança entre 46 indicadores, divide o Brasil em quatro grandes perfis (tipologias) regionais:</p>
+        <table class="table table-bordered table-sm mb-3" style="font-size:13px;">
+          <thead class="table-light"><tr><th>Tipologia Territorial</th><th>Estados Abrangidos</th><th>Principais Características</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Cinturão Agrícola</strong></td><td>AC, RO, MT, MS, GO e TO</td><td>Forte produção agrícola e desenvolvimento econômico, mas com grande impacto ambiental devido à pecuária extensiva e ao desmatamento.</td></tr>
+            <tr><td><strong>Polo Econômico Central</strong></td><td>Todos os estados do Sul e Sudeste</td><td>Melhor desempenho geral no índice, mas com pontos críticos: altas desigualdades sociais no campo (por sexo e raça) e elevado uso de agrotóxicos.</td></tr>
+            <tr><td><strong>Eixo de Desenvolvimento Latente</strong></td><td>Todos os estados do Nordeste</td><td>Territórios que enfrentam os maiores desafios, apresentando os resultados mais baixos em indicadores nutricionais, de renda e de produtividade alimentar.</td></tr>
+            <tr><td><strong>Fronteira da Vulnerabilidade</strong></td><td>PA, AM, RR e AP</td><td>Cenário marcado por maior prevalência de insegurança alimentar, menor diversidade na dieta e baixo acesso a alimentos.</td></tr>
+          </tbody>
+        </table>
+
+        <h6 class="fw-bold mt-4" style="color:#2a2e39;">Qual é o Objetivo deste Painel?</h6>
+        <p>O propósito desta ferramenta é <strong>analisar, de forma conjunta, a evolução da desnutrição, da obesidade e das mudanças climáticas nos municípios brasileiros entre 2008 e 2019</strong>, focando na nutrição na primeira infância de acordo com esses quatro perfis de sistemas alimentares.</p>
+        <p>Para isso, cruzamos dados históricos e utilizamos um esquema de classificação de prioridades municipais, alimentado principalmente pelas informações do <strong>SISVAN (Sistema de Vigilância Alimentar e Nutricional)</strong> e do <strong>SEEG Brasil (Sistema de Estimativas de Emissões e Remoções de Gases de Efeito Estufa do Brasil)</strong>.</p>
+
+        <!-- Esquema de classificação -->
+        <h5 class="fw-bold mt-5 mb-3" style="color:#2a2e39;">O esquema de classificação de prioridades</h5>
+
+        <h6 class="fw-bold mt-4" style="color:#2a2e39;">Classificação por componente da Sindemia Global</h6>
+        <p>Para classificar a prioridade dos municípios, os fenômenos de excesso de peso, desnutrição e emissões de gases de efeito estufa foram, primeiro, classificados separadamente:</p>
+
+        <p><strong>Excesso de peso:</strong> os municípios foram classificados segundo as categorias na tabela a seguir. Municípios classificados com alto grau de prioridade para excesso de peso foram aqueles categorizados como "Muito ruim":</p>
+        <table class="table table-bordered table-sm mb-2" style="font-size:12.5px;text-align:center;">
+          <thead class="table-light">
+            <tr><th rowspan="2" class="align-middle text-start">Prevalência de sobrepeso em 2019</th><th colspan="3">Tendência anual da prevalência de sobrepeso</th></tr>
+            <tr><th>Aumento (β&gt;0)</th><th>Estabilidade (β=0)</th><th>Redução (β&lt;0)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="text-start">Alta: ≥ 10%</td><td class="fw-bold" style="background:#f2cece;color:#a03c3c;">Muito ruim</td><td style="background:#fdd5b1;color:#7a3010;">Ruim</td><td style="background:#fff8e1;color:#7a6500;">Regular</td></tr>
+            <tr><td class="text-start">Intermediária: ≥5% e &lt;10%</td><td style="background:#fdd5b1;color:#7a3010;">Ruim</td><td style="background:#fff8e1;color:#7a6500;">Regular</td><td style="background:#b2dfcb;color:#1e5c38;">Bom</td></tr>
+            <tr><td class="text-start">Baixa: &lt;5%</td><td style="background:#fff8e1;color:#7a6500;">Regular</td><td style="background:#b2dfcb;color:#1e5c38;">Bom</td><td class="fw-bold" style="background:#b2dfcb;color:#1e5c38;">Muito bom</td></tr>
+          </tbody>
+        </table>
+        <p class="mb-3" style="font-size:12px;color:#7a8fa3;">Pontos de corte para prevalência de sobrepeso estabelecidos com base na referência utilizada pelos relatórios da UNICEF: UNICEF/WHO/World Bank Joint Child Malnutrition Estimates Database [Internet]. UNICEF DATA. 2021. <a href="https://data.unicef.org/resources/jme-report-2021/" target="_blank">https://data.unicef.org/resources/jme-report-2021/</a></p>
+
+        <p><strong>Desnutrição:</strong> os municípios foram classificados segundo as categorias na tabela a seguir. Municípios classificados com alto grau de prioridade para desnutrição foram aqueles categorizados como "Muito ruim":</p>
+        <table class="table table-bordered table-sm mb-2" style="font-size:12.5px;text-align:center;">
+          <thead class="table-light">
+            <tr><th rowspan="2" class="align-middle text-start">Prevalência de <em>Stunting</em> em 2019</th><th colspan="3">Tendência anual da prevalência de <em>Stunting</em></th></tr>
+            <tr><th>Aumento (β&gt;0)</th><th>Estabilidade (β=0)</th><th>Redução (β&lt;0)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="text-start">Alta: ≥ 20%</td><td class="fw-bold" style="background:#f2cece;color:#a03c3c;">Muito ruim</td><td style="background:#fdd5b1;color:#7a3010;">Ruim</td><td style="background:#fff8e1;color:#7a6500;">Regular</td></tr>
+            <tr><td class="text-start">Intermediária: ≥10% e &lt;20%</td><td style="background:#fdd5b1;color:#7a3010;">Ruim</td><td style="background:#fff8e1;color:#7a6500;">Regular</td><td style="background:#b2dfcb;color:#1e5c38;">Bom</td></tr>
+            <tr><td class="text-start">Baixa: &lt;10%</td><td style="background:#fff8e1;color:#7a6500;">Regular</td><td style="background:#b2dfcb;color:#1e5c38;">Bom</td><td class="fw-bold" style="background:#b2dfcb;color:#1e5c38;">Muito bom</td></tr>
+          </tbody>
+        </table>
+        <p class="mb-3" style="font-size:12px;color:#7a8fa3;">Pontos de corte para o déficit de estatura estabelecidos com base na referência utilizada pelos relatórios da UNICEF: UNICEF/WHO/World Bank Joint Child Malnutrition Estimates Database [Internet]. UNICEF DATA. 2021. <a href="https://data.unicef.org/resources/jme-report-2021/" target="_blank">https://data.unicef.org/resources/jme-report-2021/</a></p>
+
+        <p><strong>Emissões de gases de efeito estufa por pessoa:</strong> os municípios foram classificados segundo as categorias na tabela a seguir. Municípios classificados com alto grau de prioridade para emissão de gases de efeito estufa por pessoa foram aqueles categorizados como "Muito ruim":</p>
+        <table class="table table-bordered table-sm mb-2" style="font-size:12.5px;text-align:center;">
+          <thead class="table-light">
+            <tr><th rowspan="2" class="align-middle text-start">Emissão de GEE per capita em 2019</th><th colspan="3">Tendência anual das emissões de GEE</th></tr>
+            <tr><th>Aumento (β&gt;0)</th><th>Estabilidade (β=0)</th><th>Redução (β&lt;0)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="text-start">Alta: ≥ 4 Kt CO₂ eq/pessoa</td><td class="fw-bold" style="background:#f2cece;color:#a03c3c;">Muito ruim</td><td style="background:#fdd5b1;color:#7a3010;">Ruim</td><td style="background:#fff8e1;color:#7a6500;">Regular</td></tr>
+            <tr><td class="text-start">≥2 e &lt;4 Kt CO₂ eq/pessoa</td><td style="background:#fdd5b1;color:#7a3010;">Ruim</td><td style="background:#fff8e1;color:#7a6500;">Regular</td><td style="background:#b2dfcb;color:#1e5c38;">Bom</td></tr>
+            <tr><td class="text-start">Baixa: &lt;2 Kt CO₂ eq/pessoa</td><td style="background:#fff8e1;color:#7a6500;">Regular</td><td style="background:#b2dfcb;color:#1e5c38;">Bom</td><td class="fw-bold" style="background:#b2dfcb;color:#1e5c38;">Muito bom</td></tr>
+          </tbody>
+        </table>
+        <p class="mb-3" style="font-size:12px;color:#7a8fa3;">Pontos de corte para as emissões de GEE per capita estabelecidos com base nos dados do sexto relatório do IPCC (<a href="https://www.ipcc.ch/report/ar6/syr/" target="_blank">AR6</a>). Nesse relatório, há a recomendação de reduzir, até 2030, em 43% as emissões de GEE em comparação com o ano de 2019 e, em 60% até 2035 e em 69% até 2050 para manter o aumento de temperatura até 1,5°C em relação ao período pré-industrial. Considerando que as emissões, em 2019, foram estimadas em 59 Gt CO₂ eq, para o ano de 2030, a emissão alvo seria de 33 Gt CO₂ eq, que, dividido pela estimativa da população global (8,5 bilhões, segundo a ONU), equivale à emissão anual per capita de 3,9 Kt CO₂ eq por pessoa. Essa emissão teria que reduzir ainda mais até o ano de 2050, para 1,9 Kt CO₂ eq per capita (considerando a estimativa de 9,7 bilhões de pessoas, segundo a ONU). Sendo assim, os pontos de corte para emissões alta, intermediária e baixa, foram estabelecidos com base nessas informações.</p>
+
+        <h6 class="fw-bold mt-4" style="color:#2a2e39;">Classificação combinando os componentes da Sindemia Global</h6>
+        <p>Considerando a combinação dos possíveis cenários para os três fenômenos da sindemia global, os municípios foram classificados em:</p>
+        <ul>
+          <li><strong>Prioridade máxima:</strong> se classificados como "Muito ruim" ou "ruim" para os três componentes da Sindemia;</li>
+          <li><strong>Dupla carga de má nutrição:</strong> se classificados como "Muito ruim" ou "ruim" para os componentes desnutrição e excesso de peso, mas não para o componente climático;</li>
+          <li><strong>Clima e desnutrição:</strong> se classificados como "Muito ruim" ou "ruim" para os componentes de clima e desnutrição, mas não para o componente excesso de peso;</li>
+          <li><strong>Clima e excesso de peso:</strong> se classificados como "Muito ruim" ou "ruim" para os componentes de clima e excesso de peso, mas não para o componente desnutrição;</li>
+          <li><strong>Alerta climático:</strong> se classificados como "Muito ruim" ou "ruim" apenas para o componente climático;</li>
+          <li><strong>Alerta excesso de peso:</strong> se classificados como "Muito ruim" ou "ruim" apenas para o componente de excesso de peso;</li>
+          <li><strong>Alerta desnutrição:</strong> se classificados como "Muito ruim" ou "ruim" apenas para o componente desnutrição;</li>
+          <li><strong>Alerta regular:</strong> se não foram classificados como "Muito ruim" ou "ruim" para nenhum dos componentes da Sindemia, mas apresentaram algum ponto de atenção (classificação "Regular" em algum componente);</li>
+          <li><strong>Sustentabilidade:</strong> se não foram classificados como "Muito ruim" ou "ruim" para nenhum dos componentes da Sindemia.</li>
+        </ul>
+
+        <!-- Como navegar -->
+        <h5 class="fw-bold mt-5 mb-3" style="color:#2a2e39;">Como navegar no Painel</h5>
+        <p>Ao monitorar essas tendências, o painel busca fornecer evidências para que gestores, pesquisadores e a sociedade civil possam compreender a persistência da desnutrição e o avanço do excesso de peso infantil em cada canto do país, combinado às emissões de gases de efeito estufa por pessoa, ajudando a adaptar as ações de saúde e clima às reais necessidades de cada território.</p>
+        <p class="mb-0">Passe o mouse sobre o ícone de informação (<em>i</em>) para saber mais sobre a metodologia usada em cada gráfico. Navegue pelos gráficos, mapas e séries temporais do painel para explorar os dados do seu município ou região.</p>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>const tabMap={nutri:"active-nutri",clima:"active-clima",integ:"active-integ"};function switchTab(e,a){document.querySelectorAll(".tab-pane-custom").forEach(e=>e.classList.remove("active")),document.querySelectorAll(".nav-main .nav-link").forEach(e=>e.classList.remove("active-nutri","active-clima","active-integ")),document.getElementById("tab-"+e).classList.add("active"),a.classList.add(tabMap[e]),tabAtual=e,"nutri"===e&&setTimeout(()=>{mapInstance&&mapInstance.invalidateSize()},50),"clima"===e&&(mapClimaInicializado?setTimeout(()=>{mapClimaInstance.invalidateSize()},50):(mapClimaInicializado=!0,inicializarMapaClima(),setTimeout(()=>{aplicarTemaClima()},200))),"integ"===e&&resetInteg()}function resetInteg(){const e=document.getElementById("inputMunicipio");e&&(e.value="",e.style.color="",e.style.borderColor="");const a=document.getElementById("municipioDropdown");a&&(a.style.display="none",a.innerHTML=""),document.getElementById("perfilPlaceholder").classList.remove("d-none");const t=document.getElementById("badgePosicao");t&&(t.textContent="—");const o=document.getElementById("badgeSituacao");o&&(o.textContent="—",o.style.background="#e8e8e8",o.style.color="#6b7f93",o.style.border="1px solid #e8e8e8"),["ind2019ExcPeso","ind2019Desn","ind2019Gee"].forEach(e=>{const a=document.getElementById(e);a&&(a.textContent="—")});const n=document.getElementById("scrollInteg");n&&(n.scrollTop=0),_integRows.length&&(_integPage=0,document.getElementById("tabelaIntegBody").innerHTML="",_appendIntegRows())}const anos=[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],dadosJson=[{ano:"2008",desn:"0,13",exce_peso:"0,09",gee_pessoa:"17,84005"},{ano:"2009",desn:"0,13",exce_peso:"0,08",gee_pessoa:"13,55485"},{ano:"2010",desn:"0,12",exce_peso:"0,08",gee_pessoa:"13,88444"},{ano:"2011",desn:"0,12",exce_peso:"0,08",gee_pessoa:"14,13573"},{ano:"2012",desn:"0,11",exce_peso:"0,08",gee_pessoa:"14,78926"},{ano:"2013",desn:"0,11",exce_peso:"0,07",gee_pessoa:"16,30574"},{ano:"2014",desn:"0,11",exce_peso:"0,08",gee_pessoa:"15,42568"},{ano:"2015",desn:"0,11",exce_peso:"0,08",gee_pessoa:"16,13953"},{ano:"2016",desn:"0,11",exce_peso:"0,08",gee_pessoa:"15,52818"},{ano:"2017",desn:"0,11",exce_peso:"0,08",gee_pessoa:"14,07522"},{ano:"2018",desn:"0,09",exce_peso:"0,09",gee_pessoa:"13,74363"},{ano:"2019",desn:"0,11",exce_peso:"0,11",gee_pessoa:"14,05499"}],parseN=e=>parseFloat(e.replace(",",".")),dadosLinha={desn:dadosJson.map(e=>Math.round(100*parseN(e.desn))),exce_peso:dadosJson.map(e=>Math.round(100*parseN(e.exce_peso))),gee_pessoa:dadosJson.map(e=>parseN(e.gee_pessoa))},temas={desnutricao:{linhaTitle:"Evolução da Desnutrição",linhaSubtitle:"Prevalência de desnutrição aguda por 1.000 crianças",mapaSubtitle:"Índice de desnutrição por região",tabelaSubtitle:"Ranking por indicador de desnutrição",tabelaCol3:"Índice Desnutrição",tabelaCol4:"Casos registrados",barrasTitle:"Comparativo Regional — Desnutrição",barrasSubtitle:"Indicadores de desnutrição por macrorregião (2019)",linha:{datasets:[{label:"Desnutrição",data:dadosLinha.desn,borderColor:"#2e7d52",bg:"rgba(46,125,82,0.08)",dash:[]},{label:"Baixo peso para idade",data:[22.1,21.5,20.8,20,19.4,18.7,18.1,17.2,16.5,15.8,15.1,14.3],borderColor:"#7ecba1",bg:"rgba(126,203,161,0.06)",dash:[5,3]}]},barras:{labels:[["Cinturão Agrícola"],["Fronteira da","Vulnerabilidade"],["Eixo de","Desenvolvimento","Latente"],["Polo Econômico","Central"]],datasets:[{label:"Desnutrição",data:[11.63,18.87,12.04,8.92],bg:"rgba(46,125,82,0.80)"}]},mapa:[{lat:-3.7,lng:-38.5,nome:"Fortaleza",idx:.82,cor:"#e74c3c"},{lat:-8,lng:-34.9,nome:"Recife",idx:.79,cor:"#e74c3c"},{lat:-12.9,lng:-38.4,nome:"Salvador",idx:.71,cor:"#f39c12"},{lat:-1.4,lng:-48.4,nome:"Belém",idx:.77,cor:"#e74c3c"},{lat:-15.8,lng:-47.9,nome:"Brasília",idx:.45,cor:"#2ecc71"},{lat:-23.5,lng:-46.6,nome:"São Paulo",idx:.38,cor:"#2ecc71"},{lat:-22.9,lng:-43.2,nome:"Rio de Janeiro",idx:.44,cor:"#2ecc71"},{lat:-30,lng:-51.2,nome:"Porto Alegre",idx:.31,cor:"#27ae60"},{lat:-19.9,lng:-43.9,nome:"Belo Horizonte",idx:.42,cor:"#2ecc71"},{lat:-9.9,lng:-67.8,nome:"Rio Branco",idx:.68,cor:"#f39c12"}],mapaLabel:"Índice Desnutrição",indiceRange:[.2,.95],casosRange:[80,850]},excesso:{linhaTitle:"Evolução do Excesso de Peso",linhaSubtitle:"Prevalência de sobrepeso e obesidade por 1.000 crianças",mapaSubtitle:"Índice de excesso de peso por região",tabelaSubtitle:"Ranking por indicador de excesso de peso",tabelaCol3:"Índice Excesso Peso",tabelaCol4:"Casos registrados",barrasTitle:"Comparativo Regional — Excesso de Peso",barrasSubtitle:"Indicadores de excesso de peso por macrorregião (2019)",linha:{datasets:[{label:"Excesso de peso",data:dadosLinha.exce_peso,borderColor:"#e67e22",bg:"rgba(230,126,34,0.08)",dash:[]},{label:"Obesidade",data:[4.1,4.4,4.8,5.2,5.7,6.1,6.6,7,7.5,7.9,8.4,8.9],borderColor:"#e74c3c",bg:"rgba(231,76,60,0.06)",dash:[5,3]}]},barras:{labels:[["Cinturão Agrícola"],["Fronteira da","Vulnerabilidade"],["Eixo de","Desenvolvimento","Latente"],["Polo Econômico","Central"]],datasets:[{label:"Excesso de peso",data:[9.96,9.75,11.83,10],bg:"rgba(230,126,34,0.80)"}]},mapa:[{lat:-3.7,lng:-38.5,nome:"Fortaleza",idx:.41,cor:"#2ecc71"},{lat:-8,lng:-34.9,nome:"Recife",idx:.38,cor:"#2ecc71"},{lat:-12.9,lng:-38.4,nome:"Salvador",idx:.44,cor:"#2ecc71"},{lat:-1.4,lng:-48.4,nome:"Belém",idx:.39,cor:"#2ecc71"},{lat:-15.8,lng:-47.9,nome:"Brasília",idx:.68,cor:"#f39c12"},{lat:-23.5,lng:-46.6,nome:"São Paulo",idx:.81,cor:"#e74c3c"},{lat:-22.9,lng:-43.2,nome:"Rio de Janeiro",idx:.77,cor:"#e74c3c"},{lat:-30,lng:-51.2,nome:"Porto Alegre",idx:.84,cor:"#e74c3c"},{lat:-19.9,lng:-43.9,nome:"Belo Horizonte",idx:.72,cor:"#e74c3c"},{lat:-9.9,lng:-67.8,nome:"Rio Branco",idx:.35,cor:"#27ae60"}],mapaLabel:"Índice Excesso de Peso",indiceRange:[.15,.88],casosRange:[120,980]},dupla:{linhaTitle:"Evolução da Dupla Carga Nutricional",linhaSubtitle:"Coexistência de desnutrição e excesso de peso por 1.000 crianças",mapaSubtitle:"Índice de dupla carga por região",tabelaSubtitle:"Ranking por índice de dupla carga nutricional",tabelaCol3:"Índice Dupla Carga",tabelaCol4:"Municípios afetados",barrasTitle:"Comparativo Regional — Dupla Carga",barrasSubtitle:"Indicadores de dupla carga por macrorregião (2019)",linha:{datasets:[{label:"Índice Dupla Carga",data:[14.8,15.1,15.6,16,16.4,16.9,17.3,17.5,17.8,18.1,18.4,18.7],borderColor:"#6a4b9a",bg:"rgba(106,75,154,0.08)",dash:[]},{label:"Municípios em risco",data:[9.2,9.8,10.3,10.9,11.4,12,12.5,12.9,13.4,13.8,14.2,14.6],borderColor:"#9c6fd6",bg:"rgba(156,111,214,0.06)",dash:[5,3]}]},barras:{labels:["Norte","Nordeste","Centro-Oeste","Sudeste","Sul"],datasets:[{label:"Dupla Carga Leve (%)",data:[18.4,21.2,14.6,12.3,10.8],bg:"rgba(106,75,154,0.75)"},{label:"Dupla Carga Moderada (%)",data:[12.1,14.8,9.3,7.8,6.4],bg:"rgba(156,111,214,0.80)"},{label:"Dupla Carga Grave (%)",data:[6.3,8.1,4.2,3.1,2.4],bg:"rgba(231,76,60,0.70)"},{label:"Pop. em Transição (%)",data:[24.7,28.3,19.8,17.2,15.6],bg:"rgba(248,196,60,0.80)"}]},mapa:[{lat:-3.7,lng:-38.5,nome:"Fortaleza",idx:.74,cor:"#e74c3c"},{lat:-8,lng:-34.9,nome:"Recife",idx:.71,cor:"#e74c3c"},{lat:-12.9,lng:-38.4,nome:"Salvador",idx:.68,cor:"#f39c12"},{lat:-1.4,lng:-48.4,nome:"Belém",idx:.66,cor:"#f39c12"},{lat:-15.8,lng:-47.9,nome:"Brasília",idx:.58,cor:"#f39c12"},{lat:-23.5,lng:-46.6,nome:"São Paulo",idx:.61,cor:"#f39c12"},{lat:-22.9,lng:-43.2,nome:"Rio de Janeiro",idx:.63,cor:"#f39c12"},{lat:-30,lng:-51.2,nome:"Porto Alegre",idx:.49,cor:"#2ecc71"},{lat:-19.9,lng:-43.9,nome:"Belo Horizonte",idx:.55,cor:"#f39c12"},{lat:-9.9,lng:-67.8,nome:"Rio Branco",idx:.62,cor:"#f39c12"}],mapaLabel:"Índice Dupla Carga",indiceRange:[.25,.9],casosRange:[60,700]}};let tabAtual="nutri",temaAtual="desnutricao";const tabColors={nutri:"#2e7d52",clima:"#1a5f8a",integ:"#6a4b9a"};function hexToRgba(e,a){return`rgba(${parseInt(e.slice(1,3),16)},${parseInt(e.slice(3,5),16)},${parseInt(e.slice(5,7),16)},${a})`}const chartLinhaInst=new Chart(document.getElementById("chartLinha"),{type:"line",data:{labels:anos,datasets:[]},options:{responsive:!0,maintainAspectRatio:!1,animation:{duration:500},plugins:{legend:{display:!1},tooltip:{callbacks:{label:e=>`${e.dataset.label}: ${e.parsed.y}%`}}},scales:{x:{grid:{color:"rgba(0,0,0,0.04)"},ticks:{font:{family:"DM Sans",size:11}}},y:{grid:{color:"rgba(0,0,0,0.04)"},ticks:{font:{family:"DM Sans",size:11},callback:e=>e+"%"},min:0,max:15}}}}),chartBarrasInst=new Chart(document.getElementById("chartBarras"),{type:"bar",data:{labels:[],datasets:[]},options:{responsive:!0,maintainAspectRatio:!1,animation:{duration:500},plugins:{legend:{display:!1},tooltip:{callbacks:{title:e=>{const a=e[0].chart.data.labels[e[0].dataIndex];return Array.isArray(a)?a[0]:a},label:e=>`${e.dataset.label}: ${e.parsed.y}%`}}},scales:{x:{grid:{display:!1},ticks:{font:{family:"DM Sans",size:11},maxRotation:0,minRotation:0}},y:{grid:{color:"rgba(0,0,0,0.04)"},ticks:{font:{family:"DM Sans",size:11},callback:e=>e+"%"},min:0,max:20}}}}),temasClima={gee:{linha:{data:dadosLinha.gee_pessoa,label:"GEE per capita (tCO₂eq/hab)"},barras:{labels:[["Cinturão Agrícola"],["Fronteira da","Vulnerabilidade"],["Eixo de","Desenvolvimento","Latente"],["Polo Econômico","Central"]],datasets:[{label:"Média GEE (tCO₂eq/hab)",data:[56.19744,-9.502312,7.785395,11.85305]}]},mapa:[{lat:-15.8,lng:-47.9,nome:"Brasília",idx:6.8,cor:"#e74c3c"},{lat:-23.5,lng:-46.6,nome:"São Paulo",idx:5.9,cor:"#e74c3c"},{lat:-30,lng:-51.2,nome:"Porto Alegre",idx:5.4,cor:"#f39c12"},{lat:-19.9,lng:-43.9,nome:"Belo Horizonte",idx:4.8,cor:"#f39c12"},{lat:-22.9,lng:-43.2,nome:"Rio de Janeiro",idx:4.5,cor:"#f39c12"},{lat:-12.9,lng:-38.4,nome:"Salvador",idx:3.1,cor:"#2ecc71"},{lat:-8,lng:-34.9,nome:"Recife",idx:2.7,cor:"#2ecc71"},{lat:-3.7,lng:-38.5,nome:"Fortaleza",idx:2.4,cor:"#2ecc71"},{lat:-1.4,lng:-48.4,nome:"Belém",idx:2.1,cor:"#27ae60"},{lat:-9.9,lng:-67.8,nome:"Rio Branco",idx:1.8,cor:"#27ae60"}],indiceRange:[1,9],casosRange:[10,500]}},barPaletteClima=["#1a5f8a","#72c3f0","#fcc419","#f06595"],chartLinhaC=new Chart(document.getElementById("chartLinhaC"),{type:"line",data:{labels:anos,datasets:[]},options:{responsive:!0,maintainAspectRatio:!1,animation:{duration:500},plugins:{legend:{display:!1}},scales:{x:{grid:{color:"rgba(0,0,0,0.04)"},ticks:{font:{family:"DM Sans",size:11}}},y:{grid:{color:"rgba(0,0,0,0.04)"},ticks:{font:{family:"DM Sans",size:11},callback:e=>e+"t"},min:0,max:20}}}}),chartBarrasC=new Chart(document.getElementById("chartBarrasC"),{type:"bar",data:{labels:[],datasets:[]},options:{responsive:!0,maintainAspectRatio:!1,animation:{duration:500},plugins:{legend:{display:!1},tooltip:{callbacks:{title:e=>{const a=e[0].chart.data.labels[e[0].dataIndex];return Array.isArray(a)?a[0]:a}}}},scales:{x:{grid:{display:!1},ticks:{font:{family:"DM Sans",size:11},maxRotation:0,minRotation:0}},y:{grid:{color:"rgba(0,0,0,0.04)"},ticks:{font:{family:"DM Sans",size:11}},min:-20,max:60}}}});let mapClimaInstance,mapClimaInicializado=!1,mapaClimaLayer=null,mapaClimaZoomSet=!1;function getCorClima(e){return null==e?"#e8e8e8":e>4?"#e74c3c":e>=2?"#ffc107":"#4caf7d"}function inicializarMapaClima(){mapClimaInstance=L.map("map-c",{zoomControl:!0,scrollWheelZoom:!0,attributionControl:!1});const e=L.control({position:"bottomleft"});e.onAdd=()=>{const e=L.DomUtil.create("div","mapa-legenda");return e.innerHTML='<div style="font-weight:700;font-size:11px;margin-bottom:4px;">Emissão de GEE per capita</div><div class="legenda-item"><span class="legenda-cor" style="background:#4caf7d"></span>&lt; 2Kt</div><div class="legenda-item"><span class="legenda-cor" style="background:#ffc107"></span>2Kt – 4Kt</div><div class="legenda-item"><span class="legenda-cor" style="background:#e74c3c"></span>&gt; 4Kt</div><div class="legenda-item"><span class="legenda-cor" style="background:#e8e8e8;border:1px solid #ccc"></span>Sem dados</div>',e},e.addTo(mapClimaInstance)}function renderMapaClima(){const e={};dadosMunicipios.forEach(a=>{a.municipality_code&&"."!==a.gee_pessoa&&""!==a.gee_pessoa&&(e[String(a.municipality_code)]=parseFloat(a.gee_pessoa.replace(",",".")))}),geoMunicipiosPromise.then(a=>{if(mapaClimaLayer&&mapaClimaLayer.remove(),mapaClimaLayer=L.geoJSON(a,{style:a=>({fillColor:getCorClima(e[a.properties.id]??null),color:"#fff",weight:.2,fillOpacity:.85}),onEachFeature:(a,t)=>{const o=e[a.properties.id],n=null!=o?o.toFixed(2):"Sem dados";t.bindPopup(`<strong>${a.properties.name}</strong><br>GEE per capita: ${n}`,{autoPanPadding:[20,20]}),t.on("mouseover",function(){this.setStyle({fillOpacity:.4})}),t.on("mouseout",function(){this.setStyle({fillOpacity:.85})})}}).addTo(mapClimaInstance),mapClimaInstance.fitBounds(mapaClimaLayer.getBounds()),!mapaClimaZoomSet){mapaClimaZoomSet=!0;const e=mapClimaInstance.getZoom();mapClimaInstance.setMinZoom(e),mapClimaInstance.setMaxZoom(e+3),mapClimaInstance.setMaxBounds(mapaClimaLayer.getBounds().pad(.3))}})}function aplicarTemaClima(){const e=temasClima.gee,a="#1a5f8a";chartLinhaC.data.datasets=[{label:e.linha.label,data:e.linha.data,borderColor:a,backgroundColor:"rgba(26,95,138,0.08)",tension:.4,pointRadius:4,pointBackgroundColor:a,fill:!0,borderWidth:2}],chartLinhaC.update(),chartBarrasC.data.labels=e.barras.labels,chartBarrasC.data.datasets=e.barras.datasets.map((e,a)=>({label:e.label,data:e.data,backgroundColor:barPaletteClima[a],borderRadius:5})),chartBarrasC.update();const t=dadosMunicipios.filter(e=>e.prioridade_geepessoa&&"."!==e.prioridade_geepessoa).sort((e,a)=>parseInt(e.prioridade_geepessoa)-parseInt(a.prioridade_geepessoa)).map(e=>{const a=parseFloat(e.gee_pessoa.replace(",",".")).toFixed(2);return`<tr>\n      <td><strong>#${e.prioridade_geepessoa}</strong></td>\n      <td>${e.municipality}</td>\n      <td>${e.state}</td>\n      <td>${a}</td>\n    </tr>`}).join("");document.getElementById("tabelaClima").innerHTML=`<thead><tr><th>Posição</th><th>Município</th><th>Estado</th><th>tCO₂e/pessoa</th></tr></thead><tbody>${t}</tbody>`,renderMapaClima()}const mapInstance=L.map("map",{zoomControl:!0,scrollWheelZoom:!0,attributionControl:!1}),geoMunicipiosPromise=fetch("https://lcarnicelli.github.io/sustentarea/painel-sindemia/data/municipios-geo.json").then(e=>e.json());let mapaNutriLayer=null,legendaNutriDiv=null,mapaNutriZoomSet=!1;const legendaNutri=L.control({position:"bottomleft"});legendaNutri.onAdd=()=>(legendaNutriDiv=L.DomUtil.create("div","mapa-legenda"),legendaNutriDiv),legendaNutri.addTo(mapInstance);const _legendaNutriHtml={excesso:'<div style="font-weight:700;font-size:11px;margin-bottom:4px;">Prevalência de excesso de peso</div><div class="legenda-item"><span class="legenda-cor" style="background:#4caf7d"></span>&lt; 5%</div><div class="legenda-item"><span class="legenda-cor" style="background:#ffc107"></span>5% – 10%</div><div class="legenda-item"><span class="legenda-cor" style="background:#e74c3c"></span>&gt; 10%</div>',desnutricao:'<div style="font-weight:700;font-size:11px;margin-bottom:4px;">Prevalência de desnutrição</div><div class="legenda-item"><span class="legenda-cor" style="background:#4caf7d"></span>&lt; 10%</div><div class="legenda-item"><span class="legenda-cor" style="background:#ffc107"></span>10% – 20%</div><div class="legenda-item"><span class="legenda-cor" style="background:#e74c3c"></span>&gt; 20%</div>',dupla:'<div class="legenda-item"><span class="legenda-cor" style="background:#1b4332"></span>Muito bom</div><div class="legenda-item"><span class="legenda-cor" style="background:#4caf7d"></span>Bom</div><div class="legenda-item"><span class="legenda-cor" style="background:#ffc107"></span>Regular</div><div class="legenda-item"><span class="legenda-cor" style="background:#e74c3c"></span>Ruim</div><div class="legenda-item"><span class="legenda-cor" style="background:#7b1d1d"></span>Muito ruim</div>'},_corDupla={"Verde escuro":"#1b4332",Verde:"#4caf7d",Amarelo:"#ffc107",Vermelho:"#e74c3c","Vermelho escuro":"#7b1d1d"},_labelDupla={"Verde escuro":"Muito bom",Verde:"Bom",Amarelo:"Regular",Vermelho:"Ruim","Vermelho escuro":"Muito ruim"};function getCorNutri(e,a){return null==e?"#e8e8e8":"desnutricao"===a?e<10?"#4caf7d":e<=20?"#ffc107":"#e74c3c":e<5?"#4caf7d":e<=10?"#ffc107":"#e74c3c"}function renderMapaNutri(e){const a={};if("dupla"===e)dadosMunicipios.forEach(e=>{e.municipality_code&&e.desn_exce_pesso_niveis&&"."!==e.desn_exce_pesso_niveis&&(a[String(e.municipality_code)]={nivel:e.desn_exce_pesso_niveis,exce_peso:e.p_exce_peso&&"."!==e.p_exce_peso?(100*parseFloat(e.p_exce_peso.replace(",","."))).toFixed(2):null,desn:e.p_desn&&"."!==e.p_desn?(100*parseFloat(e.p_desn.replace(",","."))).toFixed(2):null})});else{const t="excesso"===e?"p_exce_peso":"p_desn";dadosMunicipios.forEach(e=>{e.municipality_code&&"."!==e[t]&&(a[String(e.municipality_code)]=100*parseFloat(e[t].replace(",",".")))})}legendaNutriDiv&&(legendaNutriDiv.innerHTML=_legendaNutriHtml[e]||"");const t={excesso:"Excesso de peso",desnutricao:"Desnutrição",dupla:"Dupla carga"}[e];geoMunicipiosPromise.then(o=>{if(mapaNutriLayer&&mapaNutriLayer.remove(),mapaNutriLayer=L.geoJSON(o,{style:t=>{const o=a[t.properties.id];return{fillColor:"dupla"===e?_corDupla[o?.nivel]||"#e8e8e8":getCorNutri(o??null,e),color:"#fff",weight:.2,fillOpacity:.85}},onEachFeature:(o,n)=>{const i=a[o.properties.id];let s;if("dupla"===e){const e=i&&_labelDupla[i.nivel]||"Sem dados",a=null!=i?.exce_peso?i.exce_peso+"%":"Sem dados",n=null!=i?.desn?i.desn+"%":"Sem dados";s=`<strong>${o.properties.name}</strong><br>${t}: ${e}<br>Excesso de peso: ${a}<br>Desnutrição: ${n}`}else{const e=null!=i?i.toFixed(2)+"%":"Sem dados";s=`<strong>${o.properties.name}</strong><br>${t}: ${e}`}n.bindPopup(s,{autoPanPadding:[20,20]}),n.on("mouseover",function(){this.setStyle({fillOpacity:.4})}),n.on("mouseout",function(){this.setStyle({fillOpacity:.85})})}}).addTo(mapInstance),mapInstance.fitBounds(mapaNutriLayer.getBounds()),!mapaNutriZoomSet){mapaNutriZoomSet=!0;const e=mapInstance.getZoom();mapInstance.setMinZoom(e),mapInstance.setMaxZoom(e+3),mapInstance.setMaxBounds(mapaNutriLayer.getBounds().pad(.3))}})}let dadosMunicipios=[];function atualizarTabela(e){let a;if("excesso"===e||"desnutricao"===e){const t="excesso"===e?"prioridade_exce_peso":"prioridade_desn";a=`<thead><tr><th>Posição</th><th>Município</th><th>Estado</th></tr></thead><tbody>${dadosMunicipios.filter(e=>e[t]&&"."!==e[t]).sort((e,a)=>parseInt(e[t])-parseInt(a[t])).map(e=>`<tr>\n        <td><strong>#${e[t]}</strong></td>\n        <td>${e.municipality}</td>\n        <td>${e.state}</td>\n      </tr>`).join("")}</tbody>`}else if("dupla"===e){a=`<thead><tr><th>Posição</th><th>Município</th><th>Estado</th></tr></thead><tbody>${dadosMunicipios.filter(e=>e.prioridade_dupla&&"."!==e.prioridade_dupla).sort((e,a)=>parseInt(e.prioridade_dupla)-parseInt(a.prioridade_dupla)).map(e=>`<tr>\n        <td><strong>#${e.prioridade_dupla}</strong></td>\n        <td>${e.municipality}</td>\n        <td>${e.state}</td>\n      </tr>`).join("")}</tbody>`}else a="<thead><tr><th>Posição</th><th>Município</th><th>Estado</th></tr></thead><tbody></tbody>";document.getElementById("tabelaMunicipios").innerHTML=a}function aplicarTema(e){const a=temas[e],t=tabColors[tabAtual],o=a.linha.datasets[0];chartLinhaInst.data.datasets=[{label:o.label,data:o.data,borderColor:t,backgroundColor:hexToRgba(t,.08),tension:.4,pointRadius:4,pointBackgroundColor:t,fill:!0,borderWidth:2,borderDash:[]}],chartLinhaInst.update();const n=a.barras.datasets[0];chartBarrasInst.data.labels=a.barras.labels,chartBarrasInst.data.datasets=[{label:n.label,data:n.data,backgroundColor:hexToRgba(t,.8),borderRadius:5}],chartBarrasInst.update(),atualizarTabela(e),renderMapaNutri(e);const i='<a href="https://data.unicef.org/resources/jme-report-2021/" target="_blank" style="color:#9aacbe;">https://data.unicef.org/resources/jme-report-2021/</a>',s={excesso:`Fonte: Pontos de corte para prevalência de sobrepeso infantil estabelecidos com base na referência utilizada pelos relatórios da UNICEF: UNICEF/WHO/World Bank Joint Child Malnutrition Estimates Database [Internet]. UNICEF DATA. 2021. ${i}`,desnutricao:`Fonte: Pontos de corte para o déficit de estatura estabelecidos com base na referência utilizada pelos relatórios da UNICEF: UNICEF/WHO/World Bank Joint Child Malnutrition Estimates Database [Internet]. UNICEF DATA. 2021. ${i}`,dupla:""},l=document.getElementById("fonteMapaNutri");l.innerHTML=s[e]||"",l.style.display=s[e]?"":"none";const r={excesso:"A classificação de crianças menores de 5 anos com excesso de peso foi feita à partir do indicador IMC-para-idade, conforme protocolos do SISVAN e da Organização Mundial da Saúde, considerando o pontos de corte em escore-z > +2.",desnutricao:"A classificação de crianças menores de 5 anos com desnutrição foi feita à partir do indicador estatura-para-idade, conforme protocolos do SISVAN e da Organização Mundial da Saúde, considerando o pontos de corte em escore-z < -2."},d=document.getElementById("infoIconEvolNutri");if(d){const a=r[e]||null;d.style.display=a?"":"none",a&&(d.setAttribute("data-bs-original-title",a),bootstrap.Tooltip.getInstance(d)?.setContent({".tooltip-inner":a}))}const c='A classificação dos municípios segundo situação, de "muito bom" a "muito ruim", de dupla carga de má nutrição foi feita com base na tendência temporal de aumento, redução ou estabilização das prevalências de desnutrição e excesso de peso em crianças menores de 5 anos nos seus territórios.',p=document.getElementById("infoIconMapaNutri");if(p){const a="dupla"===e;p.style.display=a?"":"none",a&&(p.setAttribute("data-bs-original-title",c),bootstrap.Tooltip.getInstance(p)?.setContent({".tooltip-inner":c}))}}const matrizDados=[[2,20,3],[3,52,14],[0,3,2]],matrizCores=[["#27ae60","#a8ddb8","#fde8d8"],["#a8ddb8","#fef9c3","#ffc8b0"],["#fde8d8","#ffc8b0","#c0392b"]],matrizTextoCores=[["#fff","#1a3d28","#7a3010"],["#1a3d28","#5a4a00","#7a2000"],["#7a3010","#7a2000","#fff"]];function renderMatriz(){const e=["Redução","Sem mudança","Aumento"];let a=`<table class="matriz-table">\n    <thead>\n      <tr>\n        <th colspan="2" rowspan="2" class="matriz-corner"></th>\n        <th colspan="3" class="matriz-header-top">Excesso de Peso</th>\n      </tr>\n      <tr>\n        ${e.map(e=>`<th class="matriz-header-col">${e}</th>`).join("")}\n      </tr>\n    </thead>\n    <tbody>`;e.forEach((e,t)=>{a+="<tr>",0===t&&(a+='<th rowspan="3" class="matriz-header-row-group">Desnutrição</th>'),a+=`<th class="matriz-header-row">${e}</th>`,matrizDados[t].forEach((e,o)=>{a+=`<td class="matriz-cell" style="background:${matrizCores[t][o]};color:${matrizTextoCores[t][o]};">${e}%</td>`}),a+="</tr>"}),a+="</tbody></table>",document.getElementById("matrizDupla").innerHTML=a}function switchNutri(e,a){document.querySelectorAll(".nutri-pill").forEach(e=>e.classList.remove("active")),a.classList.add("active"),temaAtual=e;const t="dupla"===e;document.getElementById("col-linha").style.display=t?"none":"",document.getElementById("col-barras").style.display=t?"none":"",document.getElementById("col-matriz").style.display=t?"":"none",t&&renderMatriz();const o=document.getElementById("infoIconDupla");o.style.display="",o._ttInit||(new bootstrap.Tooltip(o),o._ttInit=!0);const n=document.getElementById("searchNutri");n.value="",n.style.color="",n.style.borderColor="",document.querySelectorAll("#tabelaMunicipios tbody tr").forEach(e=>e.classList.remove("table-row-highlight")),document.getElementById("tabelaMunicipios").closest(".table-scroll").scrollTo({top:0,behavior:"instant"}),aplicarTema(e)}const semAcento=e=>e.normalize("NFD").replace(/[\u0300-\u036f]/g,"");function buscarTabela(e,a){const t=document.getElementById(e),o=semAcento(t.value.trim().toLowerCase()),n=document.querySelectorAll(`#${a} tbody tr`);let i=null,s=!1;n.forEach(e=>{e.classList.remove("table-row-highlight"),o.length>=3&&e.cells[1]&&semAcento(e.cells[1].textContent.toLowerCase()).includes(o)&&(e.classList.add("table-row-highlight"),i||(i=e),s=!0)});const l=o.length>=3&&!s;if(t.style.color=l?"#e74c3c":"",t.style.borderColor=l?"#e74c3c":"",i){const e=t.closest(".card-body").querySelector(".table-scroll"),o=document.querySelector(`#${a} thead`).offsetHeight;e.scrollTo({top:i.offsetTop-o,behavior:"smooth"})}}const _coresSituacao={"Prioridade máxima":{bg:"#f2cece",color:"#a03c3c"},"Clima + desnutrição":{bg:"#fdebd9",color:"#7a3010"},"Clima + obesidade":{bg:"#fdebd9",color:"#7a3010"},"Dupla carga de má nutrição":{bg:"#fdebd9",color:"#7a3010"},"Alerta: Desnutrição":{bg:"#fef9e7",color:"#7a6500"},"Alerta: Excesso de peso":{bg:"#fef9e7",color:"#7a6500"},"Alerta: Clima":{bg:"#fef9e7",color:"#7a6500"},"Alerta: Regular":{bg:"#f5f5ec",color:"#5a6a80"},Sustentabilidade:{bg:"#b2dfcb",color:"#1e5c38"}};let chartPerfilInst=null;function setupMunicipioAutocomplete(){const e=document.getElementById("inputMunicipio"),a=document.getElementById("municipioDropdown");e.addEventListener("input",()=>{const t=semAcento(e.value.trim().toLowerCase());if(t.length<3)return a.style.display="none",void(a.innerHTML="");const o=dadosMunicipios.filter(e=>semAcento(e.municipality.toLowerCase()).includes(t)).sort((e,a)=>e.municipality.localeCompare(a.municipality,"pt-BR")).slice(0,10);o.length?(a.innerHTML=o.map(e=>`<li data-code="${e.municipality_code}" data-name="${e.municipality} (${e.federal_unit||e.state})"\n           style="padding:8px 12px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">\n         ${e.municipality} <span style="color:#9aacbe;font-size:12px;">${e.federal_unit||e.state}</span>\n       </li>`).join(""),a.querySelectorAll("li").forEach(t=>{t.addEventListener("mouseenter",()=>t.style.background="#f0f3f6"),t.addEventListener("mouseleave",()=>t.style.background=""),t.addEventListener("click",()=>{e.value=t.dataset.name,e.style.color="",e.style.borderColor="",a.style.display="none",renderPerfilMunicipio(t.dataset.code)})}),a.style.display="block"):a.style.display="none"}),document.addEventListener("click",e=>{document.getElementById("municipioAutocomplete").contains(e.target)||(a.style.display="none")}),e.addEventListener("keydown",e=>{"Escape"===e.key&&(a.style.display="none")})}function renderPerfilMunicipio(e){const a=dadosMunicipios.find(a=>String(a.municipality_code)===String(e)),t=_integRows.findIndex(a=>String(a.municipality_code)===String(e));document.getElementById("badgePosicao").textContent=t>=0?`#${t+1}`:"—";const o=document.getElementById("badgeSituacao"),n=a?.situacao&&"."!==a.situacao?a.situacao:null,i=n&&_coresSituacao[n]||{bg:"#e8e8e8",color:"#6b7f93"};o.textContent=n||"Sem dados",o.style.background=i.bg,o.style.color=i.color,o.style.border=`1px solid ${i.bg}`;const s=e=>null!=e&&"."!==e&&""!==e?(100*parseFloat(String(e).replace(",","."))).toFixed(2)+"%":"—";var l;document.getElementById("ind2019ExcPeso").textContent=a?s(a.p_exce_peso):"—",document.getElementById("ind2019Desn").textContent=a?s(a.p_desn):"—",document.getElementById("ind2019Gee").textContent=a?null!=(l=a.gee_pessoa)&&"."!==l&&""!==l?parseFloat(String(l).replace(",",".")).toFixed(2)+" t":"—":"—";const r=e=>{if(!e||"."===e||""===e)return null;const[a,t]=String(e).split("#");if(!a||!t)return null;const[o,n]=a.split("|"),[i,s]=t.split("|");return{ano1:o,val1:parseFloat(n),ano2:i,val2:parseFloat(s)}},d=r(a?.exce_peso_t),c=r(a?.desn_t),p=r(a?.gee_t),m=["2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019"],u=(e,a,t,o)=>m.map(n=>n===String(e)?a:n===String(t)?o:null),g=d?u(d.ano1,+d.val1.toFixed(2),d.ano2,+d.val2.toFixed(2)):m.map(()=>null),b=c?u(c.ano1,+c.val1.toFixed(2),c.ano2,+c.val2.toFixed(2)):m.map(()=>null),f=p&&0!==p.val1?+((p.val2-p.val1)/Math.abs(p.val1)*100).toFixed(2):null,y=p?u(p.ano1,0,p.ano2,f):m.map(()=>null),h=[6,4],x=(e,a,t)=>({label:e,data:a,borderColor:t,backgroundColor:"transparent",borderDash:h,pointRadius:4,pointBackgroundColor:t,tension:0,borderWidth:2,spanGaps:!0}),C=x("Excesso de peso",g,"#e67e22"),I=x("Desnutrição",b,"#2e7d52"),_=x("Emissões de GEE",y,"#1a5f8a");document.getElementById("perfilPlaceholder").classList.add("d-none"),chartPerfilInst?(chartPerfilInst.data.labels=m,chartPerfilInst.data.datasets[0].data=g,chartPerfilInst.data.datasets[1].data=b,chartPerfilInst.data.datasets[2].data=y,chartPerfilInst.update()):chartPerfilInst=new Chart(document.getElementById("chartPerfil").getContext("2d"),{type:"line",data:{labels:m,datasets:[C,I,_]},options:{responsive:!0,maintainAspectRatio:!1,plugins:{legend:{display:!0,position:"bottom",labels:{font:{family:"DM Sans",size:11},boxWidth:7,boxHeight:7,padding:12,usePointStyle:!0,pointStyle:"circle"}},tooltip:{callbacks:{label:e=>{const a=e.parsed.y;return null==a?`${e.dataset.label}: —`:`${e.dataset.label}: ${a.toFixed(2)}%`}}}},scales:{x:{grid:{display:!1},ticks:{font:{family:"DM Sans",size:11},autoSkip:!1,maxRotation:45,minRotation:45}},y:{grid:{color:"rgba(0,0,0,0.04)"},ticks:{font:{family:"DM Sans",size:11}},title:{display:!0,text:"% de mudança",font:{family:"DM Sans",size:10},color:"#9aacbe"}}}}})}let _integRows=[],_integPage=0;const _INTEG_PAGE_SIZE=50;function renderTabelaInteg(){_integRows=dadosMunicipios.filter(e=>""!==e.trend_final&&"."!==e.trend_final).sort((e,a)=>{const t=parseFloat(a.trend_final.replace(",","."))-parseFloat(e.trend_final.replace(",","."));return 0!==t?t:e.municipality.localeCompare(a.municipality,"pt-BR")}),_integPage=0,document.getElementById("tabelaIntegBody").innerHTML="",_appendIntegRows();document.getElementById("scrollInteg").addEventListener("scroll",_onIntegScroll)}const _trendLabel={"-2":"Muito bom","-1":"Bom",0:"Regular",1:"Ruim",2:"Muito ruim"};function _fmtTrend(e){return _trendLabel[String(e)]||e}function _rowHtmlInteg(e,a){const t=e.situacao&&"."!==e.situacao?e.situacao:null,o=t&&_coresSituacao[t]||{bg:"#e8e8e8",color:"#6b7f93"},n=`<span style="display:inline-block;padding:2px 10px;border-radius:20px;font-size:11.5px;font-weight:600;background:${o.bg};color:${o.color};white-space:nowrap;">${t||"Sem dados"}</span>`;return`<tr>\n    <td><strong>#${a+1}</strong></td>\n    <td>${e.municipality}</td>\n    <td>${e.federal_unit}</td>\n    <td class="text-center">${_fmtTrend(e.trend_ob2)}</td>\n    <td class="text-center">${_fmtTrend(e.trend_desn2)}</td>\n    <td class="text-center">${_fmtTrend(e.trend_seeg3)}</td>\n    <td class="text-center">${n}</td>\n  </tr>`}function _appendIntegRows(){const e=_integPage*_INTEG_PAGE_SIZE,a=_integRows.slice(e,e+_INTEG_PAGE_SIZE);if(!a.length)return;document.getElementById("tabelaIntegBody").insertAdjacentHTML("beforeend",a.map((a,t)=>_rowHtmlInteg(a,e+t)).join("")),_integPage++}function _onIntegScroll(){const e=document.getElementById("scrollInteg");e.scrollTop+e.clientHeight>=e.scrollHeight-80&&_appendIntegRows()}fetch("https://lcarnicelli.github.io/sustentarea/painel-sindemia/data/municipios.json").then(e=>e.json()).then(e=>{dadosMunicipios=e,aplicarTema("excesso"),renderTabelaInteg(),setupMunicipioAutocomplete();const a=document.getElementById("infoIconDupla");a.style.display="",new bootstrap.Tooltip(a),a._ttInit=!0,new bootstrap.Tooltip(document.getElementById("infoIconSistAlimNutri"),{customClass:"tooltip-light"}),new bootstrap.Tooltip(document.getElementById("infoIconSistAlimClima"),{customClass:"tooltip-light"}),new bootstrap.Tooltip(document.getElementById("infoIconEvolNutri"),{customClass:"tooltip-wide"}),new bootstrap.Tooltip(document.getElementById("infoIconMapaNutri"),{customClass:"tooltip-wide"}),new bootstrap.Tooltip(document.getElementById("infoIconMatrizDupla"),{customClass:"tooltip-wide"})});</script>
+</body>
+</html>
