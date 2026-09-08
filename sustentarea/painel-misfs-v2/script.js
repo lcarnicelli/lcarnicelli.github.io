@@ -261,10 +261,10 @@ function init() {
         },
         click: () => {
           if (typeRadio === 'estados') {
-            selectByName(nome);
+            selectByName(nome, true);
           } else {
             const capitalNome = UF_TO_CAPITAL[sigla];
-            if (capitalNome) selectByName(capitalNome);
+            if (capitalNome) selectByName(capitalNome, true);
           }
         }
       });
@@ -372,7 +372,7 @@ function init() {
     }
   }
 
-  function applySelection(idx) {
+  function applySelection(idx, scrollList) {
     idx = parseInt(idx, 10);
     let typeObj = typeRadio == 'estados' ? estadosObj : capitaisObj;
     let thisObj = typeObj[idx];
@@ -412,16 +412,26 @@ function init() {
     const row = document.querySelector('#filterTableBody tr[data-idx="' + idx + '"]');
     if (row) {
       row.classList.add('selected');
-      row.scrollIntoView({ block: 'center' });
+      if (scrollList) {
+        // não usar scrollIntoView: ele propaga a rolagem pra fora (inclusive pro documento pai, quando
+        // embutido em iframe); aqui ajustamos só o scrollTop do próprio container, sem afetar ancestrais
+        const rankingWrap = document.querySelector('.ranking-table-wrap');
+        if (rankingWrap) {
+          const wrapRect = rankingWrap.getBoundingClientRect();
+          const rowRect = row.getBoundingClientRect();
+          const offset = (rowRect.top + rowRect.height / 2) - (wrapRect.top + wrapRect.height / 2);
+          rankingWrap.scrollTop += offset;
+        }
+      }
     }
     highlightOnMap(thisObj.nome);
   }
 
-  function selectByName(nome) {
+  function selectByName(nome, scrollList) {
     let typeObj = typeRadio == 'estados' ? estadosObj : capitaisObj;
     let idx = typeObj.findIndex((o) => o.nome === nome);
     if (idx === -1) return;
-    applySelection(idx);
+    applySelection(idx, scrollList);
   }
 
   function setEconomicoDisplay(typeRadio) {
