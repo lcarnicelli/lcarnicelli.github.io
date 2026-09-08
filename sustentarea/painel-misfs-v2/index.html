@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="pt-BR" data-bs-theme="auto">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>MISFS-R - Painel interativo</title>
+  
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous">
+
+    <style>
+      #brasilMap { overflow: hidden; cursor: pointer; background: #fff; }
+      .leaflet-tooltip-pane { z-index: 700; }
+      .capital-name-marker {
+        background: #fff;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0,0,0,.3);
+        padding: 2px 4px;
+        font-size: 11px;
+        line-height: 11px;
+        font-weight: 600;
+        color: #444;
+        white-space: nowrap;
+        cursor: pointer;
+        transform: translate(-50%, -50%);
+      }
+      .capital-name-marker:hover { background: #f1e6ef; }
+      .capital-name-marker.selected { background: #a05a96; color: #fff; }
+      .state-label {
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        font-size: 10px;
+        font-weight: 700;
+        color: #fff;
+        text-shadow: 0 0 3px rgba(0,0,0,.6), 0 0 3px rgba(0,0,0,.6);
+        pointer-events: none;
+      }
+      .state-label::before { display: none; }
+      .ranking-table-wrap { min-height: 0; scrollbar-width: thin; }
+      .ranking-table-wrap::-webkit-scrollbar { width: 6px; }
+      .ranking-table-wrap::-webkit-scrollbar-track { background: transparent; }
+      .ranking-table-wrap::-webkit-scrollbar-thumb { background-color: rgba(0,0,0,.25); border-radius: 3px; }
+      .ranking-table tbody tr { cursor: pointer; }
+      .ranking-table tbody tr.selected { --bs-table-accent-bg: rgba(0,0,0,.16); }
+      .ranking-table thead th { position: sticky; top: 0; background-color: #fff; z-index: 1; }
+    </style>
+
+  </head>
+  <body>
+    
+    <main class="vh-100">
+
+      <div class="d-flex flex-row h-100">
+        
+        <!-- Sidebar -->
+        <div class="d-flex flex-column text-bg-dark p-4 h-100" style="width: 360px;">
+          <h2>MISFS-R</h2>
+          <h5 class="text-white-50 mb-4">Painel interativo</h5>
+          <div class="mb-2">
+            <a href="#" class="btn btn-sm btn-outline-light" data-bs-toggle="modal" data-bs-target="#metodologiaModal">Metodologia</a>
+            <a href="#" class="btn btn-sm btn-outline-light" data-bs-toggle="modal" data-bs-target="#informacoesModal">Informações</a>
+            <a href="#" class="btn btn-sm btn-outline-light" data-bs-toggle="modal" data-bs-target="#comousarModal">Como usar</a>
+          </div>
+          <hr>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="typeRadio" id="estadosRadio" checked>
+            <label class="form-check-label" for="estadosRadio">
+              Estados
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="typeRadio" id="capitaisRadio">
+            <label class="form-check-label" for="capitaisRadio">
+              Capitais
+            </label>
+          </div>
+          <hr>
+          <p class="text-white-50 fw-bold mb-2" style="font-size: 13px; letter-spacing: .03em; text-transform: uppercase;">Ranking geral</p>
+          <div class="flex-fill overflow-hidden rounded bg-white p-2">
+            <div class="h-100 overflow-y-auto bg-white ranking-table-wrap">
+              <table class="table table-hover table-sm align-middle mb-0 bg-white ranking-table">
+                <thead>
+                  <tr class="text-secondary" style="font-size: 12px;">
+                    <th style="width: 36px;">Pos.</th>
+                    <th id="filterTableHeader">Estado</th>
+                    <th style="width: 52px;">Região</th>
+                    <th class="text-center" style="width: 72px;">Pontuação</th>
+                  </tr>
+                </thead>
+                <tbody id="filterTableBody" style="font-size: 13px;"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Content -->
+        <div class="flex-fill text-bg-light h-100 overflow-y-scroll">
+          <div class="container p-4">
+
+            <!-- Totals -->
+            <div class="row gx-3 mb-4 h-100">
+              <div class="col">
+                <div class="p-3 bg-white rounded shadow-sm" style="border-left: 5px solid #a05a96;">
+                  <div class="d-flex flex-row align-items-start justify-content-between">
+                    <div class="d-flex flex-column me-3">
+                      <p class="fw-bold mb-1" style="font-size: 14px; color: #a05a96;">MISFS-R</p>
+                      <p id="misfsrPts" class="fs-3 mb-2">-</p>
+                      <p class="text-secondary mb-0">Brasil: 51</p>
+                    </div>
+                    <img src="img/misfs-r-icon.webp" width="46">
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="p-3 bg-white rounded shadow-sm" style="border-left: 5px solid rgba(112,173,71,1);">
+                  <div class="d-flex flex-row align-items-start justify-content-between">
+                    <div class="d-flex flex-column me-3">
+                      <p class="fw-bold mb-1" style="font-size: 14px; color: rgba(112,173,71,1);">SOCIAL</p>
+                      <p id="socialPts" class="fs-3 mb-2">-</p>
+                      <p class="text-secondary mb-0">Brasil: 55</p>
+                    </div>
+                    <img src="img/misfs-r-icon-social.webp" width="46">
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="p-3 bg-white rounded shadow-sm" style="border-left: 5px solid rgba(237,125,49,1);">
+                  <div class="d-flex flex-row align-items-start justify-content-between">
+                    <div class="d-flex flex-column me-3">
+                      <p class="fw-bold mb-1" style="font-size: 14px; color: rgba(237,125,49,1);">NUTRICIONAL</p>
+                      <p id="nutricionalPts" class="fs-3 mb-2">-</p>
+                      <p class="text-secondary mb-0">Brasil: 52</p>
+                    </div>
+                    <img src="img/misfs-r-icon-nutricional.webp" width="46">
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="p-3 bg-white rounded shadow-sm" style="border-left: 5px solid rgba(91,155,213,1);">
+                  <div class="d-flex flex-row align-items-start justify-content-between">
+                    <div class="d-flex flex-column me-3">
+                      <p class="fw-bold mb-1" style="font-size: 14px; color: rgba(91,155,213,1);">AMBIENTAL</p>
+                      <p id="ambientalPts" class="fs-3 mb-2">-</p>
+                      <p class="text-secondary mb-0">Brasil: 52</p>
+                    </div>
+                    <img src="img/misfs-r-icon-ambiental.webp" width="46">
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="p-3 bg-white rounded shadow-sm" style="border-left: 5px solid rgba(255,192,0,1);">
+                  <div class="d-flex flex-row align-items-start justify-content-between">
+                    <div class="d-flex flex-column me-3">
+                      <p class="fw-bold mb-1" style="font-size: 14px; color: rgba(255,192,0,1);">ECONÔMICO</p>
+                      <p id="economicoPts" class="fs-3 mb-2">-</p>
+                      <p class="text-secondary mb-0">Brasil: 47</p>
+                    </div>
+                    <img src="img/misfs-r-icon-economico.webp" width="46">
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Charts -->
+            <div class="d-flex flex-row bg-white p-4 rounded shadow-sm">
+              <div class="d-flex flex-column" style="width: 26%;">
+                <div class="indicador-grafico bg-white position-relative p-1 mb-5 rounded" style="height: 200px;">
+                  <div class="btn-indicador d-none position-absolute">
+                    <div data-bs-toggle="modal" data-bs-target="#economicoIndicadores">
+                      <a href="#" data-bs-toggle="tooltip" data-bs-title="Ver indicadores"><i class="bi bi-plus-circle-fill fs-5" style="color: rgba(255,192,0,1);"></i></a>
+                    </div>
+                  </div>
+                  <canvas id="economicoChart"></canvas>
+                </div>
+                <div class="indicador-grafico bg-white position-relative p-1 rounded" style="height: 200px;">
+                  <div class="btn-indicador d-none position-absolute bottom-0">
+                    <div data-bs-toggle="modal" data-bs-target="#ambientalIndicadores">
+                      <a href="#" data-bs-toggle="tooltip" data-bs-title="Ver indicadores"><i class="bi bi-plus-circle-fill fs-5" style="color: rgba(91,155,213,1);"></i></a>
+                    </div>
+                  </div>
+                  <canvas id="ambientalChart"></canvas>
+                </div>
+              </div>
+              <div class="flex-fill" style="width: 48%;">
+                <div id="brasilMap" class="rounded position-relative" style="height: 448px;">
+                  <div id="clusterLegend" class="position-absolute bg-white rounded border p-2" style="left: 20px; bottom: 10px; font-size: 11px; width: 160px;"></div>
+                </div>
+              </div>
+              <div class="d-flex flex-column" style="width: 26%;">
+                <div class="indicador-grafico bg-white position-relative p-1 mb-5 rounded" style="height: 200px;">
+                  <div class="btn-indicador d-none position-absolute end-0">
+                    <div data-bs-toggle="modal" data-bs-target="#socialIndicadores">
+                      <a href="#" data-bs-toggle="tooltip" data-bs-title="Ver indicadores"><i class="bi bi-plus-circle-fill fs-5" style="color: rgba(112,173,71,1);"></i></a>
+                    </div>
+                  </div>
+                  <canvas id="socialChart"></canvas>
+                </div>
+                <div class="indicador-grafico bg-white position-relative p-1 rounded" style="height: 200px;">
+                  <div class="btn-indicador d-none position-absolute end-0 bottom-0">
+                    <div data-bs-toggle="modal" data-bs-target="#nutricionalIndicadores">
+                      <a href="#" data-bs-toggle="tooltip" data-bs-title="Ver indicadores"><i class="bi bi-plus-circle-fill fs-5" style="color: rgba(237,125,49,1);"></i></a>
+                    </div>
+                  </div>
+                  <canvas id="nutricionalChart"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+    <!-- Metodologia modal -->
+    <div class="modal fade" id="metodologiaModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" style="max-width: 95vw;">
+        <div class="modal-content">
+          <div class="modal-header bg-light">
+            <h1 class="modal-title fs-5">METODOLOGIA</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body p-0 bg-white">
+            <img src="img/metodologia.webp" alt="Metodologia" style="width: 100%; height: auto; display: block;">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Informações modal -->
+    <div class="modal modal-lg fade" id="informacoesModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header bg-light">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">PAINEL INTERATIVO SOBRE SISTEMAS ALIMENTARES BRASILEIROS</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <h5>O que é?</h5>
+            <hr class="mt-1 mb-2">
+            <p class="mb-4">Esse painel foi desenvolvido pelo Sustentarea, Núcleo de Pesquisa e Extensão da USP, com o intuito de disponibilizar informações sobre os sistemas alimentares dos estados e capitais brasileiros de forma intuitiva e interativa. Os indicadores apresentados fazem parte da pesquisa realizada na USP com apoio do WWF-Brasil, na qual foi desenvolvido o Índice Multidimensional de Sistemas Alimentares Sustentáveis Revisado para o Brasil (MISFS-R), o qual conta com 46 indicadores, divididos entre as dimensões de sustentabilidade ambiental, social, econômica e nutricional dos sistemas alimentares, para cada um dos estados e capitais brasileiras.</p>
+
+            <h5>Notas</h5>
+            <hr class="mt-1 mb-2">
+            <ul class="mb-4">
+              <li>Os resultados apresentados neste painel foram gerados a partir da versão revisada e atualizada do banco de dados oficial do MISFS-R. Portanto, alguns valores podem diferir daqueles publicados por Norde et al. (2023), em decorrência de revisões metodológicas, harmonização das bases de dados e atualização dos indicadores;</li>
+              <li>O escore de 0–100 do radar descreve a magnitude relativa do indicador e não seu desempenho sustentável. Para interpretar corretamente os resultados, observe sempre a direção da sustentabilidade indicada pela legenda do radar;</li>
+              <li>Os dados referentes às capitais serão atualizados futuramente. Até essa atualização, permanecem disponíveis os valores da versão original utilizada por Norde et al. (2023).</li>
+            </ul>
+
+            <h5>Como citar?</h5>
+            <hr class="mt-1 mb-2">
+            <p>Norde MM; Camusso IG; Marchioni DML; Sarti FM; Carvalho AM. Painel interativo sobre os sistemas alimentares brasileiros. Disponível em: <a href="https://www.fsp.usp.br/sustentarea/misfs-painel-interativo" target="_blank">fsp.usp.br/sustentarea/misfs-painel-interativo/</a></p>
+            <p class="mb-4">O painel foi desenvolvido por Lucas Carnicelli.</p>
+
+            <h5>Mais</h5>
+            <hr class="mt-1 mb-2">
+            <p>Conheça o trabalho completo clicando na referência, aqui:<br>NORDE, M. M. ; PORCIUNCULA, L. ; GARRIDO, G. ; NUNES-GALBES, N. M. ; SARTI, F. M. ; MARCHIONI, DML; CARVALHO, A. M. Measuring food systems sustainability in heterogenous countries: the Brazilian Multidimensional Index updated version applicability. Sustainable Development, v. 2376, p. 1-17, 2022.<br>NORDE, M.M.; PORCIUNCULA. L.; GARRIDO, G. et al. Índice Multidimensional de Sistemas Alimentares Sustentáveis Revisado para o Brasil - MISFS-R: relatório ilustrado. São Paulo, 2022.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Como usar modal -->
+    <div class="modal modal-lg fade" id="comousarModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header bg-light">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">COMO USAR?</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div class="container">
+              <div class="row g-5 mb-5">
+                <div class="col-5">
+                  <p><strong>1. </strong>Escolha se deseja visualizar os indicadores dos estados ou das capitais brasileiras. Depois selecione o estado ou a capital de interesse, clicando na lista do ranking ou no mapa.</p>
+                </div>
+                <div class="col-3">
+                  <img src="img/como-usar-1.webp" width="100%">
+                </div>
+                <div class="col-4">
+                  <img src="img/como-usar-2.webp" width="100%">
+                </div>
+              </div>
+              <div class="row g-5 mb-5">
+                <div class="col">
+                  <p><strong>2. </strong>Observe o valor de cada dimensão para o estado ou capital de interesse e compare com o valor mediano do Brasil apresentado nos ícones superiores.</p>
+                  <p class="text-secondary mb-3" style="font-size: 14px;">OBS: os valores das dimensões do MISFS-R vão de 0 a 100, indicando a posição de cada estado ou capital em relação aos outros. Valores próximos de 0 significam que o estado ou a capital tem pontuações mais baixas diante do restante do país.</p>
+                  <img src="img/como-usar-3.webp" width="100%">
+                </div>
+              </div>
+              <div class="row mb-5">
+                <div class="col-8 pe-5">
+                  <p><strong>3. </strong>Observe a performance do estado ou capital escolhido para cada um dos indicadores. Os gráficos mostram o percentil ocupado pelo estado para cada indicador do MISFS-R. Percentis mais altos ou baixos devem ser interpretados conforme o contexto de cada indicador: os indicadores que estão inversamente relacionados à sustentabilidade estão assinalados com um "*" indicando que os estados que tem maior valor para esses indicadores, tem pior sustentabilidade de seus sistemas alimentares.</p>
+                </div>
+                <div class="col-4">
+                  <img src="img/como-usar-4.webp" width="100%">
+                </div>
+                <div class="col">
+                  <p class="text-secondary" style="font-size: 14px;">OBS: ressalta-se que as partes amarelas representam os indicadores econômicos, as em verdes, os indicadores sociais, as em laranja, os indicadores nutricionais  e as azuis, os indicadores ambientais.</p>                  
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-5">
+                  <p><strong>4. </strong>Para visualizar a descrição de cada indicador e seus valores brutos nos estados ou capitais de interesse, clique no ícone "+" ao lado de cada gráfico.</p>
+                </div>
+                <div class="col-7">
+                  <img src="img/como-usar-5.webp" width="100%">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Social modal -->
+    <div class="modal modal-xl fade" id="socialIndicadores" tabindex="-1">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header" style="background-color: rgba(112,173,71,1);">
+            <h3 class="text-white mb-0">Social: <span class="title-indicador"></span></h3>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" style="font-size: 13px;"></button>
+          </div>
+          <div class="modal-body">
+            <table class="table table-hover align-middle">
+              <thead>
+                <tr class="table-light align-middle">
+                  <th style="width: 160px;">Indicador</th>
+                  <th>Descrição</th>
+                  <th class="text-center" style="width: 100px;">Valor</th>
+                  <th class="text-center" style="width: 180px;">Brasil<span class="d-block fw-light" style="font-size: 12px">mediana (min-max)</span></th>
+                  <th class="text-center" style="width: 130px; white-space: nowrap;">Posição relativa<span class="d-block fw-light" style="font-size: 12px">(1º ao 27º)</span></th>
+                </tr>
+              </thead>
+              <tbody id="socialIndicadoresBody" style="font-size: 14px;"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nutricional modal -->
+    <div class="modal modal-xl fade" id="nutricionalIndicadores" tabindex="-1">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header" style="background-color: rgba(237,125,49,1);">
+            <h3 class="text-white mb-0">Nutricional: <span class="title-indicador"></span></h3>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" style="font-size: 13px;"></button>
+          </div>
+          <div class="modal-body">
+            <table class="table table-hover align-middle">
+              <thead>
+                <tr class="table-light align-middle">
+                  <th style="width: 160px;">Indicador</th>
+                  <th>Descrição</th>
+                  <th class="text-center" style="width: 100px;">Valor</th>
+                  <th class="text-center" style="width: 180px;">Brasil<span class="d-block fw-light" style="font-size: 12px">mediana (min-max)</span></th>
+                  <th class="text-center" style="width: 130px; white-space: nowrap;">Posição relativa<span class="d-block fw-light" style="font-size: 12px">(1º ao 27º)</span></th>
+                </tr>
+              </thead>
+              <tbody id="nutricionalIndicadoresBody" style="font-size: 14px;"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ambiental modal -->
+    <div class="modal modal-xl fade" id="ambientalIndicadores" tabindex="-1">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header" style="background-color: rgba(91,155,213,1);">
+            <h3 class="text-white mb-0">Ambiental: <span class="title-indicador"></span></h3>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" style="font-size: 13px;"></button>
+          </div>
+          <div class="modal-body">
+            <table class="table table-hover align-middle">
+              <thead>
+                <tr class="table-light align-middle">
+                  <th style="width: 160px;">Indicador</th>
+                  <th>Descrição</th>
+                  <th class="text-center" style="width: 100px;">Valor</th>
+                  <th class="text-center" style="width: 180px;">Brasil<span class="d-block fw-light" style="font-size: 12px">mediana (min-max)</span></th>
+                  <th class="text-center" style="width: 130px; white-space: nowrap;">Posição relativa<span class="d-block fw-light" style="font-size: 12px">(1º ao 27º)</span></th>
+                </tr>
+              </thead>
+              <tbody id="ambientalIndicadoresBody" style="font-size: 14px;"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Economico modal -->
+    <div class="modal modal-xl fade" id="economicoIndicadores" tabindex="-1">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header" style="background-color: rgba(255,192,0,1);">
+            <h3 class="text-white mb-0">Econômico: <span class="title-indicador"></span></h3>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" style="font-size: 13px;"></button>
+          </div>
+          <div class="modal-body">
+            <table class="table table-hover align-middle">
+              <thead>
+                <tr class="table-light align-middle">
+                  <th style="width: 160px;">Indicador</th>
+                  <th>Descrição</th>
+                  <th class="text-center" style="width: 100px;">Valor</th>
+                  <th class="text-center" style="width: 180px;">Brasil<span class="d-block fw-light" style="font-size: 12px">mediana (min-max)</span></th>
+                  <th class="text-center" style="width: 130px; white-space: nowrap;">Posição relativa<span class="d-block fw-light" style="font-size: 12px">(1º ao 27º)</span></th>
+                </tr>
+              </thead>
+              <tbody id="economicoIndicadoresBody" style="font-size: 14px;"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+
+  </body>
+</html>
